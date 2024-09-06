@@ -1,39 +1,6 @@
 /*=============== GOOGLE FONTS ===============*/
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
 
-/*=============== VARIABLES CSS ===============*/
-:root {
-  --header-height: 3.5rem;
-
-  /*========== Colors ==========*/
-  /*Color mode HSL(hue, saturation, lightness)*/
-  --black-color: hsl(220, 24%, 12%);
-  --black-color-light: hsl(220, 24%, 15%);
-  --black-color-lighten: hsl(220, 20%, 18%);
-  --white-color: #fff;
-  --body-color: hsl(220, 100%, 97%);
-
-  /*========== Font and typography ==========*/
-  /*.5rem = 8px | 1rem = 16px ...*/
-  --body-font: "Montserrat", sans-serif;
-  --normal-font-size: 0.938rem;
-
-  /*========== Font weight ==========*/
-  --font-regular: 400;
-  --font-semi-bold: 600;
-
-  /*========== z index ==========*/
-  --z-tooltip: 10;
-  --z-fixed: 100;
-}
-
-/*========== Responsive typography ==========*/
-@media screen and (min-width: 1024px) {
-  :root {
-    --normal-font-size: 1rem;
-  }
-}
-
 /*=============== BASE ===============*/
 * {
   box-sizing: border-box;
@@ -42,9 +9,9 @@
 }
 
 body {
-  font-family: var(--body-font);
-  font-size: var(--normal-font-size);
-  background-color: var(--body-color);
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.938rem;
+  background-color: hsl(220, 100%, 97%);
 }
 
 ul {
@@ -69,20 +36,20 @@ a {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--black-color);
+  background-color: #ffefef;
   box-shadow: 0 2px 16px hsla(220, 32%, 8%, 0.3);
-  z-index: var(--z-fixed);
+  z-index: 100;
 }
 
 /*=============== NAV ===============*/
 .nav {
-  height: var(--header-height);
+  height: 3.5rem;
 }
 
 .nav__logo,
 .nav__burger,
 .nav__close {
-  color: var(--white-color);
+  color: #500a0a;
 }
 
 .nav__data {
@@ -96,7 +63,7 @@ a {
   display: inline-flex;
   align-items: center;
   column-gap: 0.25rem;
-  font-weight: var(--font-semi-bold);
+  font-weight: 600;
   /* Color highlighting when pressed on mobile devices */
   /*-webkit-tap-highlight-color: transparent;*/
 }
@@ -108,7 +75,7 @@ a {
 
 .nav__toggle {
   position: relative;
-  color: #fff;
+  color: #500a0a;
 }
 
 .nav__burger,
@@ -144,15 +111,16 @@ a {
     width: 0;
   }
   .nav__list {
-    background-color: var(--black-color);
+    background-color: #ffefef;
     padding-top: 1rem;
   }
 }
 
 .nav__link {
-  color: var(--white-color);
-  background-color: var(--black-color);
-  font-weight: var(--font-semi-bold);
+  color: #500a0a;
+  background-color: #ffefef;
+  font-weight: 600;
+  border-radius: 0.2rem;
   padding: 1.25rem 1.5rem;
   display: flex;
   justify-content: space-between;
@@ -161,7 +129,8 @@ a {
 }
 
 .nav__link:hover {
-  background-color: var(--black-color-light);
+  background-color: #500a0a;
+  color: #ffefef;
 }
 
 /* Show menu */
@@ -195,13 +164,18 @@ a {
 .dropdown__link,
 .dropdown__sublink {
   padding: 1.25rem 1.25rem 1.25rem 2.5rem;
-  color: var(--white-color);
-  background-color: var(--black-color-light);
+  color: #500a0a;
+  background-color: #ffefef;
   display: flex;
   align-items: center;
   column-gap: 0.5rem;
-  font-weight: var(--font-semi-bold);
+  font-weight: 600;
   transition: background-color 0.3s;
+}
+
+.dropdown__link:hover {
+  color: #ffefef;
+  background-color: #500a0a;
 }
 
 .dropdown__link i,
@@ -212,7 +186,7 @@ a {
 
 .dropdown__link:hover,
 .dropdown__sublink:hover {
-  background-color: var(--black-color);
+  background-color: #500a0a;
 }
 
 .dropdown__menu,
@@ -240,7 +214,7 @@ a {
 }
 
 .dropdown__sublink {
-  background-color: var(--black-color-lighten);
+  background-color: #500a0a;
 }
 
 /*=============== BREAKPOINTS ===============*/
@@ -262,26 +236,23 @@ a {
   }
 
   .nav {
-    height: calc(var(--header-height) + 2rem);
+    /* height: calc(3.5rem + 2rem); */
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   .nav__toggle {
     display: none;
   }
   .nav__list {
-    height: 100%;
     display: flex;
     column-gap: 3rem;
   }
   .nav__link {
-    height: 100%;
-    padding: 0;
+  
+    padding: 0.5rem;
     justify-content: initial;
     column-gap: 0.25rem;
-  }
-  .nav__link:hover {
-    background-color: transparent;
   }
 
   .dropdown__item,
@@ -319,7 +290,7 @@ a {
   /* Show dropdown menu */
   .dropdown__item:hover .dropdown__menu {
     opacity: 1;
-    top: 5.5rem;
+    top: 2rem;
     pointer-events: initial;
     transition: top 0.3s;
   }

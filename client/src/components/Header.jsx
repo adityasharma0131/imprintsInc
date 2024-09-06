@@ -116,6 +116,61 @@ const Header = () => {
                 </li>
               </ul>
             </li>
+            <li className="dropdown__item">
+              <div className="nav__link" onClick={(e) => toggleDropdown(1, e)}>
+                Stationery <RiArrowDownSLine className="dropdown__arrow" />
+              </div>
+
+              <ul
+                className={`dropdown__menu ${openDropdown === 2 ? "show" : ""}`}
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    NoteBooks & Daires
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Premium Pens
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Premium Pens
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Desk Organizers
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Daily Office Material
+                  </a>
+                </li>
+              </ul>
+            </li>
 
             <li>
               <a href="#" className="nav__link" onClick={closeDropdown}>
