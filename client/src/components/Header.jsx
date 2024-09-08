@@ -4,33 +4,23 @@ import {
   RiMenuLine,
   RiCloseLine,
   RiArrowDownSLine,
-  RiPieChartLine,
-  RiArrowUpDownLine,
-  RiBarChartLine,
-  RiAddLine,
-  RiFileListLine,
-  RiCashLine,
-  RiRefund2Line,
-  RiUserLine,
-  RiLockLine,
-  RiMessage3Line,
 } from "react-icons/ri";
+import logo from "../assets/imprintslogo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen((prev) => !prev);
     if (isMenuOpen) {
-      // Close all dropdowns if menu is being closed
-      setOpenDropdown(null);
+      setOpenDropdown(null); // Close all dropdowns when the menu is toggled off
     }
   };
 
   const toggleDropdown = (index, e) => {
-    e.stopPropagation(); // Prevent click event from closing the menu
-    setOpenDropdown(openDropdown === index ? null : index);
+    e.stopPropagation(); // Prevent event from closing the menu
+    setOpenDropdown((prev) => (prev === index ? null : index));
   };
 
   const closeDropdown = () => {
@@ -41,11 +31,14 @@ const Header = () => {
     <header className="header">
       <nav className="nav container">
         <div className="nav__data">
-          <a href="#" className="nav__logo">
-            <RiPlanetLine /> Company
-          </a>
+          <img className="nav__logo" src={logo} alt="Logo" />
 
-          <div className="nav__toggle" id="nav-toggle" onClick={toggleMenu}>
+          <div
+            className="nav__toggle"
+            onClick={toggleMenu}
+            aria-expanded={isMenuOpen}
+            aria-label="Toggle menu"
+          >
             {isMenuOpen ? (
               <RiCloseLine className="nav__icon" />
             ) : (
@@ -56,8 +49,7 @@ const Header = () => {
 
         <div
           className={`nav__menu ${isMenuOpen ? "show-menu" : ""}`}
-          id="nav-menu"
-          onClick={() => setIsMenuOpen(true)} // Ensure menu remains open if clicking inside it
+          onClick={() => setIsMenuOpen(true)} // Keep menu open if clicking inside it
         >
           <ul className="nav__list">
             {/* DROPDOWN 1 */}
@@ -65,7 +57,6 @@ const Header = () => {
               <div className="nav__link" onClick={(e) => toggleDropdown(1, e)}>
                 Stationery <RiArrowDownSLine className="dropdown__arrow" />
               </div>
-
               <ul
                 className={`dropdown__menu ${openDropdown === 1 ? "show" : ""}`}
               >
@@ -75,16 +66,7 @@ const Header = () => {
                     className="dropdown__link"
                     onClick={closeDropdown}
                   >
-                    NoteBooks & Daires
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={closeDropdown}
-                  >
-                    Premium Pens
+                    Notebooks & Diaries
                   </a>
                 </li>
                 <li>
@@ -116,11 +98,12 @@ const Header = () => {
                 </li>
               </ul>
             </li>
-            <li className="dropdown__item">
-              <div className="nav__link" onClick={(e) => toggleDropdown(1, e)}>
-                Stationery <RiArrowDownSLine className="dropdown__arrow" />
-              </div>
 
+            {/* DROPDOWN 2 */}
+            <li className="dropdown__item">
+              <div className="nav__link" onClick={(e) => toggleDropdown(2, e)}>
+                Office Supplies <RiArrowDownSLine className="dropdown__arrow" />
+              </div>
               <ul
                 className={`dropdown__menu ${openDropdown === 2 ? "show" : ""}`}
               >
@@ -130,7 +113,7 @@ const Header = () => {
                     className="dropdown__link"
                     onClick={closeDropdown}
                   >
-                    NoteBooks & Daires
+                    Paper Clips
                   </a>
                 </li>
                 <li>
@@ -139,7 +122,7 @@ const Header = () => {
                     className="dropdown__link"
                     onClick={closeDropdown}
                   >
-                    Premium Pens
+                    File Folders
                   </a>
                 </li>
                 <li>
@@ -148,7 +131,7 @@ const Header = () => {
                     className="dropdown__link"
                     onClick={closeDropdown}
                   >
-                    Premium Pens
+                    Sticky Notes
                   </a>
                 </li>
                 <li>
@@ -157,16 +140,7 @@ const Header = () => {
                     className="dropdown__link"
                     onClick={closeDropdown}
                   >
-                    Desk Organizers
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={closeDropdown}
-                  >
-                    Daily Office Material
+                    Binders
                   </a>
                 </li>
               </ul>
