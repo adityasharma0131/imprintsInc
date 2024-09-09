@@ -115,6 +115,14 @@ a {
     padding-top: 1rem;
   }
 }
+.nav__link--plain {
+  color: inherit; /* Use the inherited color from parent elements */
+  text-decoration: none; /* Remove the underline */
+}
+
+.nav__link--plain:hover {
+  color: #ffefef; /* Add hover effect if needed */
+}
 
 .nav__link {
   color: #500a0a;
@@ -215,6 +223,17 @@ a {
 
 .dropdown__sublink {
   background-color: #500a0a;
+}
+
+/*=============== DROPDOWN SUBMENU ===============*/
+
+.centerd {
+  height: 100vh;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: centers;
 }
 
 /*=============== BREAKPOINTS ===============*/
