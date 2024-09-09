@@ -246,10 +246,9 @@ a {
   }
   .nav__list {
     display: flex;
-    column-gap: 3rem;
+    column-gap: 2rem;
   }
   .nav__link {
-  
     padding: 0.5rem;
     justify-content: initial;
     column-gap: 0.25rem;

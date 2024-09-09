@@ -102,10 +102,149 @@ const Header = () => {
             {/* DROPDOWN 2 */}
             <li className="dropdown__item">
               <div className="nav__link" onClick={(e) => toggleDropdown(2, e)}>
-                Office Supplies <RiArrowDownSLine className="dropdown__arrow" />
+                Corporate Gifts <RiArrowDownSLine className="dropdown__arrow" />
               </div>
               <ul
                 className={`dropdown__menu ${openDropdown === 2 ? "show" : ""}`}
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Paper Clips
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    File Folders
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Sticky Notes
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Binders
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            {/* DROPDOWN 3 */}
+            <li className="dropdown__item">
+              <div className="nav__link" onClick={(e) => toggleDropdown(3, e)}>
+                Apparels <RiArrowDownSLine className="dropdown__arrow" />
+              </div>
+              <ul
+                className={`dropdown__menu ${openDropdown === 3 ? "show" : ""}`}
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Paper Clips
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    File Folders
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Sticky Notes
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Binders
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {/* DROPDOWN 4 */}
+            <li className="dropdown__item">
+              <div className="nav__link" onClick={(e) => toggleDropdown(4, e)}>
+                Signages <RiArrowDownSLine className="dropdown__arrow" />
+              </div>
+              <ul
+                className={`dropdown__menu ${openDropdown === 4 ? "show" : ""}`}
+              >
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Paper Clips
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    File Folders
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Sticky Notes
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="dropdown__link"
+                    onClick={closeDropdown}
+                  >
+                    Binders
+                  </a>
+                </li>
+              </ul>
+            </li>
+            {/* DROPDOWN 5 */}
+            <li className="dropdown__item">
+              <div className="nav__link" onClick={(e) => toggleDropdown(5, e)}>
+                Electronics <RiArrowDownSLine className="dropdown__arrow" />
+              </div>
+              <ul
+                className={`dropdown__menu ${openDropdown === 5 ? "show" : ""}`}
               >
                 <li>
                   <a
