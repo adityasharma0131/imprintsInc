@@ -60,7 +60,7 @@ const Header = () => {
             <li className="dropdown__item">
               <div className="nav__link">
                 <Link
-                  to="/page1"
+                  to="/categories/Stationery"
                   className="nav__link--plain"
                   onClick={handleLinkClick}
                 >
@@ -117,7 +117,13 @@ const Header = () => {
             {/* DROPDOWN 2 */}
             <li className="dropdown__item">
               <div className="nav__link">
-                Corporate Gifts
+                <Link
+                  to="/categories/Corporate-Gifts"
+                  className="nav__link--plain"
+                  onClick={handleLinkClick}
+                >
+                  Corporate Gifts
+                </Link>
                 <RiArrowDownSLine
                   className="dropdown__arrow"
                   onClick={(e) => toggleDropdown(2)}
@@ -169,7 +175,13 @@ const Header = () => {
             {/* DROPDOWN 3 */}
             <li className="dropdown__item">
               <div className="nav__link">
-                Apparels
+                <Link
+                  to="/categories/Apparels"
+                  className="nav__link--plain"
+                  onClick={handleLinkClick}
+                >
+                  Apparels
+                </Link>
                 <RiArrowDownSLine
                   className="dropdown__arrow"
                   onClick={(e) => toggleDropdown(3)}
@@ -220,7 +232,13 @@ const Header = () => {
             {/* DROPDOWN 4 */}
             <li className="dropdown__item">
               <div className="nav__link">
-                Signages
+                <Link
+                  to="/categories/Signages"
+                  className="nav__link--plain"
+                  onClick={handleLinkClick}
+                >
+                  Signages
+                </Link>
                 <RiArrowDownSLine
                   className="dropdown__arrow"
                   onClick={(e) => toggleDropdown(4)}
@@ -271,7 +289,13 @@ const Header = () => {
             {/* DROPDOWN 5 */}
             <li className="dropdown__item">
               <div className="nav__link">
-                Electronics
+                <Link
+                  to="/categories/Electronics"
+                  className="nav__link--plain"
+                  onClick={handleLinkClick}
+                >
+                  Electronics
+                </Link>
                 <RiArrowDownSLine
                   className="dropdown__arrow"
                   onClick={(e) => toggleDropdown(5)}
