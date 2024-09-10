@@ -379,8 +379,7 @@ a {
   }
 }
 
-/*=============== BREAKPOINTS ===============*/
-/* Best Selling Products Section */
+/*=============== EST SELLING PRODUCT SECTION ===============*/
 .best-selling-products {
   padding: 20px;
   text-align: center;
@@ -401,15 +400,16 @@ a {
   overflow-x: auto; /* Enable horizontal scrolling */
   padding: 10px 0;
   scroll-snap-type: x mandatory; /* Smooth scroll snapping */
+  justify-content: center;
 }
 
 .best-selling-products__grid::-webkit-scrollbar {
-  height: 8px; /* Scrollbar height */
+  height: 2.5px; /* Scrollbar height */
 }
 
 .best-selling-products__grid::-webkit-scrollbar-thumb {
-  background-color: #ccc; /* Scrollbar thumb color */
-  border-radius: 4px;
+  background-color: #500a0a; /* Scrollbar thumb color */
+  border-radius: 2px;
 }
 
 .best-selling-products__grid::-webkit-scrollbar-track {
@@ -469,6 +469,7 @@ a {
 @media (max-width: 768px) {
   .best-selling-products__grid {
     gap: 12px; /* Further reduce gap */
+    justify-content: start;
   }
 
   .best-selling-products__card {
@@ -482,6 +483,10 @@ a {
 }
 
 @media (max-width: 480px) {
+  .best-selling-products__grid {
+    justify-content: start;
+  }
+
   .best-selling-products__card {
     flex: 0 0 140px; /* Further adjust for very small screens */
   }
