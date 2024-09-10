@@ -245,6 +245,7 @@ a {
 }
 
 /*=============== HERO SECTION ===============*/
+/* Hero Section */
 .homepage {
   min-height: 100vh;
   display: flex;
@@ -252,9 +253,10 @@ a {
   justify-content: center;
   position: relative;
   overflow: hidden;
+  background-image: url("/src/assets/Property 1=Frame 3.png");
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain; /* Ensures the whole image is visible */
   animation: change 25s infinite ease-in-out;
 }
 
@@ -266,46 +268,42 @@ a {
   20% {
     background-image: url("/src/assets/Property 1=Frame 4.png");
   }
-  /* Add additional keyframes if needed */
+  40% {
+    background-image: url("/src/assets/Property 1=Frame 3.png");
+  }
+  60% {
+    background-image: url("/src/assets/Property 1=Frame 4.png");
+  }
+  80% {
+    background-image: url("/src/assets/Property 1=Frame 3.png");
+  }
+  100% {
+    background-image: url("/src/assets/Property 1=Frame 4.png");
+  }
 }
 
-.hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100vh;
-  text-align: center;
-  position: relative;
-  padding: 20px;
-  box-sizing: border-box;
+/* Media queries for responsiveness */
+@media (max-width: 1200px) {
+  .homepage {
+    min-height: 80vh; /* Adjust for large tablets or small laptops */
+  }
 }
 
-.hero-image {
-  background-size: cover;
-  background-position: center;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* Places image behind the content */
-  transition: background-size 0.3s ease-in-out;
-}
-
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .hero-content {
-    padding: 20px;
+@media (max-width: 992px) {
+  .homepage {
+    min-height: 70vh; /* Adjust height for smaller screens */
   }
 }
 
 @media (max-width: 768px) {
-  .hero-content {
-    justify-content: flex-start;
-    padding-top: 60px;
+  .homepage {
+    min-height: 60vh; /* Further adjustment for tablets */
+  }
+}
+
+@media (max-width: 576px) {
+  .homepage {
+    min-height: 40vh; /* Further adjustments for mobile screens */
   }
 }
 

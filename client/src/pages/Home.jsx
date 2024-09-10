@@ -3,9 +3,7 @@ import React from "react";
 const Home = () => {
   return (
     <div className="homepage" id="home">
-      <div className="hero-content">
-        <div className="hero-image"></div>
-      </div>
+      {/* Content inside the homepage can go here if needed */}
     </div>
   );
 };
