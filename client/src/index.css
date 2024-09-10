@@ -245,6 +245,7 @@ a {
 }
 
 /*=============== HERO SECTION ===============*/
+
 /* Hero Section */
 .homepage {
   min-height: 100vh;
@@ -304,6 +305,193 @@ a {
 @media (max-width: 576px) {
   .homepage {
     min-height: 40vh; /* Further adjustments for mobile screens */
+  }
+}
+
+/*=============== POPULAR CATEGORIES SECTION ===============*/
+
+.popular-categories {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.popular-categories__title {
+  font-size: 24px;
+  color: #500a0a; /* Adjusted to match the style */
+  margin-bottom: 20px;
+}
+
+.popular-categories__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-evenly;
+}
+
+.popular-categories__item {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.popular-categories__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.popular-categories__item:hover .popular-categories__image {
+  transform: scale(1.05);
+}
+
+.popular-categories__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popular-categories__text {
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .popular-categories__grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .popular-categories__item {
+    width: 100%;
+    height: auto; /* Adjust for responsiveness */
+  }
+}
+
+/*=============== BREAKPOINTS ===============*/
+/* Best Selling Products Section */
+.best-selling-products {
+  padding: 20px;
+  text-align: center;
+  background-color: #fff; /* Light background for contrast */
+}
+
+.best-selling-products__title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #500a0a; /* Customize color to match your theme */
+  margin-bottom: 20px;
+}
+
+.best-selling-products__grid {
+  display: flex;
+  gap: 20px; /* Space between cards */
+  flex-wrap: nowrap;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  padding: 10px 0;
+  scroll-snap-type: x mandatory; /* Smooth scroll snapping */
+}
+
+.best-selling-products__grid::-webkit-scrollbar {
+  height: 8px; /* Scrollbar height */
+}
+
+.best-selling-products__grid::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Scrollbar thumb color */
+  border-radius: 4px;
+}
+
+.best-selling-products__grid::-webkit-scrollbar-track {
+  background: transparent; /* Scrollbar track background */
+}
+
+.best-selling-products__card {
+  flex: 0 0 180px; /* Increased width for larger images */
+  background: #ffffff; /* Card background color */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Box shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  scroll-snap-align: start; /* Snap to start */
+}
+
+.best-selling-products__card:hover {
+  transform: translateY(-8px); /* Lift effect on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.best-selling-products__image {
+  width: 90%; /* Larger width for images */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensures image maintains aspect ratio */
+  margin-top: 10px; /* Reduced spacing above image */
+  border-radius: 8px; /* Optional: round the image corners */
+}
+
+.best-selling-products__name {
+  font-size: 16px;
+  color: #500a0a; /* Text color */
+  margin-top: 8px; /* Reduced spacing below image */
+  font-weight: 500; /* Slightly bolder text */
+  text-align: center;
+  padding: 0 5px; /* Padding to prevent overflow */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .best-selling-products__grid {
+    gap: 15px; /* Reduce gap on medium screens */
+  }
+
+  .best-selling-products__card {
+    flex: 0 0 160px; /* Adjust card width for medium screens */
+  }
+
+  .best-selling-products__image {
+    width: 85%; /* Larger image size on medium screens */
+    height: auto; /* Maintain aspect ratio */
+  }
+}
+
+@media (max-width: 768px) {
+  .best-selling-products__grid {
+    gap: 12px; /* Further reduce gap */
+  }
+
+  .best-selling-products__card {
+    flex: 0 0 150px; /* Adjust card width for smaller screens */
+  }
+
+  .best-selling-products__image {
+    width: 100%; /* Further increase image size */
+    height: auto; /* Maintain aspect ratio */
+  }
+}
+
+@media (max-width: 480px) {
+  .best-selling-products__card {
+    flex: 0 0 140px; /* Further adjust for very small screens */
+  }
+
+  .best-selling-products__image {
+    width: 100%; /* Maximize image size on small screens */
+    height: auto; /* Maintain aspect ratio */
+  }
+
+  .best-selling-products__name {
+    font-size: 14px; /* Slightly larger text size */
   }
 }
 
