@@ -7,6 +7,13 @@
   padding: 0;
   margin: 0;
 }
+html {
+  scroll-behavior: smooth;
+}
+*::selection {
+  background: #500a0a;
+  color: #ffefef;
+}
 
 body {
   font-family: "Montserrat", sans-serif;
