@@ -248,6 +248,7 @@ a {
 
 /* Hero Section */
 .homepage {
+  background-color: #fff;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -422,7 +423,7 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Box shadow for depth */
+
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   scroll-snap-align: start; /* Snap to start */
 }
