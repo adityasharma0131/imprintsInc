@@ -4,6 +4,11 @@ import stationery from "../assets/Stationery.png";
 import electronics from "../assets/Electronics.png";
 import Book from "../assets/Book.png";
 
+import { MdDesignServices } from "react-icons/md";
+import { IoRibbon } from "react-icons/io5";
+import { FaTruckFast } from "react-icons/fa6";
+import { RiDiscountPercentFill } from "react-icons/ri";
+
 import client1 from "../assets/client1.png";
 import client2 from "../assets/client2.png";
 import client3 from "../assets/client3.png";
@@ -128,7 +133,7 @@ const Home = () => {
       </div>
 
       <div className="clients">
-        <h1 className="heading1">Our Brand</h1>
+        <h1 className="heading1">Clients That Trust Us</h1>
         <div className="slider">
           <div className="logos">
             <div className="logos-slide">
@@ -143,6 +148,32 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="whyus">
+        <h1 className="heading1">Why Choose Us</h1>
+        <div className="pointers">
+          <div className="sec">
+            <MdDesignServices className="icon" />
+            <h2>Unmatched Customization</h2>
+          </div>
+          <div className="sec">
+            <IoRibbon className="icon" />
+            <h2>High-Quality Products</h2>
+          </div>
+          <div className="sec">
+            <FaTruckFast className="icon" />
+            <h2>Timely & PAN India Delivery</h2>
+          </div>
+          <div className="sec">
+            <RiDiscountPercentFill className="icon" />
+            <h2>Discount on Bulk Orders</h2>
+          </div>
+        </div>
+      </div>
+
+      <div className="contact">
+
       </div>
     </>
   );
