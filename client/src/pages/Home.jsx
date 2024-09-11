@@ -173,7 +173,49 @@ const Home = () => {
       </div>
 
       <div className="contact">
-
+        <div className="contact-container">
+          <h2 className="contact-heading">Let's Talk</h2>
+          <p className="contact-subheading">
+            Fill out the form below to request a custom gift design.
+          </p>
+          <form className="contact-form">
+            <div className="form-row">
+              <input type="text" placeholder="Name" className="form-input" />
+              <input
+                type="text"
+                placeholder="Phone No."
+                className="form-input"
+              />
+            </div>
+            <div className="form-row">
+              <input
+                type="text"
+                placeholder="Company Name"
+                className="form-input"
+              />
+              <input type="email" placeholder="Email" className="form-input" />
+            </div>
+            <input
+              type="text"
+              placeholder="Approx. Budget Per Hamper"
+              className="form-input full-width"
+            />
+            <input
+              type="text"
+              placeholder="Estimated Number of Gifts Needed"
+              className="form-input full-width"
+            />
+            <textarea
+              placeholder="Message"
+              className="form-input full-width"
+            ></textarea>
+            <div className="contact-button">
+              <button type="submit" className="submit-button">
+                SUBMIT
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </>
   );

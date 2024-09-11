@@ -10,6 +10,10 @@
 html {
   scroll-behavior: smooth;
 }
+
+::placeholder {
+  font-family: "Montserrat", sans-serif;
+}
 *::selection {
   background: #500a0a;
   color: #ffefef;
@@ -709,6 +713,117 @@ a {
 
 /*=============== CONTACT SECTION ===============*/
 
+.contact {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 239, 209, 1) 34%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  padding: 2rem 1rem;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.contact-container {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px; /* Responsive padding */
+}
+
+.contact-heading {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #500a0a;
+}
+
+.contact-subheading {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #500a0a;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.form-input {
+  flex: 1;
+  padding: 0.8rem;
+  border: 2px solid #500a0a;
+  border-radius: 25px;
+  font-size: 1rem;
+  color: #500a0a;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-input::placeholder {
+  color: #212121;
+}
+
+.form-input:focus {
+  border-color: #500a0a;
+}
+
+.full-width {
+  width: 100%;
+}
+.contact-button {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-button {
+  width: 50%;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 25px;
+  background-color: #500a0a;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #6b1d1d; /* Slightly lighter shade on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .contact-container {
+    padding: 0 10px; /* Narrower padding on medium screens */
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-heading {
+    font-size: 1.5rem;
+  }
+
+  .contact-subheading {
+    font-size: 0.9rem;
+  }
+
+  .submit-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
 
 /*=============== BREAKPOINTS ===============*/
 /* For small devices */
