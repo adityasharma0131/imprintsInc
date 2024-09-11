@@ -30,7 +30,7 @@ body::-webkit-scrollbar-thumb {
 body {
   font-family: "Montserrat", sans-serif;
   font-size: 0.938rem;
-  background-color: hsl(220, 100%, 97%);
+  background-color: #fff;
 }
 
 ul {
@@ -499,6 +499,47 @@ a {
   .best-selling-products__name {
     font-size: 14px; /* Slightly larger text size */
   }
+}
+
+/*=============== ABOUT US SECTION ===============*/
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.about-us {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0faf8; /* Light background color for contrast */
+  padding: 30px; /* Adjusted padding for better spacing */
+  margin: 40px;
+  max-width: 100%; /* Constraining the maximum width */
+  border-radius: 8px;
+}
+
+.about-content {
+  text-align: center; /* Centering text within the content */
+}
+
+.about-title {
+  font-size: 2em;
+  color: #8b3c20; /* Darker color for the title */
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.about-subtitle {
+  font-size: 1.5em;
+  color: #964b00; /* Earthy brown color for subtitle */
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.about-description {
+  font-size: 1em;
+  color: #333; /* Darker text color for readability */
+  line-height: 1.6;
 }
 
 /*=============== BREAKPOINTS ===============*/

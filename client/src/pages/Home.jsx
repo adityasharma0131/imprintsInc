@@ -69,6 +69,24 @@ const Home = () => {
           ))}
         </div>
       </div>
+
+      <div className="about-section">
+        <div className="about-us">
+          <div className="about-content">
+            <h1 className="about-title">Welcome to Imprints INC</h1>
+            <h2 className="about-subtitle">Having 10 Years of Experience</h2>
+            <p className="about-description">
+              Imprints INC is engaged in the business of corporate gifting,
+              known for supplying unbeatable business promotional products that
+              have made an indelible impact across industry verticals. Our
+              commitment to excellence & passion for quality products has shown
+              us the way to growth & prosperity. Our huge range of products
+              includes stationery items, corporate gifts, clothing, signages,
+              electronics, etc.
+            </p>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
