@@ -719,7 +719,7 @@ a {
     rgba(255, 239, 209, 1) 34%,
     rgba(255, 255, 255, 1) 100%
   );
-  padding: 2rem 1rem;
+  padding: 5rem 1rem;
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
@@ -825,11 +825,117 @@ a {
   }
 }
 
+/*=============== FOOTER SECTION ===============*/
+.footer {
+  background-color: #5c0a0a; /* Dark red background */
+  color: white;
+  padding: 2rem 1rem;
+  text-align: left;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-section {
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 1rem;
+}
+
+.footer-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.footer-description {
+  margin: 0;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.footer-text {
+  margin-top: 0.5rem;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.footer-contact {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.footer-contact i {
+  margin-right: 0.5rem;
+  color: #ffbb00; /* Highlight icon color */
+}
+
+.footer-bottom {
+  background-color: #fff; /* White background for bottom */
+  padding: 1rem 0;
+  color: #500a0a;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.footer-bottom p {
+  font-weight: 900;
+  margin: 0;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+.social-links li a {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.social-links li a:hover {
+  color: #ffbb00; /* Highlight color on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-contact {
+    justify-content: center;
+  }
+  .social-links {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-section {
+    text-align: center;
+  }
+}
+
 /*=============== BREAKPOINTS ===============*/
 /* For small devices */
 @media screen and (max-width: 340px) {
   .container {
     margin-inline: 1rem;
+  }
+  .social-links {
+    align-items: center;
+    justify-content: center;
   }
 
   .nav__link {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import {
   RiPlanetLine,
   RiMenuLine,
@@ -344,9 +344,16 @@ const Header = () => {
             </li>
 
             <li>
-              <a href="#" className="nav__link" onClick={handleLinkClick}>
-                Contact
-              </a>
+              <Link
+                smooth
+                to="/#contact" // Corrected the `to` prop to directly reference the section ID
+                className="nav__link"
+                onClick={() => {
+                  handleLinkClick(); // Trigger the link click handler
+                }}
+              >
+                <span>Contact</span>
+              </Link>
             </li>
           </ul>
         </div>

@@ -172,7 +172,7 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="contact">
+      <div className="contact" id="contact">
         <div className="contact-container">
           <h2 className="contact-heading">Let's Talk</h2>
           <p className="contact-subheading">
@@ -211,7 +211,7 @@ const Home = () => {
             ></textarea>
             <div className="contact-button">
               <button type="submit" className="submit-button">
-                SUBMIT
+                Submit
               </button>
             </div>
           </form>
