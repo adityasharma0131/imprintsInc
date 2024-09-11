@@ -246,6 +246,15 @@ a {
 
 /*=============== HERO SECTION ===============*/
 
+.centerd {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Hero Section */
 .homepage {
   background-color: #fff;
@@ -511,10 +520,10 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f0faf8; /* Light background color for contrast */
-  padding: 30px; /* Adjusted padding for better spacing */
-  margin: 40px;
-  max-width: 100%; /* Constraining the maximum width */
+  background-color: #f0faf8;
+  padding: 1rem;
+  margin: 1rem;
+  max-width: 100%;
   border-radius: 8px;
 }
 
