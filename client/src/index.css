@@ -533,14 +533,14 @@ a {
 
 .about-title {
   font-size: 2em;
-  color: #8b3c20; /* Darker color for the title */
+  color: #500a0a; /* Darker color for the title */
   margin-bottom: 10px;
   font-weight: bold;
 }
 
 .about-subtitle {
   font-size: 1.5em;
-  color: #964b00; /* Earthy brown color for subtitle */
+  color: #500a0a; /* Earthy brown color for subtitle */
   margin-bottom: 15px;
   font-weight: 600;
 }
@@ -549,6 +549,85 @@ a {
   font-size: 1em;
   color: #333; /* Darker text color for readability */
   line-height: 1.6;
+}
+
+/*=============== OUR CLIENTS SECTION ===============*/
+.clients {
+  position: relative;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.heading1 {
+  font-size: 2em;
+  color: #500a0a; /* Darker color for the title */
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+.logos {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  background: white;
+}
+
+.logos-slide {
+  display: flex;
+  align-items: center;
+  animation: scroll 45s linear infinite;
+}
+
+.logos-slide:hover {
+  animation-play-state: paused;
+}
+
+.logos-slide .item {
+  height: 100px;
+  margin: 0 20px;
+  filter: grayscale(1);
+  transition: filter 0.3s ease;
+}
+
+.logos-slide .item:hover {
+  filter: grayscale(0);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .logos-slide .item {
+    height: 80px;
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .clients {
+    padding: 0.5rem;
+  }
+  .logos-slide .item {
+    height: 60px;
+    margin: 0 5px;
+  }
 }
 
 /*=============== BREAKPOINTS ===============*/
