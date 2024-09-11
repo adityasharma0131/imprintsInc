@@ -1,5 +1,12 @@
 import React from "react";
-import { FaInstagram, FaFacebook, FaWhatsapp } from "react-icons/fa";
+import {
+  FaInstagram,
+  FaFacebook,
+  FaWhatsapp,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMap,
+} from "react-icons/fa"; // Imported additional icons
 
 const Footer = () => {
   return (
@@ -25,16 +32,13 @@ const Footer = () => {
           </div>
           <div className="footer-section">
             <h3 className="footer-title">Contact Details</h3>
+            <p className="footer-contact">99309 80228</p>
+            <p className="footer-contact">tandon@imprintsinc.in</p>
             <p className="footer-contact">
-              <i className="fas fa-phone"></i> 99309 80228
-            </p>
-            <p className="footer-contact">
-              <i className="fas fa-envelope"></i> tandon@imprintsinc.in
-            </p>
-            <p className="footer-contact">
-              <i className="fas fa-map-marker-alt"></i> C-Annexe, Hind
-              Saurashtra Industrial Estate, Andheri-Kurla Road, Near Marol Naka
-              Metro Station, Marol, Andheri (East), Mumbai 400059.
+              {" "}
+              C-Annexe, Hind Saurashtra Industrial Estate, Andheri-Kurla Road,
+              Near Marol Naka Metro Station, Marol, Andheri (East), Mumbai
+              400059.
             </p>
           </div>
           <div className="footer-section">

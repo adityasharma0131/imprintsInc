@@ -920,11 +920,6 @@ a {
   font-size: 0.9rem;
 }
 
-.footer-contact i {
-  margin-right: 0.5rem;
-  color: #ffbb00; /* Highlight icon color */
-}
-
 .footer-bottom {
   background-color: #fff; /* White background for bottom */
   padding: 1rem 0;
