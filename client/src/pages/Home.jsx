@@ -1,32 +1,32 @@
 import React from "react";
-import corporategifting from "../assets/Corporategifting.png";
-import stationery from "../assets/Stationery.png";
-import electronics from "../assets/Electronics.png";
-import Book from "../assets/Book.png";
+import corporategifting from "/assets/Corporategifting.png";
+import stationery from "/assets/Stationery.png";
+import electronics from "/assets/Electronics.png";
+import Book from "/assets/Book.png";
 
 import { MdDesignServices } from "react-icons/md";
 import { IoRibbon } from "react-icons/io5";
 import { FaTruckFast } from "react-icons/fa6";
 import { RiDiscountPercentFill } from "react-icons/ri";
 
-import client1 from "../assets/client1.png";
-import client2 from "../assets/client2.png";
-import client3 from "../assets/client3.png";
-import client4 from "../assets/client4.png";
-import client5 from "../assets/client5.png";
-import client6 from "../assets/client6.png";
-import client7 from "../assets/client7.png";
-import client8 from "../assets/client8.png";
-import client9 from "../assets/client9.png";
-import client10 from "../assets/client10.png";
-import client11 from "../assets/client11.png";
-import client12 from "../assets/client12.png";
-import client13 from "../assets/client13.png";
-import client14 from "../assets/client14.png";
-import client15 from "../assets/client15.png";
-import client16 from "../assets/client16.png";
-import client17 from "../assets/client17.png";
-import client18 from "../assets/client18.png";
+import client1 from "/assets/client1.png";
+import client2 from "/assets/client2.png";
+import client3 from "/assets/client3.png";
+import client4 from "/assets/client4.png";
+import client5 from "/assets/client5.png";
+import client6 from "/assets/client6.png";
+import client7 from "/assets/client7.png";
+import client8 from "/assets/client8.png";
+import client9 from "/assets/client9.png";
+import client10 from "/assets/client10.png";
+import client11 from "/assets/client11.png";
+import client12 from "/assets/client12.png";
+import client13 from "/assets/client13.png";
+import client14 from "/assets/client14.png";
+import client15 from "/assets/client15.png";
+import client16 from "/assets/client16.png";
+import client17 from "/assets/client17.png";
+import client18 from "/assets/client18.png";
 
 const Home = () => {
   const clientImages = [
