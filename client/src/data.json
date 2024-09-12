@@ -1,29 +1,29 @@
 [
     {
         "categoryName": "Stationery",
-        "catHeroImg": "../src/assets/StationeryHero.png",
-        "RescatHeroImg": "../src/assets/ResStationeryHero.png",
+        "catHeroImg": "/assets/StationeryHero.png",
+        "RescatHeroImg": "/assets/ResStationeryHero.png",
         "subcategories": [
             {
                 "subCategoryName": "Notebooks & Diaries",
-                "subCategoryImg1": "./assets/NB1.png",
-                "subCategoryImg2": "../src/assets/NB2.png",
-                "subCategoryImg3": "../src/assets/NB3.png",
-                "subCategoryImg4": "../src/assets/NB4.png"
+                "subCategoryImg1": "/assets/NB1.png",
+                "subCategoryImg2": "/assets/NB2.png",
+                "subCategoryImg3": "/assets/NB3.png",
+                "subCategoryImg4": "/assets/NB4.png"
             },
             {
                 "subCategoryName": "Premium Pens",
-                "subCategoryImg1": "../src/assets/P1.png",
-                "subCategoryImg2": "../src/assets/P2.png",
-                "subCategoryImg3": "../src/assets/P3.png",
-                "subCategoryImg4": "../src/assets/P4.png"
+                "subCategoryImg1": "/assets/P1.png",
+                "subCategoryImg2": "/assets/P2.png",
+                "subCategoryImg3": "/assets/P3.png",
+                "subCategoryImg4": "/assets/P4.png"
             },
             {
                 "subCategoryName": "Desk Organizers",
-                "subCategoryImg1": "../src/assets/DO1.png",
-                "subCategoryImg2": "../src/assets/DO2.png",
-                "subCategoryImg3": "../src/assets/DO3.png",
-                "subCategoryImg4": "../src/assets/DO4.png"
+                "subCategoryImg1": "/assets/DO1.png",
+                "subCategoryImg2": "/assets/DO2.png",
+                "subCategoryImg3": "/assets/DO3.png",
+                "subCategoryImg4": "/assets/DO4.png"
             }
         ]
     }
