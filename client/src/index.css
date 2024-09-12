@@ -268,7 +268,7 @@ a {
   justify-content: center;
   position: relative;
   overflow: hidden;
-  background-image: url("/src/assets/Property 1=Frame 3.png");
+  background-image: url("/assets/Property 1=Frame 3.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain; /* Ensures the whole image is visible */
@@ -278,22 +278,22 @@ a {
 /* Keyframes for background image animation */
 @keyframes change {
   0% {
-    background-image: url("/src/assets/Property 1=Frame 3.png");
+    background-image: url("/assets/Property 1=Frame 3.png");
   }
   20% {
-    background-image: url("/src/assets/Property 1=Frame 4.png");
+    background-image: url("/assets/Property 1=Frame 4.png");
   }
   40% {
-    background-image: url("/src/assets/Property 1=Frame 3.png");
+    background-image: url("/assets/Property 1=Frame 3.png");
   }
   60% {
-    background-image: url("/src/assets/Property 1=Frame 4.png");
+    background-image: url("/assets/Property 1=Frame 4.png");
   }
   80% {
-    background-image: url("/src/assets/Property 1=Frame 3.png");
+    background-image: url("/assets/Property 1=Frame 3.png");
   }
   100% {
-    background-image: url("/src/assets/Property 1=Frame 4.png");
+    background-image: url("/assets/Property 1=Frame 4.png");
   }
 }
 
