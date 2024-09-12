@@ -6,7 +6,7 @@ import {
   RiCloseLine,
   RiArrowDownSLine,
 } from "react-icons/ri";
-import logo from "../assets/imprintslogo.png";
+import logo from "/assets/imprintslogo.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
