@@ -1,0 +1,29 @@
+[
+    {
+        "categoryName": "Stationery",
+        "catHeroImg": "../src/assets/StationeryHero.png",
+        "subcategories": [
+            {
+                "subCategoryName": "Notebooks & Diaries",
+                "subCategoryImg1": "../src/assets/NB1.png",
+                "subCategoryImg2": "../src/assets/NB2.png",
+                "subCategoryImg3": "../src/assets/NB3.png",
+                "subCategoryImg4": "../src/assets/NB4.png"
+            },
+            {
+                "subCategoryName": "Premium Pens",
+                "subCategoryImg1": "../src/assets/P1.png",
+                "subCategoryImg2": "../src/assets/P2.png",
+                "subCategoryImg3": "../src/assets/P3.png",
+                "subCategoryImg4": "../src/assets/P4.png"
+            },
+            {
+                "subCategoryName": "Desk Organizers",
+                "subCategoryImg1": "../src/assets/DO1.png",
+                "subCategoryImg2": "../src/assets/DO2.png",
+                "subCategoryImg3": "../src/assets/DO3.png",
+                "subCategoryImg4": "../src/assets/DO4.png"
+            }
+        ]
+    }
+]
