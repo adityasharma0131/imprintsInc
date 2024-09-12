@@ -18,10 +18,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/categories/:catName" element={<CategoryPage />} />
-        <Route
-          path="/category/:categoryName"
-          element={<SingleCategoryPage />}
-        />
+        <Route path="/category/:categoryName" element={<SingleCategoryPage />}/>
         <Route path="/products/:productId" element={<ProductPage />} />
       </Routes>
       <ScrollToTop />

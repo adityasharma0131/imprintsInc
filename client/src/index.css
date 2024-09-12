@@ -1072,7 +1072,115 @@ a {
   }
 }
 
-/*=============== SINGLE PACEGORY PAGE ===============*/
+/*=============== SINGLE PRODUCT PAGE ===============*/
+.product-page-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  gap: 20px;
+  margin-top: 4rem;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.product-image {
+  flex: 1 1 300px;
+  max-width: 400px;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  background-color: #e0e0e0; /* Placeholder background color */
+  border-radius: 8px;
+}
+
+.product-details {
+  flex: 2 1 300px;
+  max-width: 600px;
+}
+
+.product-title {
+  font-size: 2rem;
+  color: #6b2c1a; /* Example color, adjust as needed */
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.product-description {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.product-features {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.product-features li {
+  margin-bottom: 5px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.product-additional-info {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.get-quote-btn {
+  background-color: #500a0a; /* Match button color to title color */
+  color: #fff;
+  padding: 10px 20px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.get-quote-btn:hover {
+  background-color: #5c0a0a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-page-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-title {
+    font-size: 1.75rem;
+  }
+
+  .product-description,
+  .product-additional-info {
+    font-size: 1rem;
+  }
+
+  .get-quote-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-title {
+    font-size: 1.5rem;
+  }
+
+  .product-description,
+  .product-additional-info,
+  .product-features li {
+    font-size: 0.95rem;
+  }
+}
 
 /*=============== BREAKPOINTS ===============*/
 /* For small devices */
