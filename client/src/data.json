@@ -6,7 +6,7 @@
         "subcategories": [
             {
                 "subCategoryName": "Notebooks & Diaries",
-                "subCategoryImg1": "../src/assets/NB1.png",
+                "subCategoryImg1": "./assets/NB1.png",
                 "subCategoryImg2": "../src/assets/NB2.png",
                 "subCategoryImg3": "../src/assets/NB3.png",
                 "subCategoryImg4": "../src/assets/NB4.png"
