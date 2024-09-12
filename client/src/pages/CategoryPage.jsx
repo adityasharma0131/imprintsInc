@@ -14,7 +14,10 @@ const CategoryPage = () => {
       {categories.map((category, index) => (
         <div key={index} className="bgbox">
           <picture>
-            <source srcSet={category.catHeroImg} media="(max-width: 768px)" />
+            <source
+              srcSet={category.RescatHeroImg}
+              media="(max-width: 768px)"
+            />
             <img
               src={category.catHeroImg}
               alt="Category Hero"
