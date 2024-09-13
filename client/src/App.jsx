@@ -9,6 +9,7 @@ import SingleCategoryPage from "./pages/SingleCategoryPage";
 import AutoScroll from "./components/AutoScroll";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsaapButton from "./components/WhatsaapButton";
+import AdminLogin from "./pages/AdminLogin";
 
 const App = () => {
   return (
@@ -18,8 +19,12 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/categories/:catName" element={<CategoryPage />} />
-        <Route path="/category/:categoryName" element={<SingleCategoryPage />}/>
+        <Route
+          path="/category/:categoryName"
+          element={<SingleCategoryPage />}
+        />
         <Route path="/products/:productId" element={<ProductPage />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
       </Routes>
       <ScrollToTop />
       <WhatsaapButton phoneNumber="1212121212121" />
