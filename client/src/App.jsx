@@ -10,25 +10,95 @@ import AutoScroll from "./components/AutoScroll";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsaapButton from "./components/WhatsaapButton";
 import AdminLogin from "./pages/AdminLogin";
+import Dashboard from "./pages/Dashboard";
+import Sidebar from "./components/Sidebar";
+
+// Wrapper for client-side pages (with Header and Footer)
+const ClientWrapper = ({ children }) => (
+  <>
+    <Header />
+    {children}
+    <WhatsaapButton phoneNumber="1212121212121" />
+    <Footer />
+  </>
+);
+
+// Wrapper for admin-side pages (with Sidebar only)
+const AdminWrapper = ({ children }) => (
+  <>
+    <Sidebar />
+    {children}
+  </>
+);
+
+const AppContent = () => {
+  return (
+    <div>
+      <AutoScroll />
+
+      <Routes>
+        {/* Public routes wrapped in ClientWrapper */}
+        <Route
+          path="/"
+          element={
+            <ClientWrapper>
+              <Home />
+            </ClientWrapper>
+          }
+        />
+        <Route
+          path="/categories/:catName"
+          element={
+            <ClientWrapper>
+              <CategoryPage />
+            </ClientWrapper>
+          }
+        />
+        <Route
+          path="/category/:categoryName"
+          element={
+            <ClientWrapper>
+              <SingleCategoryPage />
+            </ClientWrapper>
+          }
+        />
+        <Route
+          path="/products/:productId"
+          element={
+            <ClientWrapper>
+              <ProductPage />
+            </ClientWrapper>
+          }
+        />
+        <Route
+          path="/admin-login"
+          element={
+            <ClientWrapper>
+              <AdminLogin />
+            </ClientWrapper>
+          }
+        />
+
+        {/* Admin dashboard route wrapped in AdminWrapper */}
+        <Route
+          path="/dashboard"
+          element={
+            <AdminWrapper>
+              <Dashboard />
+            </AdminWrapper>
+          }
+        />
+      </Routes>
+
+      <ScrollToTop />
+    </div>
+  );
+};
 
 const App = () => {
   return (
     <BrowserRouter>
-      <AutoScroll />
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/categories/:catName" element={<CategoryPage />} />
-        <Route
-          path="/category/:categoryName"
-          element={<SingleCategoryPage />}
-        />
-        <Route path="/products/:productId" element={<ProductPage />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-      </Routes>
-      <ScrollToTop />
-      <WhatsaapButton phoneNumber="1212121212121" />
-      <Footer />
+      <AppContent />
     </BrowserRouter>
   );
 };
