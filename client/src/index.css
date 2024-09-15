@@ -1371,7 +1371,78 @@ a {
   color: #ff4d4f;
 }
 
-/*=============== BREAKPOINxTS ===============*/
+/*=============== ADMIN DASHBOARD ===============*/
+/* Shared styles for section containers */
+.product-listing,
+.recent-queries,
+.admin-users,
+.admin-bx {
+  position: relative;
+  padding: 1rem;
+  margin: 1rem 1rem 1rem 4rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-content: start;
+  justify-content: center;
+}
+
+/* Flex row for recent queries and admin users */
+.table-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Adjust recent queries and admin users to take equal space */
+.recent-queries,
+.admin-users {
+  background-color: #500a0a;
+  border: 1px solid #000;
+  color: #fff;
+  overflow-x: auto;
+}
+
+.product-listing {
+  background-color: #500a0a;
+  border: 1px solid #000;
+  color: #fff;
+  overflow-x: auto;
+}
+
+/* Table styling */
+.modern-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modern-table th,
+.modern-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.modern-table th {
+  background-color: #ffefef;
+  color: #500a0a;
+}
+
+.modern-table tbody tr:hover {
+  background-color: #ffefef;
+  color: #500a0a;
+}
+
+/* Product Image Styling */
+.product-image {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 5px;
+}
+
+/*=============== BREAKPOINTS ===============*/
 /* For small devices */
 @media screen and (max-width: 340px) {
   .container {
