@@ -1374,6 +1374,7 @@ a {
 /*=============== ADMIN DASHBOARD ===============*/
 /* Shared styles for section containers */
 .product-listing,
+.category-listing,
 .recent-queries,
 .admin-users,
 .admin-bx {
@@ -1411,8 +1412,13 @@ a {
   color: #fff;
   overflow-x: auto;
 }
+.category-listing {
+  background-color: #500a0a;
+  border: 1px solid #000;
+  color: #fff;
+  overflow-x: auto;
+}
 
-/* Table styling */
 .modern-table {
   width: 100%;
   border-collapse: collapse;
@@ -1426,8 +1432,7 @@ a {
 }
 
 .modern-table th {
-  background-color: #ffefef;
-  color: #500a0a;
+  color: #ffefef;
 }
 
 .modern-table tbody tr:hover {
@@ -1440,6 +1445,65 @@ a {
   max-width: 150px;
   max-height: 150px;
   border-radius: 5px;
+}
+
+/* Action icons */
+.action-icons {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.edit-icon {
+  color: #ffa500;
+}
+
+.delete-icon {
+  color: #ffa500;
+}
+
+.product-header {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.add-category-btn {
+  background-color: #ffa500;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: clamp();
+}
+
+.add-category-btn:hover {
+  background-color: #ff8c00;
+}
+
+.no-products {
+  text-align: center;
+  font-style: italic;
+  color: #bbb;
+}
+
+@media (max-width: 768px) {
+  .product-listing {
+    margin: 1rem;
+  }
+
+  .icon {
+    font-size: 1.2rem;
+  }
 }
 
 /*=============== BREAKPOINTS ===============*/

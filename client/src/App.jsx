@@ -12,6 +12,7 @@ import WhatsaapButton from "./components/WhatsaapButton";
 import AdminLogin from "./pages/AdminLogin";
 import Dashboard from "./pages/Dashboard";
 import Sidebar from "./components/Sidebar";
+import ProductOperation from "./pages/ProductOperation";
 
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
@@ -85,6 +86,14 @@ const AppContent = () => {
           element={
             <AdminWrapper>
               <Dashboard />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/product-operation"
+          element={
+            <AdminWrapper>
+              <ProductOperation />
             </AdminWrapper>
           }
         />
