@@ -1,7 +1,9 @@
+// Dashboard.js
 import React, { useState, useEffect } from "react";
 import pumpImg from "/assets/Book.png";
 import valveImg from "/assets/Book.png";
 import cylinderImg from "/assets/Book.png";
+import Table from "../components/TableComponent";
 
 const Dashboard = () => {
   // Sample static product data with image imports
@@ -68,59 +70,16 @@ const Dashboard = () => {
         {/* Recent Queries Table */}
         <div className="recent-queries">
           <h1 className="heading">Recent Queries</h1>
-          <table className="modern-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recentQueries.length > 0 ? (
-                recentQueries.map((query, index) => (
-                  <tr key={index}>
-                    <td>{query.name}</td>
-                    <td>{query.email}</td>
-                    <td>{query.phone}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3">No queries available</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          <Table
+            columns={["Name", "Email", "Phone Number"]}
+            data={recentQueries}
+          />
         </div>
 
         {/* Admin Users Table */}
         <div className="admin-users">
           <h1 className="heading">Admin Users</h1>
-          <table className="modern-table">
-            <thead>
-              <tr>
-                <th>User ID</th>
-                <th>Name</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              {adminUsers.length > 0 ? (
-                adminUsers.map((user, index) => (
-                  <tr key={index}>
-                    <td>{user.userId}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3">No admin users available</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          <Table columns={["User ID", "Name", "Email"]} data={adminUsers} />
         </div>
       </div>
 
@@ -130,47 +89,25 @@ const Dashboard = () => {
         {loading ? (
           <p>Loading products...</p>
         ) : (
-          <table className="modern-table">
-            <thead>
-              <tr>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Image</th>
-                <th>Small Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.length > 0 ? (
-                products.map((product) => {
-                  const firstImage = product.images?.[0]; // Directly use imported image
-
-                  return (
-                    <tr key={product._id}>
-                      <td>{product.name}</td>
-                      <td>{product.category}</td>
-                      <td>
-                        {firstImage ? (
-                          <img
-                            src={firstImage}
-                            alt={product.name}
-                            className="product-image"
-                            style={{ maxWidth: "150px", maxHeight: "150px" }}
-                          />
-                        ) : (
-                          <p>No image available</p>
-                        )}
-                      </td>
-                      <td>{stripHtmlTags(product.smallDesc)}</td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan="4">No products available</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          <Table
+            columns={["Product Name", "Category", "Image", "Small Description"]}
+            data={products.map((product) => ({
+              "Product Name": product.name,
+              Category: product.category,
+              Image:
+                product.images.length > 0 ? (
+                  <img
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="product-image"
+                    style={{ maxWidth: "150px", maxHeight: "150px" }}
+                  />
+                ) : (
+                  "No image available"
+                ),
+              "Small Description": stripHtmlTags(product.smallDesc),
+            }))}
+          />
         )}
       </div>
     </>

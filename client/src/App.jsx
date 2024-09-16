@@ -13,6 +13,7 @@ import AdminLogin from "./pages/AdminLogin";
 import Dashboard from "./pages/Dashboard";
 import Sidebar from "./components/Sidebar";
 import ProductOperation from "./pages/ProductOperation";
+import ClientImg from "./pages/ClientImg";
 
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
@@ -94,6 +95,14 @@ const AppContent = () => {
           element={
             <AdminWrapper>
               <ProductOperation />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/client-operation"
+          element={
+            <AdminWrapper>
+              <ClientImg />
             </AdminWrapper>
           }
         />
