@@ -98,7 +98,10 @@ const ProductOperation = () => {
       </div>
       <div className="table-row">
         <div className="category-listing">
-          <h1 className="heading">Categories</h1>
+          <div className="product-header">
+            <h1 className="heading">Category</h1>
+            <button className="add-category-btn">Add Category +</button>
+          </div>
           <Table
             headers={categoryHeaders}
             data={categories}
@@ -110,7 +113,10 @@ const ProductOperation = () => {
       </div>
 
       <div className="product-listing">
-        <h1 className="heading">Products</h1>
+        <div className="product-header">
+          <h1 className="heading">Products</h1>
+          <button className="add-category-btn">Add Products +</button>
+        </div>
         <Table
           headers={productHeaders}
           data={products}

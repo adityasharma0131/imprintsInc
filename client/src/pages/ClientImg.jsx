@@ -39,7 +39,7 @@ const ClientImg = () => {
         />
       </td>
       <td>
-        <ActionButtons />
+        <ActionButtons showEdit={false} showDelete={true} />
       </td>
     </tr>
   );
@@ -51,7 +51,10 @@ const ClientImg = () => {
       </div>
       <div className="table-row">
         <div className="category-listing">
-          <h1 className="heading">Client Logos</h1>
+          <div className="product-header">
+            <h1 className="heading">Logo</h1>
+            <button className="add-category-btn">Add Logo +</button>
+          </div>
           <Table
             headers={headers}
             data={products}
@@ -62,7 +65,10 @@ const ClientImg = () => {
         </div>
 
         <div className="category-listing">
-          <h1 className="heading">Hero Image</h1>
+          <div className="product-header">
+            <h1 className="heading">Hero Image</h1>
+            <button className="add-category-btn">Add Image +</button>
+          </div>
           <Table
             headers={headers}
             data={imgHero}

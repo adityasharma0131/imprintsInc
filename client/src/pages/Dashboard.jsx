@@ -1,4 +1,3 @@
-// Dashboard.js
 import React, { useState, useEffect } from "react";
 import pumpImg from "/assets/Book.png";
 import valveImg from "/assets/Book.png";
@@ -72,14 +71,27 @@ const Dashboard = () => {
           <h1 className="heading">Recent Queries</h1>
           <Table
             columns={["Name", "Email", "Phone Number"]}
-            data={recentQueries}
+            data={recentQueries.map((query) => ({
+              Name: query.name,
+              Email: query.email,
+              "Phone Number": query.phone,
+            }))}
+            emptyMessage="No queries available"
           />
         </div>
 
         {/* Admin Users Table */}
         <div className="admin-users">
           <h1 className="heading">Admin Users</h1>
-          <Table columns={["User ID", "Name", "Email"]} data={adminUsers} />
+          <Table
+            columns={["User ID", "Name", "Email"]}
+            data={adminUsers.map((user) => ({
+              "User ID": user.userId,
+              Name: user.name,
+              Email: user.email,
+            }))}
+            emptyMessage="No admin users available"
+          />
         </div>
       </div>
 
@@ -94,19 +106,19 @@ const Dashboard = () => {
             data={products.map((product) => ({
               "Product Name": product.name,
               Category: product.category,
-              Image:
-                product.images.length > 0 ? (
-                  <img
-                    src={product.images[0]}
-                    alt={product.name}
-                    className="product-image"
-                    style={{ maxWidth: "150px", maxHeight: "150px" }}
-                  />
-                ) : (
-                  "No image available"
-                ),
+              Image: product.images[0] ? (
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="product-image"
+                  style={{ maxWidth: "150px", maxHeight: "150px" }}
+                />
+              ) : (
+                "No image available"
+              ),
               "Small Description": stripHtmlTags(product.smallDesc),
             }))}
+            emptyMessage="No products available"
           />
         )}
       </div>

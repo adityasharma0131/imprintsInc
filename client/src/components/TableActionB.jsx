@@ -3,11 +3,11 @@ import { MdEditNote } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 
 // Reusable Action Buttons Component
-const ActionButtons = () => {
+const ActionButtons = ({ showEdit = true, showDelete = true }) => {
   return (
     <div className="action-icons">
-      <MdEditNote className="icon edit-icon" />
-      <AiFillDelete className="icon delete-icon" />
+      {showEdit && <MdEditNote className="icon edit-icon" />}
+      {showDelete && <AiFillDelete className="icon delete-icon" />}
     </div>
   );
 };

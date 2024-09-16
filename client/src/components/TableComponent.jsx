@@ -1,14 +1,17 @@
-// Table.js
 import React from "react";
-import PropTypes from "prop-types";
 
-const Table = ({ columns, data, emptyMessage }) => {
+// Table component with default parameters
+const Table = ({
+  columns = [],
+  data = [],
+  emptyMessage = "No data available",
+}) => {
   return (
     <table className="modern-table">
       <thead>
         <tr>
-          {columns.map((col, index) => (
-            <th key={index}>{col}</th>
+          {columns.map((column, index) => (
+            <th key={index}>{column}</th>
           ))}
         </tr>
       </thead>
@@ -16,8 +19,8 @@ const Table = ({ columns, data, emptyMessage }) => {
         {data.length > 0 ? (
           data.map((row, index) => (
             <tr key={index}>
-              {Object.values(row).map((value, idx) => (
-                <td key={idx}>{value}</td>
+              {columns.map((column, colIndex) => (
+                <td key={colIndex}>{row[column] || "N/A"}</td>
               ))}
             </tr>
           ))
@@ -29,16 +32,6 @@ const Table = ({ columns, data, emptyMessage }) => {
       </tbody>
     </table>
   );
-};
-
-Table.propTypes = {
-  columns: PropTypes.arrayOf(PropTypes.string).isRequired,
-  data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  emptyMessage: PropTypes.string,
-};
-
-Table.defaultProps = {
-  emptyMessage: "No data available",
 };
 
 export default Table;
