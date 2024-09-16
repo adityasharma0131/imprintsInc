@@ -3,12 +3,12 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 
 import logo from "/assets/imprintslogo.png";
 import { AiFillProduct } from "react-icons/ai";
-import { RiGalleryFill } from "react-icons/ri";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiUsers } from "react-icons/fi";
 import { RiContactsLine } from "react-icons/ri";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { BiChevronRight, BiLogOutCircle } from "react-icons/bi";
+import { IoBusinessSharp } from "react-icons/io5";
 
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -49,9 +49,9 @@ const Sidebar = () => {
       link: "/product-operation",
     },
     {
-      name: "Gallery",
-      icon: <RiGalleryFill className="sidebar__icon" />,
-      link: "/gallery-operation",
+      name: "Client Logo/Image",
+      icon: <IoBusinessSharp className="sidebar__icon" />,
+      link: "/client-operation",
     },
     {
       name: "Users",

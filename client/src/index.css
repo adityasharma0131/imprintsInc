@@ -1451,6 +1451,7 @@ a {
 .action-icons {
   display: flex;
   gap: 10px;
+  justify-content: center;
 }
 
 .icon {
@@ -1497,10 +1498,6 @@ a {
 }
 
 @media (max-width: 768px) {
-  .product-listing {
-    margin: 1rem;
-  }
-
   .icon {
     font-size: 1.2rem;
   }
