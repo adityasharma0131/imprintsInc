@@ -1451,7 +1451,7 @@ a {
 .action-icons {
   display: flex;
   gap: 10px;
-  justify-content: center;
+  justify-content: left;
 }
 
 .icon {

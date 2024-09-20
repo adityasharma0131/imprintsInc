@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import Sidebar from "./components/Sidebar";
 import ProductOperation from "./pages/ProductOperation";
 import ClientImg from "./pages/ClientImg";
+import UserOperation from "./pages/UserOperation";
 
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
@@ -103,6 +104,14 @@ const AppContent = () => {
           element={
             <AdminWrapper>
               <ClientImg />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/user-operation"
+          element={
+            <AdminWrapper>
+              <UserOperation />
             </AdminWrapper>
           }
         />
