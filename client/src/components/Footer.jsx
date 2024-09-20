@@ -3,6 +3,7 @@ import {
   FaInstagram,
   FaFacebook,
   FaWhatsapp,
+  FaLinkedin,
   FaPhoneAlt,
   FaEnvelope,
   FaMap,
@@ -69,6 +70,15 @@ const Footer = () => {
                   rel="noopener noreferrer"
                 >
                   <FaWhatsapp />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.whatsapp.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaLinkedin />
                 </a>
               </li>
             </ul>
