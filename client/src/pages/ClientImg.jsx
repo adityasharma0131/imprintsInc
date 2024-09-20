@@ -47,7 +47,7 @@ const ClientImg = () => {
   return (
     <>
       <div className="admin-bx">
-        <h1>Client Side Logo/Images</h1>
+        <h1 className="heading1">Gallery Page</h1>
       </div>
       <div className="table-row">
         <div className="category-listing">

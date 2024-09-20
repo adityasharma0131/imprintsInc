@@ -24,7 +24,7 @@ const UserOperation = () => {
   return (
     <>
       <div className="admin-bx">
-        <h1 className="heading">Admin Users</h1>
+        <h1 className="heading1">Users Page</h1>
       </div>
       <div className="product-listing">
         <div className="product-header">

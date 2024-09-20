@@ -94,7 +94,7 @@ const ProductOperation = () => {
   return (
     <>
       <div className="admin-bx">
-        <h1>Products Page</h1>
+        <h1 className="heading1">Products Listing Page</h1>
       </div>
       <div className="table-row">
         <div className="category-listing">
