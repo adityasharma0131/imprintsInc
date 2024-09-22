@@ -54,7 +54,9 @@ const ContactOperation = () => {
   return (
     <>
       <div className="admin-bx">
-        <h1 className="heading1">Contact Queries</h1>
+        <div className="dash-opr-head">
+          <h1 className="heading1">Contact Queries</h1>
+        </div>
       </div>
       <div className="product-listing">
         <div className="product-header">

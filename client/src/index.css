@@ -1397,6 +1397,16 @@ a {
   align-items: center;
 }
 
+.dash-opr-head h1 {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: start;
+}
+.dash-head {
+  text-decoration: underline;
+  color: #500a0a;
+}
 /* Adjust recent queries and admin users to take equal space */
 .recent-queries,
 .admin-users {

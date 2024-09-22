@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+
+import { HashLink as Link } from "react-router-hash-link";
 import pumpImg from "/assets/Book.png";
 import valveImg from "/assets/Book.png";
 import cylinderImg from "/assets/Book.png";
@@ -94,13 +96,17 @@ const ProductOperation = () => {
   return (
     <>
       <div className="admin-bx">
-        <h1 className="heading1">Products Listing Page</h1>
+        <div className="dash-opr-head">
+          <h1 className="heading1">Products Listing Page</h1>
+        </div>
       </div>
       <div className="table-row">
         <div className="category-listing">
           <div className="product-header">
             <h1 className="heading">Category</h1>
-            <button className="add-category-btn">Add Category +</button>
+            <Link to="/product-operation/add-category">
+              <button className="add-category-btn">Add Category +</button>
+            </Link>
           </div>
           <Table
             headers={categoryHeaders}

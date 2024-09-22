@@ -47,7 +47,9 @@ const ClientImg = () => {
   return (
     <>
       <div className="admin-bx">
-        <h1 className="heading1">Gallery Page</h1>
+        <div className="dash-opr-head">
+          <h1 className="heading1">Gallery Page</h1>
+        </div>
       </div>
       <div className="table-row">
         <div className="category-listing">

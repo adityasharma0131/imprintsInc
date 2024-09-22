@@ -61,7 +61,9 @@ const SocialsOperation = () => {
   return (
     <>
       <div className="admin-bx">
+      <div className="dash-opr-head">
         <h1 className="heading1">Socials Page</h1>
+      </div>
       </div>
 
       {/* Social Media Platforms Table */}

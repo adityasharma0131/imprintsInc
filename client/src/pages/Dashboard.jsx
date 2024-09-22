@@ -61,7 +61,9 @@ const Dashboard = () => {
   return (
     <>
       <div className="admin-bx">
-        <h1 className="heading1">Welcome AdminName</h1>
+        <div className="dash-opr-head">
+          <h1 className="heading1">Welcome AdminName</h1>
+        </div>
       </div>
 
       {/* Recent Queries and Admin Users in the same row */}

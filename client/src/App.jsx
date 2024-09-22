@@ -17,6 +17,7 @@ import ClientImg from "./pages/ClientImg";
 import UserOperation from "./pages/UserOperation";
 import ContactOperation from "./pages/ContactOperation";
 import SocialsOperation from "./pages/SocialsOperation";
+import AddCategory from "./pages/AddCategory";
 
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
@@ -130,6 +131,14 @@ const AppContent = () => {
           element={
             <AdminWrapper>
               <SocialsOperation />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/product-operation/add-category"
+          element={
+            <AdminWrapper>
+              <AddCategory />
             </AdminWrapper>
           }
         />
