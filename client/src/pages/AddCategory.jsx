@@ -9,11 +9,11 @@ const AddCategory = () => {
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="heading1">
-            <Link className="dash-head" to="/product-operation">
-              Products Page
+            <Link className="dash-head1" to="/product-operation">
+              Products Listing Page
             </Link>
-            <IoIosArrowForward />
-            Add Category
+            <IoIosArrowForward className="arrow-icon" />
+            <span className="dash-head2">Add Category</span>
           </h1>
         </div>
       </div>

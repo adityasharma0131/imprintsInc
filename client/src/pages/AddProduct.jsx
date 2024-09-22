@@ -9,11 +9,11 @@ const AddProduct = () => {
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="heading1">
-            <Link className="dash-head" to="/product-operation">
-              Products Page
+            <Link className="dash-head1" to="/product-operation">
+              Products Listing Page
             </Link>
             <IoIosArrowForward />
-            Add Product
+            <span className="dash-head2">Add Product</span>
           </h1>
         </div>
       </div>

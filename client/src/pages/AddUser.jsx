@@ -8,11 +8,11 @@ const AddUsers = () => {
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="heading1">
-            <Link className="dash-head" to="/user-operation">
+            <Link className="dash-head1" to="/user-operation">
               Users Page
             </Link>
             <IoIosArrowForward />
-            Add User
+            <span className="dash-head2">Add User</span>
           </h1>
         </div>
       </div>

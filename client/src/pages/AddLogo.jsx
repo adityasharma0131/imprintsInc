@@ -8,11 +8,11 @@ const AddLogo = () => {
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="heading1">
-            <Link className="dash-head" to="/client-operation">
+            <Link className="dash-head1" to="/client-operation">
               Gallery Page
             </Link>
             <IoIosArrowForward />
-            Add Logo
+            <span className="dash-head2">Add Logo</span>
           </h1>
         </div>
       </div>

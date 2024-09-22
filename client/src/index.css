@@ -1397,16 +1397,40 @@ a {
   align-items: center;
 }
 
-.dash-opr-head h1 {
+.dash-opr-head {
   display: flex;
   align-items: center;
-  align-content: center;
-  justify-content: start;
+  justify-content: flex-start;
+  padding: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
 }
-.dash-head {
+.dash-head1 {
   text-decoration: underline;
   color: #500a0a;
+  transition: color 0.3s ease-in-out;
 }
+.dash-head2 {
+  color: #500a0a;
+  transition: color 0.3s ease-in-out;
+}
+
+.arrow-icon {
+  font-size: 1.5rem;
+  color: #500a0a;
+}
+
+.category-text {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .arrow-icon {
+    font-size: 1.2rem;
+  }
+}
+
 /* Adjust recent queries and admin users to take equal space */
 .recent-queries,
 .admin-users {
