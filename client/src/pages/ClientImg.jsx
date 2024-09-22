@@ -3,6 +3,7 @@ import client1 from "/assets/client1.png";
 import heroImg from "/assets/Property 1=Frame 3.png";
 import { Table, ActionButtons } from "../components/TableActionB";
 
+import { HashLink as Link } from "react-router-hash-link";
 // Dummy product data
 const sampleProducts = [
   { _id: "1", images: [client1] },
@@ -55,7 +56,9 @@ const ClientImg = () => {
         <div className="category-listing">
           <div className="product-header">
             <h1 className="heading">Logo</h1>
-            <button className="add-category-btn">Add Logo +</button>
+            <Link to="/client-operation/add-logo">
+              <button className="add-category-btn">Add Logo +</button>
+            </Link>
           </div>
           <Table
             headers={headers}
@@ -69,7 +72,9 @@ const ClientImg = () => {
         <div className="category-listing">
           <div className="product-header">
             <h1 className="heading">Hero Image</h1>
-            <button className="add-category-btn">Add Image +</button>
+            <Link to="/client-operation/add-image">
+              <button className="add-category-btn">Add Image +</button>
+            </Link>
           </div>
           <Table
             headers={headers}

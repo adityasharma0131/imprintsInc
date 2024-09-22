@@ -121,7 +121,9 @@ const ProductOperation = () => {
       <div className="product-listing">
         <div className="product-header">
           <h1 className="heading">Products</h1>
-          <button className="add-category-btn">Add Products +</button>
+          <Link to="/product-operation/add-product">
+            <button className="add-category-btn">Add Products +</button>
+          </Link>
         </div>
         <Table
           headers={productHeaders}

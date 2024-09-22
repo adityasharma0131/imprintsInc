@@ -1,6 +1,7 @@
 import React from "react";
 import { Table, ActionButtons } from "../components/TableActionB";
 
+import { HashLink as Link } from "react-router-hash-link";
 const UserOperation = () => {
   // Static admin users data
   const adminUsers = [
@@ -31,7 +32,9 @@ const UserOperation = () => {
       <div className="product-listing">
         <div className="product-header">
           <h1 className="heading">Admin Users</h1>
-          <button className="add-category-btn">Add User +</button>
+          <Link to="/user-operation/add-user">
+            <button className="add-category-btn">Add User +</button>
+          </Link>
         </div>
         <Table
           headers={productHeaders}
