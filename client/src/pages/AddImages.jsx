@@ -8,7 +8,7 @@ const AddImages = () => {
     <>
       <div className="admin-bx">
         <div className="dash-opr-head">
-          <h1 className="heading1">
+          <h1 className="dash-head">
             <Link className="dash-head1" to="/client-operation">
               Gallery Page
             </Link>
