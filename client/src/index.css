@@ -1433,7 +1433,6 @@ a {
   color: #500a0a;
 }
 
-
 /* Adjust recent queries and admin users to take equal space */
 .recent-queries,
 .admin-users {
@@ -1538,6 +1537,37 @@ a {
   .icon {
     font-size: 1.2rem;
   }
+}
+.dash-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 5px;
+  background-color: #1e1e1e;
+  color: #ffefef;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dash-input:hover {
+  border-color: #ffefef;
+  box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.1);
+}
+
+.add {
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.add:hover {
+  background-color: #500a0a;
+  color: #ffefef;
+  box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 /*=============== BREAKPOINTS ===============*/
