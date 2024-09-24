@@ -1554,7 +1554,7 @@ a {
 }
 
 .add {
-  background-color: #1e1e1e;
+  background-color: #ffa500;
   color: #fff;
   padding: 12px 24px;
   border: none;
@@ -1564,10 +1564,141 @@ a {
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.add:hover {
+/* General container and form layout */
+.add-product {
+  display: flex;
+  margin-left: 4rem;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.add-product-form {
+  width: 100%;
+  max-width: 700px;
   background-color: #500a0a;
-  color: #ffefef;
-  box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.2);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Label styling */
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+/* Input styles */
+.product-form-input,
+.product-form-select,
+.product-form-input-file {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #1e1e1e;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.product-form-input-file {
+  margin-bottom: 1.5rem;
+  padding: 6px;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+/* Input focus state */
+.product-form-input:focus,
+.product-form-select:focus,
+.product-form-input-file:focus {
+  border-color: #ffbb00;
+  outline: none;
+}
+
+/* Quill editor styling */
+.form-quill {
+  margin-bottom: 20px;
+  background-color: white;
+}
+
+.form-quill .ql-editor {
+  min-height: 150px;
+  color: #333;
+}
+
+/* Button styles */
+.btn-submit {
+  background-color: #ffa500;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.btn-submit:hover {
+  background-color: #ffbb00;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .add-product {
+    padding: 10px;
+  }
+
+  .add-product-form {
+    padding: 20px;
+  }
+
+  .form-label {
+    font-size: 14px;
+  }
+
+  .product-form-input,
+  .product-form-select,
+  .product-form-input-file {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .btn-submit {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-product-form {
+    padding: 15px;
+  }
+
+  .form-label {
+    font-size: 12px;
+  }
+
+  .product-form-input,
+  .product-form-select,
+  .product-form-input-file {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .btn-submit {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 }
 
 /*=============== BREAKPOINTS ===============*/
