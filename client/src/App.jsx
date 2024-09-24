@@ -20,7 +20,6 @@ import SocialsOperation from "./pages/SocialsOperation";
 import AddCategory from "./pages/AddCategory";
 import AddProduct from "./pages/AddProduct";
 import AddLogo from "./pages/AddLogo";
-import AddImages from "./pages/AddImages";
 import AddUser from "./pages/AddUser";
 
 // Wrapper for client-side pages (with Header and Footer)
@@ -162,14 +161,7 @@ const AppContent = () => {
             </AdminWrapper>
           }
         />
-        <Route
-          path="/client-operation/add-image"
-          element={
-            <AdminWrapper>
-              <AddImages />
-            </AdminWrapper>
-          }
-        />
+
         <Route
           path="/user-operation/add-user"
           element={

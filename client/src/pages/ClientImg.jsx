@@ -68,22 +68,6 @@ const ClientImg = () => {
             noDataMessage="No logos available"
           />
         </div>
-
-        <div className="category-listing">
-          <div className="product-header">
-            <h1 className="heading">Hero Image</h1>
-            <Link to="/client-operation/add-image">
-              <button className="add-category-btn">Add Image +</button>
-            </Link>
-          </div>
-          <Table
-            headers={headers}
-            data={imgHero}
-            renderRow={renderRow}
-            loading={loading}
-            noDataMessage="No logos available"
-          />
-        </div>
       </div>
     </>
   );
