@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, ActionButtons } from "../components/TableActionB";
+import { Link } from "react-router-dom"; // Import Link for navigation
 
 const SocialsOperation = () => {
   // Static social media data
@@ -41,7 +42,11 @@ const SocialsOperation = () => {
       <td>{platform.name}</td>
       <td>{platform.url}</td>
       <td>
-        <ActionButtons showEdit={true} showDelete={false} />
+        <ActionButtons
+          editLink={`/product-operation/edit-social/${platform.platformId}`}
+          showEdit={true}
+          showDelete={false}
+        />
       </td>
     </tr>
   );
@@ -53,7 +58,11 @@ const SocialsOperation = () => {
       <td>{contact.email}</td>
       <td>{contact.address}</td>
       <td>
-        <ActionButtons showEdit={true} showDelete={false} />
+        <ActionButtons
+          editLink={`/product-operation/edit-contact/${contact.contactId}`}
+          showEdit={true}
+          showDelete={false}
+        />
       </td>
     </tr>
   );

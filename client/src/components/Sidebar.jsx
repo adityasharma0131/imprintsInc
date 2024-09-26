@@ -49,7 +49,7 @@ const Sidebar = () => {
       link: "/product-operation",
     },
     {
-      name: "Client Logo/Image",
+      name: "Client Logo",
       icon: <IoBusinessSharp className="sidebar__icon" />,
       link: "/client-operation",
     },

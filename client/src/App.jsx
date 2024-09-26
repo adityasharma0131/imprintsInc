@@ -21,6 +21,11 @@ import AddCategory from "./pages/AddCategory";
 import AddProduct from "./pages/AddProduct";
 import AddLogo from "./pages/AddLogo";
 import AddUser from "./pages/AddUser";
+import EditCategory from "./pages/EditCategory";
+import EditProduct from "./pages/EditProduct";
+import EditUser from "./pages/EditUser";
+import EditSocial from "./pages/EditSocial";
+import EditContact from "./pages/EditContact";
 
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
@@ -167,6 +172,46 @@ const AppContent = () => {
           element={
             <AdminWrapper>
               <AddUser />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/product-operation/edit-category/:categoryId"
+          element={
+            <AdminWrapper>
+              <EditCategory />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/product-operation/edit-product/:productId"
+          element={
+            <AdminWrapper>
+              <EditProduct />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/product-operation/edit-user/:userId"
+          element={
+            <AdminWrapper>
+              <EditUser />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/product-operation/edit-social/:socialId"
+          element={
+            <AdminWrapper>
+              <EditSocial />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/product-operation/edit-contact/:contactId"
+          element={
+            <AdminWrapper>
+              <EditContact />
             </AdminWrapper>
           }
         />

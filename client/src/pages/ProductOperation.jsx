@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import { HashLink as Link } from "react-router-hash-link";
 import pumpImg from "/assets/Book.png";
 import valveImg from "/assets/Book.png";
@@ -69,7 +68,11 @@ const ProductOperation = () => {
     <tr key={category.id}>
       <td>{category.category}</td>
       <td>
-        <ActionButtons />
+        <ActionButtons
+          editLink={`/product-operation/edit-category/${category.id}`}
+          showEdit={true}
+          showDelete={true}
+        />
       </td>
     </tr>
   );
@@ -88,7 +91,11 @@ const ProductOperation = () => {
       </td>
       <td>{stripHtmlTags(product.smallDesc)}</td>
       <td>
-        <ActionButtons />
+        <ActionButtons
+          editLink={`/product-operation/edit-product/${product._id}`}
+          showEdit={true}
+          showDelete={true}
+        />
       </td>
     </tr>
   );

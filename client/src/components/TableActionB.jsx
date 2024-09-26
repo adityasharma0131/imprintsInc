@@ -1,12 +1,18 @@
 import React from "react";
 import { MdEditNote } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
+import { HashLink as Link } from "react-router-hash-link";
 
-// Reusable Action Buttons Component
-const ActionButtons = ({ showEdit = true, showDelete = true }) => {
+const ActionButtons = ({ editLink, showEdit, showDelete }) => {
   return (
     <div className="action-icons">
-      {showEdit && <MdEditNote className="icon edit-icon" />}
+      {/* Conditionally render the edit icon and link */}
+      {showEdit && editLink && (
+        <Link to={editLink}>
+          <MdEditNote className="icon edit-icon" />
+        </Link>
+      )}
+      {/* Conditionally render the delete icon */}
       {showDelete && <AiFillDelete className="icon delete-icon" />}
     </div>
   );
