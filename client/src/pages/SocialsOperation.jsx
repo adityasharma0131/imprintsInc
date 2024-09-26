@@ -41,7 +41,7 @@ const SocialsOperation = () => {
       <td>{platform.name}</td>
       <td>{platform.url}</td>
       <td>
-        <ActionButtons showEdit={true} showDelete={true} />
+        <ActionButtons showEdit={true} showDelete={false} />
       </td>
     </tr>
   );
@@ -53,7 +53,7 @@ const SocialsOperation = () => {
       <td>{contact.email}</td>
       <td>{contact.address}</td>
       <td>
-        <ActionButtons showEdit={true} showDelete={true} />
+        <ActionButtons showEdit={true} showDelete={false} />
       </td>
     </tr>
   );
@@ -61,9 +61,9 @@ const SocialsOperation = () => {
   return (
     <>
       <div className="admin-bx">
-      <div className="dash-opr-head">
-        <h1 className="heading1">Socials Page</h1>
-      </div>
+        <div className="dash-opr-head">
+          <h1 className="heading1">Socials Page</h1>
+        </div>
       </div>
 
       {/* Social Media Platforms Table */}

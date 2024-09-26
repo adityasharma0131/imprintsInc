@@ -46,7 +46,7 @@ const ContactOperation = () => {
       <td>{query.qty}</td>
       <td>{query.message}</td>
       <td>
-        <ActionButtons showEdit={true} showDelete={true} />
+        <ActionButtons showEdit={false} showDelete={true} />
       </td>
     </tr>
   );
