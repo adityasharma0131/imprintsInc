@@ -1,26 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, ActionButtons } from "../components/TableActionB";
 import { HashLink as Link } from "react-router-hash-link";
 
 const UserOperation = () => {
-  // Static admin users data
-  const adminUsers = [
-    { userId: "A123", name: "Admin One", email: "admin1@example.com" },
-    { userId: "B456", name: "Admin Two", email: "admin2@example.com" },
-  ];
+  const [adminUsers, setAdminUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch users from the backend
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/users`
+        );
+        const data = await response.json();
+        setAdminUsers(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   // Table headers for the admin users
   const tableHeaders = ["Name", "Email", "Operation"];
 
   // Render each row of the table with user data
   const renderUserRow = (user) => (
-    <tr key={user.userId}>
+    <tr key={user._id}>
       <td>{user.name}</td>
       <td>{user.email}</td>
       <td>
-        {/* Dynamic link to edit the user based on userId */}
         <ActionButtons
-          editLink={`/product-operation/edit-user/${user.userId}`}
+          editLink={`/user-operation/edit-user/${user._id}`}
           showEdit={true}
           showDelete={true}
         />
@@ -46,13 +61,18 @@ const UserOperation = () => {
           </Link>
         </div>
 
-        {/* Table Component */}
-        <Table
-          headers={tableHeaders}
-          data={adminUsers}
-          renderRow={renderUserRow}
-          noDataMessage="No users available"
-        />
+        {loading ? (
+          <p>Loading...</p>
+        ) : adminUsers.length > 0 ? (
+          <Table
+            headers={tableHeaders}
+            data={adminUsers}
+            renderRow={renderUserRow}
+            noDataMessage="No users available"
+          />
+        ) : (
+          <p>No users available</p>
+        )}
       </div>
     </>
   );
