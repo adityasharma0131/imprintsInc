@@ -6,7 +6,6 @@ const UserModel = require("../Models/User");
 router.get("/", (req, res) => {
   res.render("index", { title: "Server Side" });
 });
-
 router.get("/api/users", async (req, res) => {
   try {
     const users = await UserModel.find(); // Fetch all users from the database
