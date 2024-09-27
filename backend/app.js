@@ -12,7 +12,7 @@ const bodyParser = require("body-parser"); // Import body-parser
 const DB = require("./Models/DB");
 
 // Router imports
-const indexRouter = require("./routes/index");
+const indexRouter = require("./routes/server");
 const usersRouter = require("./routes/users");
 const AuthRouter = require("./routes/AuthRouter");
 
