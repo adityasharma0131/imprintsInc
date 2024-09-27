@@ -1,8 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-
 import { HashLink as Link } from "react-router-hash-link";
+
 const AddUsers = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [message, setMessage] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage(null); // Reset message before submission
+
+    try {
+      const response = await fetch("http://localhost:3000/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setMessage({ text: result.message, type: "success" });
+        setFormData({ name: "", email: "", password: "" }); // Reset form data
+      } else {
+        setMessage({ text: result.error || result.message, type: "error" });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setMessage({
+        text: "An error occurred while adding the user.",
+        type: "error",
+      });
+    }
+  };
+
   return (
     <>
       <div className="admin-bx">
@@ -23,8 +63,7 @@ const AddUsers = () => {
             <h1 className="heading">Add New User</h1>
           </div>
 
-          {/* Form for adding a new user */}
-          <form>
+          <form onSubmit={handleSubmit}>
             <table className="modern-table">
               <thead>
                 <tr>
@@ -42,6 +81,9 @@ const AddUsers = () => {
                       name="name"
                       className="dash-input"
                       placeholder="Enter name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
                     />
                   </td>
                   <td>
@@ -50,6 +92,9 @@ const AddUsers = () => {
                       name="email"
                       className="dash-input"
                       placeholder="Enter email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
                     />
                   </td>
                   <td>
@@ -58,6 +103,9 @@ const AddUsers = () => {
                       name="password"
                       className="dash-input"
                       placeholder="Enter password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
                     />
                   </td>
                   <td>
@@ -69,6 +117,16 @@ const AddUsers = () => {
               </tbody>
             </table>
           </form>
+
+          {message && (
+            <p
+              className={
+                message.type === "success" ? "success-message" : "error-message"
+              }
+            >
+              {message.text}
+            </p>
+          )}
         </div>
       </div>
     </>

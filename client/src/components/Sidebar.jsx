@@ -36,6 +36,15 @@ const Sidebar = () => {
     setIsExpanded(false); // Automatically collapse after a click
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("loggedInUser");
+    console.log("Logged out successfully!");
+    setTimeout(() => {
+      navigate("/admin-login");
+    }, 1000);
+  };
+
   // Sidebar links
   const links = [
     {
@@ -123,7 +132,7 @@ const Sidebar = () => {
         <button
           className="sidebar__link sidebar__link--logout"
           aria-label="Logout"
-          onClick={() => navigate("/logout")}
+          onClick={handleLogout}
         >
           <BiLogOutCircle className="sidebar__icon" />
           {isExpanded && <span className="sidebar__text">Logout</span>}

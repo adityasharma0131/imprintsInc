@@ -26,6 +26,7 @@ import EditProduct from "./pages/EditProduct";
 import EditUser from "./pages/EditUser";
 import EditSocial from "./pages/EditSocial";
 import EditContact from "./pages/EditContact";
+import AuthGuard from "./components/AuthGuard";
 
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
@@ -97,9 +98,11 @@ const AppContent = () => {
         <Route
           path="/dashboard"
           element={
-            <AdminWrapper>
-              <Dashboard />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <Dashboard />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
@@ -113,106 +116,132 @@ const AppContent = () => {
         <Route
           path="/client-operation"
           element={
-            <AdminWrapper>
-              <ClientImg />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <ClientImg />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/user-operation"
           element={
-            <AdminWrapper>
-              <UserOperation />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <UserOperation />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/contact-operation"
           element={
-            <AdminWrapper>
-              <ContactOperation />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <ContactOperation />
+              </AdminWrapper>{" "}
+            </AuthGuard>
           }
         />
         <Route
           path="/social-operation"
           element={
-            <AdminWrapper>
-              <SocialsOperation />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <SocialsOperation />
+              </AdminWrapper>{" "}
+            </AuthGuard>
           }
         />
         <Route
           path="/product-operation/add-category"
           element={
-            <AdminWrapper>
-              <AddCategory />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <AddCategory />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/product-operation/add-product"
           element={
-            <AdminWrapper>
-              <AddProduct />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <AddProduct />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/client-operation/add-logo"
           element={
-            <AdminWrapper>
-              <AddLogo />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <AddLogo />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
 
         <Route
           path="/user-operation/add-user"
           element={
-            <AdminWrapper>
-              <AddUser />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <AddUser />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/product-operation/edit-category/:categoryId"
           element={
-            <AdminWrapper>
-              <EditCategory />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <EditCategory />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/product-operation/edit-product/:productId"
           element={
-            <AdminWrapper>
-              <EditProduct />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <EditProduct />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/product-operation/edit-user/:userId"
           element={
-            <AdminWrapper>
-              <EditUser />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <EditUser />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/product-operation/edit-social/:socialId"
           element={
-            <AdminWrapper>
-              <EditSocial />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <EditSocial />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/product-operation/edit-contact/:contactId"
           element={
-            <AdminWrapper>
-              <EditContact />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <EditContact />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
       </Routes>

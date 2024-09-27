@@ -1,40 +1,65 @@
 require("dotenv").config(); // Load .env file
 
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+// Module imports
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
+const cors = require("cors");
+const bodyParser = require("body-parser"); // Import body-parser
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const DB = require("./Models/DB");
 
-var app = express();
+// Router imports
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const AuthRouter = require("./routes/AuthRouter");
 
-// view engine setup
+const app = express();
+
+// Set up view engine
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+// CORS configuration
+const allowedOrigins = process.env.FRONTEND_URL || "*"; // Use FRONTEND_URL from .env or fallback to "*"
+app.use(
+  cors({
+    origin: allowedOrigins, // Frontend URL from .env
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Allow credentials if needed
+    optionsSuccessStatus: 200,
+  })
+);
 
+// Middleware setup
+app.use(logger("dev")); // Logging
+app.use(bodyParser.json()); // Use body-parser to parse JSON
+app.use(bodyParser.urlencoded({ extended: false })); // Use body-parser to parse URL-encoded data
+app.use(cookieParser()); // Parse cookies
+app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+
+// Routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/auth", AuthRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
+// Catch 404 and forward to error handler
+app.use((req, res, next) => {
   next(createError(404));
 });
 
-// error handler
-app.use(function (err, req, res, next) {
+// Global error handler
+app.use((err, req, res, next) => {
+  // Provide error only in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
+  // Log the error for troubleshooting (optional)
+  console.error(`Error occurred: ${err.message}`);
+
+  // Render the error page
   res.status(err.status || 500);
   res.render("error");
 });
