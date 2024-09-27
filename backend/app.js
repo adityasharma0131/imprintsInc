@@ -23,7 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // CORS configuration
-const allowedOrigins = process.env.FRONTEND_URL || "*"; // Use FRONTEND_URL from .env or fallback to "*"
+const allowedOrigins = process.env.FRONTEND_URL; // Use FRONTEND_URL from .env or fallback to "*"
 app.use(
   cors({
     origin: allowedOrigins, // Frontend URL from .env
