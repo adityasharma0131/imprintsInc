@@ -12,9 +12,9 @@ const bodyParser = require("body-parser"); // Import body-parser
 const DB = require("./Models/DB");
 
 // Router imports
-const indexRouter = require("./api/index");
-const usersRouter = require("./api/users");
-const AuthRouter = require("./api/AuthRouter");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
+const AuthRouter = require("./routes/AuthRouter");
 
 const app = express();
 
