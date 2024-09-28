@@ -28,6 +28,8 @@ import EditSocial from "./pages/EditSocial";
 import EditContact from "./pages/EditContact";
 import AuthGuard from "./components/AuthGuard";
 
+import { Toaster } from "react-hot-toast";
+
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
   <>
@@ -215,7 +217,7 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/product-operation/edit-user/:userId"
+          path="/user-operation/edit-user/:userId"
           element={
             <AuthGuard>
               <AdminWrapper>
@@ -255,6 +257,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <AppContent />
+
+      <Toaster />
     </BrowserRouter>
   );
 };

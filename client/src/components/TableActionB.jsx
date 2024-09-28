@@ -3,7 +3,7 @@ import { MdEditNote } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { HashLink as Link } from "react-router-hash-link";
 
-const ActionButtons = ({ editLink, showEdit, showDelete }) => {
+const ActionButtons = ({ editLink, showEdit, showDelete, onDelete }) => {
   return (
     <div className="action-icons">
       {/* Conditionally render the edit icon and link */}
@@ -13,7 +13,12 @@ const ActionButtons = ({ editLink, showEdit, showDelete }) => {
         </Link>
       )}
       {/* Conditionally render the delete icon */}
-      {showDelete && <AiFillDelete className="icon delete-icon" />}
+      {showDelete && (
+        <AiFillDelete
+          className="icon delete-icon"
+          onClick={onDelete} // Call onDelete when delete icon is clicked
+        />
+      )}
     </div>
   );
 };

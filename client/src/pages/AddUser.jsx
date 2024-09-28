@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { HashLink as Link } from "react-router-hash-link";
+import toast, { Toaster } from "react-hot-toast"; // Importing toast and Toaster
 
 const AddUsers = () => {
   const [formData, setFormData] = useState({
@@ -8,7 +9,6 @@ const AddUsers = () => {
     email: "",
     password: "",
   });
-  const [message, setMessage] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,7 +17,6 @@ const AddUsers = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(null); // Reset message before submission
 
     try {
       const response = await fetch(
@@ -31,22 +30,20 @@ const AddUsers = () => {
       const result = await response.json();
 
       if (response.ok) {
-        setMessage({ text: result.message, type: "success" });
+        toast.success(result.message || "User added successfully!"); // Success notification
         setFormData({ name: "", email: "", password: "" }); // Reset form data
       } else {
-        setMessage({ text: result.error || result.message, type: "error" });
+        toast.error(result.error || result.message || "Failed to add user."); // Error notification
       }
     } catch (error) {
       console.error("Error:", error);
-      setMessage({
-        text: "An error occurred while adding the user.",
-        type: "error",
-      });
+      toast.error("An error occurred while adding the user."); // Catch-all error notification
     }
   };
 
   return (
     <>
+      <Toaster />
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="dash-head">
@@ -119,16 +116,6 @@ const AddUsers = () => {
               </tbody>
             </table>
           </form>
-
-          {message && (
-            <p
-              className={
-                message.type === "success" ? "success-message" : "error-message"
-              }
-            >
-              {message.text}
-            </p>
-          )}
         </div>
       </div>
     </>

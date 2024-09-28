@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, ActionButtons } from "../components/TableActionB";
 import { HashLink as Link } from "react-router-hash-link";
+import toast, { Toaster } from "react-hot-toast"; // Importing toast for notifications
 
 const UserOperation = () => {
   const [adminUsers, setAdminUsers] = useState([]);
@@ -9,31 +10,49 @@ const UserOperation = () => {
   // Fetch users from the backend
   useEffect(() => {
     const fetchUsers = async () => {
-      setLoading(true); // Ensure loading is set to true when fetching begins
+      setLoading(true);
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/users`
         );
-
-        // Check for response status
         if (!response.ok) {
           throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
-
         const data = await response.json();
         setAdminUsers(data);
       } catch (error) {
         console.error("Error fetching users:", error);
+        toast.error("Failed to fetch users."); // Notify user of fetch failure
       } finally {
-        setLoading(false); // Set loading to false after fetch completes
+        setLoading(false);
       }
     };
 
     fetchUsers();
   }, []);
 
-  // Table headers for the admin users
-  const tableHeaders = ["Name", "Email", "Operation"];
+  // Handle user deletion
+  const handleDelete = async (userId) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/users/${userId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+      toast.success("User deleted successfully!");
+      // Remove the deleted user from the state
+      setAdminUsers((prevUsers) =>
+        prevUsers.filter((user) => user._id !== userId)
+      );
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast.error("Failed to delete user.");
+    }
+  };
 
   // Render each row of the table with user data
   const renderUserRow = (user) => (
@@ -45,6 +64,7 @@ const UserOperation = () => {
           editLink={`/user-operation/edit-user/${user._id}`}
           showEdit={true}
           showDelete={true}
+          onDelete={() => handleDelete(user._id)} // Pass delete function
         />
       </td>
     </tr>
@@ -52,14 +72,13 @@ const UserOperation = () => {
 
   return (
     <>
-      {/* Page Header */}
+      <Toaster />
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="heading1">Users Page</h1>
         </div>
       </div>
 
-      {/* Admin Users Table */}
       <div className="product-listing">
         <div className="product-header">
           <h1 className="heading">Admin Users</h1>
@@ -72,7 +91,7 @@ const UserOperation = () => {
           <p>Loading...</p>
         ) : adminUsers.length > 0 ? (
           <Table
-            headers={tableHeaders}
+            headers={["Name", "Email", "Operation"]}
             data={adminUsers}
             renderRow={renderUserRow}
             noDataMessage="No users available"
