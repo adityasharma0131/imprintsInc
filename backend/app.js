@@ -5,9 +5,8 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 
-const DB = require("./Models/DB");
+const DB = require("./Models/DB"); // Make sure your DB connection is set up correctly
 
 // Router imports
 const indexRouter = require("./routes/index");
@@ -37,7 +36,9 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // CORS configuration
-const allowedOrigins = process.env.FRONTEND_URL || "*"; // Use FRONTEND_URL from .env or fallback to "*"
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",")
+  : "*"; // Use FRONTEND_URL from .env or fallback to "*"
 app.use(
   cors({
     origin: allowedOrigins,
@@ -49,8 +50,8 @@ app.use(
 
 // Middleware setup
 app.use(logger("dev")); // Logging
-app.use(express.json()); // Use built-in JSON parser (replacing bodyParser.json())
-app.use(express.urlencoded({ extended: false })); // Use built-in URL-encoded parser (replacing bodyParser.urlencoded())
+app.use(express.json()); // Use built-in JSON parser
+app.use(express.urlencoded({ extended: false })); // Use built-in URL-encoded parser
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -71,7 +72,7 @@ app.use((err, req, res, next) => {
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // Log the error for troubleshooting
-  console.error(`Error occurred: ${err.message}`);
+  console.error(`Error occurred: ${err.message}`, err.stack);
 
   // Respond with error in JSON for API clients, otherwise render error page
   if (req.originalUrl.startsWith("/api")) {
@@ -88,8 +89,8 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 module.exports = app;

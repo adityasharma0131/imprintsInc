@@ -9,16 +9,23 @@ const UserOperation = () => {
   // Fetch users from the backend
   useEffect(() => {
     const fetchUsers = async () => {
+      setLoading(true); // Ensure loading is set to true when fetching begins
       try {
         const response = await fetch(
           `${import.meta.env.VITE_API_URL}/api/users`
         );
+
+        // Check for response status
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+
         const data = await response.json();
         setAdminUsers(data);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching users:", error);
-        setLoading(false);
+      } finally {
+        setLoading(false); // Set loading to false after fetch completes
       }
     };
 
