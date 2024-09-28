@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const UserModel = require("../Models/User");
+const ContactModel = require("../Models/Contact");
+const Contact = require("../Models/Contact");
 
 // GET home page
 router.get("/", (req, res) => {
   res.render("index", { title: "Server Side" });
 });
 
-// Endpoint to fetch all users
+// GET to fetch all users
 router.get("/api/users", async (req, res) => {
   try {
     const users = await UserModel.find();
@@ -20,7 +22,7 @@ router.get("/api/users", async (req, res) => {
   }
 });
 
-// Endpoint to fetch a specific user by ID
+// GET to fetch a specific user by ID
 router.get("/api/users/:id", async (req, res) => {
   try {
     const user = await UserModel.findById(req.params.id);
@@ -36,7 +38,7 @@ router.get("/api/users/:id", async (req, res) => {
   }
 });
 
-// Endpoint to update a user by ID
+// PUT to update a user by ID
 router.put("/api/users/:id", async (req, res) => {
   try {
     const updatedUser = await UserModel.findByIdAndUpdate(
@@ -59,6 +61,7 @@ router.put("/api/users/:id", async (req, res) => {
   }
 });
 
+// DELETE to delete the user
 router.delete("/api/users/:id", async (req, res) => {
   const { id } = req.params;
   try {
@@ -72,4 +75,55 @@ router.delete("/api/users/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete user." });
   }
 });
+
+// POST route to inset all the contact queries
+router.post("/api/contact", async (req, res) => {
+  const { name, phone, companyName, email, budget, giftsNeeded, message } =
+    req.body;
+
+  try {
+    // Create a new contact document
+    const newContact = new ContactModel({
+      name,
+      phone,
+      companyName,
+      email,
+      budget,
+      giftsNeeded,
+      message,
+    });
+
+    // Save to the database
+    await newContact.save();
+
+    res.status(201).json({ message: "Contact form submitted successfully!" });
+  } catch (error) {
+    console.error("Error saving contact form:", error);
+    res.status(500).json({ error: "Failed to submit contact form." });
+  }
+});
+
+// GET route to fetch all contact queries
+router.get("/api/contact", async (req, res) => {
+  try {
+    const contacts = await ContactModel.find();
+    res.status(200).json(contacts);
+  } catch (error) {
+    console.error("Error fetching contact queries:", error);
+    res.status(500).json({ error: "Failed to fetch contact queries." });
+  }
+});
+
+// DELETE route to delete a contact query by ID
+router.delete("/api/contact/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Contact.findByIdAndDelete(id);
+    res.status(200).json({ message: "Contact query deleted successfully!" });
+  } catch (error) {
+    console.error("Error deleting contact query:", error);
+    res.status(500).json({ error: "Failed to delete contact query." });
+  }
+});
+
 module.exports = router;

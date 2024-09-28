@@ -1,28 +1,59 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table, ActionButtons } from "../components/TableActionB";
+import toast, { Toaster } from "react-hot-toast"; // For notifications
 
 const ContactOperation = () => {
-  // Static contact queries data
-  const contactQueries = [
-    {
-      name: "John Doe",
-      phoneNo: "123-456-7890",
-      companyName: "ABC Corp",
-      email: "john@example.com",
-      approxBudget: "$1000",
-      qty: "50",
-      message: "Looking for corporate hampers.",
-    },
-    {
-      name: "Jane Smith",
-      phoneNo: "987-654-3210",
-      companyName: "XYZ Ltd",
-      email: "jane@example.com",
-      approxBudget: "$1500",
-      qty: "30",
-      message: "Need holiday gift hampers.",
-    },
-  ];
+  const [contactQueries, setContactQueries] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch contact queries from backend
+  useEffect(() => {
+    const fetchContactQueries = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/contact`
+        );
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        const data = await response.json();
+        setContactQueries(data);
+      } catch (error) {
+        console.error("Error fetching contact queries:", error);
+        toast.error("Failed to fetch contact queries.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContactQueries();
+  }, []);
+
+  // Handle deletion of a contact query
+  const handleDelete = async (queryId) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/contact/${queryId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+
+      toast.success("Query deleted successfully!");
+      // Remove the deleted query from the state
+      setContactQueries((prevQueries) =>
+        prevQueries.filter((query) => query._id !== queryId)
+      );
+    } catch (error) {
+      console.error("Error deleting query:", error);
+      toast.error("Failed to delete query.");
+    }
+  };
 
   const contactHeaders = [
     "Name",
@@ -37,22 +68,27 @@ const ContactOperation = () => {
 
   // Render each row of the table
   const renderContactRow = (query) => (
-    <tr key={query.email}>
+    <tr key={query._id}>
       <td>{query.name}</td>
-      <td>{query.phoneNo}</td>
+      <td>{query.phone}</td>
       <td>{query.companyName}</td>
       <td>{query.email}</td>
-      <td>{query.approxBudget}</td>
-      <td>{query.qty}</td>
+      <td>{query.budget}</td>
+      <td>{query.giftsNeeded}</td>
       <td>{query.message}</td>
       <td>
-        <ActionButtons showEdit={false} showDelete={true} />
+        <ActionButtons
+          showEdit={false}
+          showDelete={true}
+          onDelete={() => handleDelete(query._id)} // Pass delete handler
+        />
       </td>
     </tr>
   );
 
   return (
     <>
+      <Toaster />
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="heading1">Contact Queries</h1>
@@ -62,12 +98,19 @@ const ContactOperation = () => {
         <div className="product-header">
           <h1 className="heading">Recent Queries</h1>
         </div>
-        <Table
-          headers={contactHeaders}
-          data={contactQueries}
-          renderRow={renderContactRow}
-          noDataMessage="No queries available"
-        />
+
+        {loading ? (
+          <p>Loading...</p>
+        ) : contactQueries.length > 0 ? (
+          <Table
+            headers={contactHeaders}
+            data={contactQueries}
+            renderRow={renderContactRow}
+            noDataMessage="No queries available"
+          />
+        ) : (
+          <p>No queries available</p>
+        )}
       </div>
     </>
   );

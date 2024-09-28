@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast"; // For notifications
 import corporategifting from "/assets/Corporategifting.png";
 import stationery from "/assets/Stationery.png";
 import electronics from "/assets/Electronics.png";
@@ -29,6 +30,60 @@ import client17 from "/assets/client17.png";
 import client18 from "/assets/client18.png";
 
 const Home = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    companyName: "",
+    email: "",
+    budget: "",
+    giftsNeeded: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/contact`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
+
+      // Reset form after successful submission
+      setFormData({
+        name: "",
+        phone: "",
+        companyName: "",
+        email: "",
+        budget: "",
+        giftsNeeded: "",
+        message: "",
+      });
+
+      toast.success("Form submitted successfully!");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("Failed to submit the form.");
+    }
+  };
+
   const clientImages = [
     client1,
     client2,
@@ -173,41 +228,77 @@ const Home = () => {
       </div>
 
       <div className="contact" id="contact">
+        <Toaster />
         <div className="contact-container">
           <h2 className="contact-heading">Let's Talk</h2>
           <p className="contact-subheading">
             Fill out the form below to request a custom gift design.
           </p>
-          <form className="contact-form">
+          <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-row">
-              <input type="text" placeholder="Name" className="form-input" />
               <input
                 type="text"
+                name="name"
+                placeholder="Name"
+                className="form-input"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="phone"
                 placeholder="Phone No."
                 className="form-input"
+                value={formData.phone}
+                onChange={handleChange}
+                required
               />
             </div>
             <div className="form-row">
               <input
                 type="text"
+                name="companyName"
                 placeholder="Company Name"
                 className="form-input"
+                value={formData.companyName}
+                onChange={handleChange}
               />
-              <input type="email" placeholder="Email" className="form-input" />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                className="form-input"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
             </div>
             <input
               type="text"
+              name="budget"
               placeholder="Approx. Budget Per Hamper"
               className="form-input full-width"
+              value={formData.budget}
+              onChange={handleChange}
+              required
             />
             <input
               type="text"
+              name="giftsNeeded"
               placeholder="Estimated Number of Gifts Needed"
               className="form-input full-width"
+              value={formData.giftsNeeded}
+              onChange={handleChange}
+              required
             />
             <textarea
+              name="message"
               placeholder="Message"
               className="form-input full-width"
+              value={formData.message}
+              onChange={handleChange}
+              required
             ></textarea>
             <div className="contact-button">
               <button type="submit" className="submit-button">
