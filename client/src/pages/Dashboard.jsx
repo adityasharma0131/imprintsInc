@@ -30,18 +30,57 @@ const Dashboard = () => {
     },
   ];
 
-  const recentQueries = [
-    { name: "John Doe", email: "john@example.com", phone: "123-456-7890" },
-    { name: "Jane Smith", email: "jane@example.com", phone: "987-654-3210" },
-  ];
-
-  const adminUsers = [
-    { userId: "A123", name: "Admin One", email: "admin1@example.com" },
-    { userId: "B456", name: "Admin Two", email: "admin2@example.com" },
-  ];
-
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [recentQueries, setRecentQueries] = useState([]);
+  const [adminUsers, setAdminUsers] = useState([]);
+  const [loadingQueries, setLoadingQueries] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+
+  // Fetch recent queries from the backend
+  useEffect(() => {
+    const fetchQueries = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/contact`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch queries");
+        }
+        const data = await response.json();
+        setRecentQueries(data.slice(-2)); // Slice the last 2 queries
+      } catch (error) {
+        console.error("Error fetching contact queries:", error);
+      } finally {
+        setLoadingQueries(false);
+      }
+    };
+
+    fetchQueries();
+  }, []);
+
+  // Fetch admin users from the backend
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/users`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch users");
+        }
+        const data = await response.json();
+        setAdminUsers(data.slice(-2)); // Slice the last 2 users
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoadingUsers(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   // Simulate data loading
   useEffect(() => {
@@ -71,29 +110,37 @@ const Dashboard = () => {
         {/* Recent Queries Table */}
         <div className="recent-queries">
           <h1 className="heading">Recent Queries</h1>
-          <Table
-            columns={["Name", "Email", "Phone Number"]}
-            data={recentQueries.map((query) => ({
-              Name: query.name,
-              Email: query.email,
-              "Phone Number": query.phone,
-            }))}
-            emptyMessage="No queries available"
-          />
+          {loadingQueries ? (
+            <p>Loading queries...</p>
+          ) : (
+            <Table
+              columns={["Name", "Email", "Phone Number"]}
+              data={recentQueries.map((query) => ({
+                Name: query.name,
+                Email: query.email,
+                "Phone Number": query.phone,
+              }))}
+              emptyMessage="No queries available"
+            />
+          )}
         </div>
 
         {/* Admin Users Table */}
         <div className="admin-users">
           <h1 className="heading">Admin Users</h1>
-          <Table
-            columns={["User ID", "Name", "Email"]}
-            data={adminUsers.map((user) => ({
-              "User ID": user.userId,
-              Name: user.name,
-              Email: user.email,
-            }))}
-            emptyMessage="No admin users available"
-          />
+          {loadingUsers ? (
+            <p>Loading users...</p>
+          ) : (
+            <Table
+              columns={["User ID", "Name", "Email"]}
+              data={adminUsers.map((user) => ({
+                "User ID": user._id,
+                Name: user.name,
+                Email: user.email,
+              }))}
+              emptyMessage="No admin users available"
+            />
+          )}
         </div>
       </div>
 
