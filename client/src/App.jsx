@@ -227,7 +227,7 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/product-operation/edit-social/:socialId"
+          path="/social-operation/edit-social/:id"
           element={
             <AuthGuard>
               <AdminWrapper>
@@ -237,7 +237,7 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/product-operation/edit-contact/:contactId"
+          path="/social-operation/edit-contact/:id"
           element={
             <AuthGuard>
               <AdminWrapper>

@@ -3,6 +3,8 @@ const router = express.Router();
 const UserModel = require("../Models/User");
 const ContactModel = require("../Models/Contact");
 const CategoryModel = require("../Models/Category");
+const SocialModel = require("../Models/Social");
+const ContactDetailSchema = require("../Models/ContactDetail");
 
 // GET home page
 router.get("/", (req, res) => {
@@ -220,4 +222,85 @@ router.delete("/api/categories/:id", async (req, res) => {
   }
 });
 
+// Get all socials
+router.get("/api/socials", async (req, res) => {
+  try {
+    const socials = await SocialModel.find();
+    res.json(socials);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get a specific social by ID
+router.get("/api/socials/:id", async (req, res) => {
+  try {
+    const social = await SocialModel.findById(req.params.id);
+    if (!social) return res.status(404).json({ message: "Social not found" });
+    res.json(social);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Update a specific social
+router.put("/api/socials/:id", async (req, res) => {
+  try {
+    const social = await SocialModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true, // Ensures the updated data adheres to your schema
+      }
+    );
+    if (!social) return res.status(404).json({ message: "Social not found" });
+    res.json(social);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get all contact details
+router.get("/api/contact-details", async (req, res) => {
+  try {
+    const contacts = await ContactDetailSchema.find();
+    // Return the first contact detail or an appropriate response if none exists
+    if (contacts.length > 0) {
+      res.json(contacts[0]); // Return only the first contact detail
+    } else {
+      res.status(404).json({ message: "No contact details found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+// Get a specific contact detail
+router.get("/api/contact-details/:id", async (req, res) => {
+  try {
+    const contact = await ContactDetailSchema.findById(req.params.id);
+    if (!contact) return res.status(404).json({ message: "Contact not found" });
+    res.json(contact);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Update a specific contact detail
+router.put("/api/contact-details/:id", async (req, res) => {
+  try {
+    const contact = await ContactDetailSchema.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    if (!contact) return res.status(404).json({ message: "Contact not found" });
+    res.json(contact);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 module.exports = router;

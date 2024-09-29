@@ -1,15 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaInstagram,
   FaFacebook,
   FaWhatsapp,
   FaLinkedin,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMap,
-} from "react-icons/fa"; // Imported additional icons
+} from "react-icons/fa"; // Imported only used icons
 
 const Footer = () => {
+  const [contactDetails, setContactDetails] = useState(null); // State to store contact details
+  const [socialLinks, setSocialLinks] = useState([]); // State to store social links
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+
+  useEffect(() => {
+    const fetchContactDetails = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/contact-details`
+        );
+        if (!response.ok) throw new Error("Failed to fetch contact details");
+        const data = await response.json();
+        setContactDetails(data); // Set fetched data to state
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContactDetails(); // Call the function to fetch contact details
+  }, []); // Empty dependency array means it runs once when component mounts
+
+  useEffect(() => {
+    const fetchSocialLinks = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/socials`
+        );
+        if (!response.ok) throw new Error("Failed to fetch social links");
+        const data = await response.json();
+        setSocialLinks(data); // Set fetched data to state
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSocialLinks(); // Call the function to fetch links
+  }, []); // Empty dependency array means it runs once when component mounts
+
+  if (loading) return <div>Loading...</div>; // Show loading state
+  if (error) return <div>Error: {error}</div>; // Show error state
+
   return (
     <>
       <div className="footer">
@@ -24,63 +67,42 @@ const Footer = () => {
             <p className="footer-text">
               Imprints INC is engaged in the business of corporate gifting,
               known for supplying unbeatable business promotional products that
-              have made indelible impact across industry verticals. Our
-              commitment for excellence & passion for quality products have
-              shown us the way to growth & prosperity. Our huge range of
+              have made an indelible impact across industry verticals. Our
+              commitment to excellence and passion for quality products have
+              shown us the way to growth and prosperity. Our huge range of
               products includes stationery items, corporate gifts, clothing,
               signages, electronics, etc.
             </p>
           </div>
           <div className="footer-section">
             <h3 className="footer-title">Contact Details</h3>
-            <p className="footer-contact">99309 80228</p>
-            <p className="footer-contact">tandon@imprintsinc.in</p>
-            <p className="footer-contact">
-              {" "}
-              C-Annexe, Hind Saurashtra Industrial Estate, Andheri-Kurla Road,
-              Near Marol Naka Metro Station, Marol, Andheri (East), Mumbai
-              400059.
-            </p>
+            {contactDetails && ( // Render contact details if available
+              <>
+                <p className="footer-contact">{contactDetails.phone}</p>
+                <p className="footer-contact">{contactDetails.email}</p>
+                <p className="footer-contact">{contactDetails.address}</p>
+              </>
+            )}
           </div>
           <div className="footer-section">
             <h3 className="footer-title">Follow Us</h3>
             <ul className="social-links">
-              <li>
-                <a
-                  href="https://www.instagram.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaInstagram />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaFacebook />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.whatsapp.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaWhatsapp />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.whatsapp.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaLinkedin />
-                </a>
-              </li>
+              {socialLinks.map((social, index) => (
+                <li key={social.id || index}>
+                  {" "}
+                  {/* Use social.id if available, else index */}
+                  <a
+                    href={social.url} // Use the URL from fetched data
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {social.name === "Instagram" && <FaInstagram />}
+                    {social.name === "Facebook" && <FaFacebook />}
+                    {social.name === "WhatsApp" && <FaWhatsapp />}
+                    {social.name === "LinkedIn" && <FaLinkedin />}
+                  </a>
+                </li>
+              ))}
             </ul>
             <iframe
               title="Company Location"
@@ -88,7 +110,7 @@ const Footer = () => {
               width="100%"
               height="200"
               style={{ border: 0, borderRadius: "10px" }}
-              allowFullScreen=""
+              allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
