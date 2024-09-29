@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { HashLink as Link } from "react-router-hash-link";
+import { Table, ActionButtons } from "../components/TableActionB";
+import { toast, Toaster } from "react-hot-toast"; // Import toast and Toaster
+
 import pumpImg from "/assets/Book.png";
 import valveImg from "/assets/Book.png";
 import cylinderImg from "/assets/Book.png";
-import { Table, ActionButtons } from "../components/TableActionB";
 
-// Dummy data
-const categories = [
-  { id: 1, category: "Hydraulics" },
-  { id: 2, category: "Pneumatics" },
-  { id: 3, category: "Fittings" },
-];
-
+// Sample product data
 const sampleProducts = [
   {
     _id: "1",
@@ -38,15 +34,59 @@ const sampleProducts = [
 
 const ProductOperation = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Simulate data loading
   useEffect(() => {
+    // Load products (simulated)
     setTimeout(() => {
       setProducts(sampleProducts);
-      setLoading(false);
-    }, 1000); // Simulate a delay
+      setIsLoadingProducts(false);
+    }, 1000);
   }, []);
+
+  // Fetch categories from the backend
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/categories`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const deleteCategory = async (id) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/categories/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to delete category");
+      }
+      setCategories(categories.filter((category) => category._id !== id)); // Update state
+      toast.success("Category deleted successfully!"); // Show success toast
+    } catch (error) {
+      setError(error.message);
+      toast.error("Error deleting category: " + error.message); // Show error toast
+    }
+  };
 
   // Strip HTML tags from a string
   const stripHtmlTags = (html) => {
@@ -55,6 +95,7 @@ const ProductOperation = () => {
     return tempDiv.textContent || tempDiv.innerText || "";
   };
 
+  // Define headers for categories and products
   const categoryHeaders = ["Category", "Operation"];
   const productHeaders = [
     "Product Name",
@@ -64,19 +105,22 @@ const ProductOperation = () => {
     "Operation",
   ];
 
+  // Render a row for each category
   const renderCategoryRow = (category) => (
-    <tr key={category.id}>
-      <td>{category.category}</td>
+    <tr key={category._id}>
+      <td>{category.name}</td>
       <td>
         <ActionButtons
-          editLink={`/product-operation/edit-category/${category.id}`}
+          editLink={`/product-operation/edit-category/${category._id}`}
           showEdit={true}
           showDelete={true}
+          onDelete={() => deleteCategory(category._id)}
         />
       </td>
     </tr>
   );
 
+  // Render a row for each product
   const renderProductRow = (product) => (
     <tr key={product._id}>
       <td>{product.name}</td>
@@ -107,6 +151,8 @@ const ProductOperation = () => {
           <h1 className="heading1">Products Listing Page</h1>
         </div>
       </div>
+
+      {/* Categories Section */}
       <div className="table-row">
         <div className="category-listing">
           <div className="product-header">
@@ -115,16 +161,18 @@ const ProductOperation = () => {
               <button className="add-category-btn">Add Category +</button>
             </Link>
           </div>
+          {error && <p style={{ color: "red" }}>{error}</p>}
           <Table
             headers={categoryHeaders}
             data={categories}
             renderRow={renderCategoryRow}
-            loading={loading}
+            loading={isLoadingCategories}
             noDataMessage="No categories available"
           />
         </div>
       </div>
 
+      {/* Products Section */}
       <div className="product-listing">
         <div className="product-header">
           <h1 className="heading">Products</h1>
@@ -136,7 +184,7 @@ const ProductOperation = () => {
           headers={productHeaders}
           data={products}
           renderRow={renderProductRow}
-          loading={loading}
+          loading={isLoadingProducts}
           noDataMessage="No products available"
         />
       </div>

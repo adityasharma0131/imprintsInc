@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const UserModel = require("../Models/User");
 const ContactModel = require("../Models/Contact");
-const Contact = require("../Models/Contact");
+const CategoryModel = require("../Models/Category");
 
 // GET home page
 router.get("/", (req, res) => {
@@ -118,11 +118,105 @@ router.get("/api/contact", async (req, res) => {
 router.delete("/api/contact/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    await Contact.findByIdAndDelete(id);
+    await ContactModel.findByIdAndDelete(id);
     res.status(200).json({ message: "Contact query deleted successfully!" });
   } catch (error) {
     console.error("Error deleting contact query:", error);
     res.status(500).json({ error: "Failed to delete contact query." });
+  }
+});
+
+// POST route to add a new category
+router.post("/api/categories", async (req, res) => {
+  const { name } = req.body;
+
+  if (!name) {
+    return res.status(400).json({ error: "Category name is required" });
+  }
+
+  try {
+    const newCategory = new CategoryModel({ name });
+    await newCategory.save();
+    res
+      .status(201)
+      .json({ message: "Category added successfully", category: newCategory });
+  } catch (error) {
+    console.error("Error adding category:", error);
+    res.status(500).json({ error: "Failed to add category" });
+  }
+});
+
+// GET all categories
+router.get("/api/categories", async (req, res) => {
+  try {
+    const categories = await CategoryModel.find();
+    res.status(200).json(categories);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).json({ message: "Failed to fetch categories" });
+  }
+});
+
+// GET category by id
+router.get("/api/categories/:id", async (req, res) => {
+  const categoryId = req.params.id; // Check this line to ensure it's being assigned correctly
+  try {
+    const category = await CategoryModel.findById(categoryId);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    res.status(200).json(category);
+  } catch (error) {
+    console.error("Error fetching category:", error);
+    res
+      .status(500)
+      .json({ message: "Error fetching category", error: error.message });
+  }
+});
+
+// Update category by ID
+router.put("/api/categories/:id", async (req, res) => {
+  const { name } = req.body;
+
+  // Validate request body
+  if (!name) {
+    return res.status(400).json({ message: "Name is required" });
+  }
+
+  try {
+    const category = await CategoryModel.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    // Update category name
+    category.name = name;
+    await category.save();
+
+    res
+      .status(200)
+      .json({ message: "Category updated successfully", category });
+  } catch (error) {
+    console.error("Error updating category:", error);
+    res
+      .status(500)
+      .json({ message: "Error updating category", error: error.message });
+  }
+});
+
+// Delete category by ID
+router.delete("/api/categories/:id", async (req, res) => {
+  try {
+    const category = await CategoryModel.findByIdAndDelete(req.params.id);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    res.status(200).json({ message: "Category deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    res
+      .status(500)
+      .json({ message: "Error deleting category", error: error.message });
   }
 });
 

@@ -1,10 +1,42 @@
 import React, { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { HashLink as Link } from "react-router-hash-link";
+import toast, { Toaster } from "react-hot-toast"; // Importing toast and Toaster
 
 const AddCategory = () => {
+  const [categoryName, setCategoryName] = useState("");
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/categories`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: categoryName }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add category");
+      }
+
+      const data = await response.json();
+      toast.success("Category added successfully!"); // Show success toast
+      setCategoryName(""); // Clear the input field after success
+    } catch (error) {
+      console.error("Error adding category:", error);
+      toast.error("Failed to add category."); // Show error toast
+    }
+  };
+
   return (
     <>
+      <Toaster />
       {/* Dashboard Heading */}
       <div className="admin-bx">
         <div className="dash-opr-head">
@@ -26,7 +58,7 @@ const AddCategory = () => {
           </div>
 
           {/* Form for adding category */}
-          <form>
+          <form onSubmit={handleSubmit}>
             <table className="modern-table">
               <thead>
                 <tr>
@@ -42,6 +74,8 @@ const AddCategory = () => {
                       name="category-name"
                       className="dash-input"
                       placeholder="Enter category name"
+                      value={categoryName}
+                      onChange={(e) => setCategoryName(e.target.value)}
                     />
                   </td>
                   <td>

@@ -197,7 +197,7 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/product-operation/edit-category/:categoryId"
+          path="/product-operation/edit-category/:id"
           element={
             <AuthGuard>
               <AdminWrapper>
