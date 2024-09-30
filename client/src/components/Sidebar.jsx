@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 
 import logo from "/assets/imprintslogo.png";
 import { AiFillProduct } from "react-icons/ai";
+import { MdOutlineCategory } from "react-icons/md";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FiUsers } from "react-icons/fi";
 import { RiContactsLine } from "react-icons/ri";
@@ -51,6 +52,11 @@ const Sidebar = () => {
       name: "Dashboard",
       icon: <LuLayoutDashboard className="sidebar__icon" />,
       link: "/dashboard",
+    },
+    {
+      name: "Category",
+      icon: <MdOutlineCategory className="sidebar__icon" />,
+      link: "/category-operation",
     },
     {
       name: "Products",

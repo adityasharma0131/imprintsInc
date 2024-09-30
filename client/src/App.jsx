@@ -13,6 +13,7 @@ import AdminLogin from "./pages/AdminLogin";
 import Dashboard from "./pages/Dashboard";
 import Sidebar from "./components/Sidebar";
 import ProductOperation from "./pages/ProductOperation";
+import CategoryOperation from "./pages/CategoryOperation";
 import ClientImg from "./pages/ClientImg";
 import UserOperation from "./pages/UserOperation";
 import ContactOperation from "./pages/ContactOperation";
@@ -112,6 +113,14 @@ const AppContent = () => {
           element={
             <AdminWrapper>
               <ProductOperation />
+            </AdminWrapper>
+          }
+        />
+        <Route
+          path="/category-operation"
+          element={
+            <AdminWrapper>
+              <CategoryOperation />
             </AdminWrapper>
           }
         />

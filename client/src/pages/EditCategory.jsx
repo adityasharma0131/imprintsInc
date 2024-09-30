@@ -51,7 +51,7 @@ const EditCategory = () => {
 
       toast.success("Category updated successfully!"); // Show success toast
       // Optionally, navigate back to the categories listing
-      navigate("/product-operation"); // Redirect to the main product operation page or categories list
+      navigate("/category-operation"); // Redirect to the main product operation page or categories list
     } catch (error) {
       setError(error.message); // Handle errors
       toast.error("Error updating category: " + error.message); // Show error toast
@@ -64,8 +64,8 @@ const EditCategory = () => {
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="dash-head">
-            <Link className="dash-head1" to="/product-operation">
-              Products Listing Page
+            <Link className="dash-head1" to="/category-operation">
+              Categories Listing Page
             </Link>
             <IoIosArrowForward />
             <span className="dash-head2">Edit Category</span>

@@ -7,6 +7,10 @@ const CategorySchema = new Schema({
     required: true,
     unique: true,
   },
+  subcategories: {
+    type: [String],
+    default: [],
+  },
 });
 
 module.exports = mongoose.model("Category", CategorySchema);
