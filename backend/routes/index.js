@@ -303,4 +303,20 @@ router.put("/api/contact-details/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+// Add subcategory to a category
+router.post("/api/categories/:id/subcategories", async (req, res) => {
+  const { subcategory } = req.body;
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    category.subcategories.push(subcategory); // Add the new subcategory
+    await category.save();
+    res.json(category); // Return updated category
+  } catch (error) {
+    res.status(500).json({ message: "Error adding subcategory" });
+  }
+});
 module.exports = router;

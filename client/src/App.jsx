@@ -30,6 +30,7 @@ import EditContact from "./pages/EditContact";
 import AuthGuard from "./components/AuthGuard";
 
 import { Toaster } from "react-hot-toast";
+import EditSubCategory from "./pages/EditSubCategory";
 
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
@@ -165,7 +166,7 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/product-operation/add-category"
+          path="/category-operation/add-category"
           element={
             <AuthGuard>
               <AdminWrapper>
@@ -206,11 +207,21 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/product-operation/edit-category/:id"
+          path="/category-operation/edit-category/:id"
           element={
             <AuthGuard>
               <AdminWrapper>
                 <EditCategory />
+              </AdminWrapper>
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/category-operation/edit-subcategory/:id"
+          element={
+            <AuthGuard>
+              <AdminWrapper>
+                <EditSubCategory />
               </AdminWrapper>
             </AuthGuard>
           }
