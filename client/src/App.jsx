@@ -113,17 +113,21 @@ const AppContent = () => {
         <Route
           path="/product-operation"
           element={
-            <AdminWrapper>
-              <ProductOperation />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <ProductOperation />
+              </AdminWrapper>
+            </AuthGuard>
           }
         />
         <Route
           path="/category-operation"
           element={
-            <AdminWrapper>
-              <CategoryOperation />
-            </AdminWrapper>
+            <AuthGuard>
+              <AdminWrapper>
+                <CategoryOperation />
+              </AdminWrapper>{" "}
+            </AuthGuard>
           }
         />
         <Route
