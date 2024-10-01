@@ -31,6 +31,7 @@ import AuthGuard from "./components/AuthGuard";
 
 import { Toaster } from "react-hot-toast";
 import EditSubCategory from "./pages/EditSubCategory";
+import AddSubCategory from "./pages/AddSubCategory";
 
 // Wrapper for client-side pages (with Header and Footer)
 const ClientWrapper = ({ children }) => (
@@ -176,6 +177,16 @@ const AppContent = () => {
           }
         />
         <Route
+          path="/category-operation/add-subcategory/:categoryId"
+          element={
+            <AuthGuard>
+              <AdminWrapper>
+                <AddSubCategory />
+              </AdminWrapper>
+            </AuthGuard>
+          }
+        />
+        <Route
           path="/product-operation/add-product"
           element={
             <AuthGuard>
@@ -217,7 +228,7 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/category-operation/edit-subcategory/:id"
+          path="/category-operation/edit-subcategory/:categoryId/:subcategory"
           element={
             <AuthGuard>
               <AdminWrapper>

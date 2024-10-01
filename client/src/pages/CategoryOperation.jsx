@@ -95,7 +95,7 @@ const CategoryOperation = () => {
       <td>{category.name}</td>
       <td>
         <ActionButtons
-          editLink={`/category-operation/edit-category/${category._id}`}
+          editLink={`/category-operation/edit-category/${category._id}`} // Fixed editLink here
           showEdit={true}
           showDelete={true}
           onDelete={() => deleteCategory(category._id)}
@@ -106,11 +106,11 @@ const CategoryOperation = () => {
 
   // Render a row for each subcategory within a category
   const renderSubCategoryRow = (categoryId, subcategory) => (
-    <tr key={subcategory}>
+    <tr key={`${categoryId}-${subcategory}`}>
       <td>{subcategory}</td>
       <td>
         <ActionButtons
-          editLink={`/category-operation/edit-subcategory/${categoryId}`}
+          editLink={`/category-operation/edit-subcategory/${categoryId}/${subcategory}`} // Fixed editLink here
           showEdit={true}
           showDelete={true}
           onDelete={() => deleteSubcategory(categoryId, subcategory)}
@@ -121,10 +121,13 @@ const CategoryOperation = () => {
 
   // Render a table for each category with its subcategories
   const renderCategoryTable = (category) => (
-    <div key={category._id} className="category-section">
-      <h2>{category.name}</h2>
-
-      {/* Subcategory table */}
+    <div className="product-listing" key={category._id}>
+      <div className="product-header">
+        <h2 className="heading">{category.name}</h2>
+        <Link to={`/category-operation/add-subcategory/${category._id}`}>
+          <button className="add-category-btn">Add Sub Category +</button>
+        </Link>
+      </div>
       <Table
         headers={subcategoryHeaders}
         data={category.subcategories}
@@ -139,36 +142,36 @@ const CategoryOperation = () => {
 
   return (
     <>
+      <Toaster /> {/* Include Toaster here for toasts */}
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="heading1">Categories Listing Page</h1>
         </div>
       </div>
-
       {/* Error display */}
       {error && <p style={{ color: "red" }}>{error}</p>}
-
       {/* Categories Section */}
-      <div className="category-listing">
-        <div className="product-header">
-          <h1 className="heading">Category</h1>
-          <Link to="/category-operation/add-category">
-            <button className="add-category-btn">Add Category +</button>
-          </Link>
+      <div className="table-row">
+        <div className="category-listing">
+          <div className="product-header">
+            <h1 className="heading">Category</h1>
+            <Link to="/category-operation/add-category">
+              <button className="add-category-btn">Add Category +</button>
+            </Link>
+          </div>
+
+          {/* Main Categories Table */}
+          <Table
+            headers={categoryHeaders}
+            data={categories}
+            renderRow={renderCategoryRow}
+            loading={isLoadingCategories}
+            noDataMessage="No categories available"
+          />
         </div>
-
-        {/* Main Categories Table */}
-        <Table
-          headers={categoryHeaders}
-          data={categories}
-          renderRow={renderCategoryRow}
-          loading={isLoadingCategories}
-          noDataMessage="No categories available"
-        />
-
-        {/* Render a table for each category with its subcategories */}
-        {categories.map((category) => renderCategoryTable(category))}
       </div>
+      {/* Render a table for each category with its subcategories */}
+      {categories.map(renderCategoryTable)}
     </>
   );
 };

@@ -304,19 +304,109 @@ router.put("/api/contact-details/:id", async (req, res) => {
   }
 });
 
-// Add subcategory to a category
-router.post("/api/categories/:id/subcategories", async (req, res) => {
+router.post("/api/categories/:categoryId/subcategories", async (req, res) => {
+  const { categoryId } = req.params;
   const { subcategory } = req.body;
+
+  // Check if subcategory is provided in the request body
+  if (!subcategory || typeof subcategory !== "string") {
+    return res
+      .status(400)
+      .json({ error: "Subcategory is required and must be a string" });
+  }
+
   try {
-    const category = await Category.findById(req.params.id);
+    // Find the category by ID
+    const category = await CategoryModel.findById(categoryId);
+    if (!category) {
+      return res.status(404).json({ error: "Category not found" });
+    }
+
+    // Check if the subcategory already exists in the category
+    if (category.subcategories.includes(subcategory)) {
+      return res.status(400).json({ error: "Subcategory already exists" });
+    }
+
+    // Add the new subcategory
+    category.subcategories.push(subcategory);
+    await category.save();
+
+    return res.status(200).json({
+      message: "Subcategory added successfully",
+      category,
+    });
+  } catch (error) {
+    console.error("Error adding subcategory:", error.message); // Improved logging
+    return res
+      .status(500)
+      .json({ error: "Internal server error", details: error.message }); // Include error details
+  }
+});
+
+// Delete subcategory endpoint
+router.delete("/api/categories/:categoryId/subcategories", async (req, res) => {
+  const { categoryId } = req.params;
+  const { subcategory } = req.body;
+
+  try {
+    // Find the category and update its subcategories
+    const category = await CategoryModel.findById(categoryId);
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
-    category.subcategories.push(subcategory); // Add the new subcategory
+
+    // Filter out the subcategory
+    category.subcategories = category.subcategories.filter(
+      (sub) => sub !== subcategory
+    );
+
+    // Save the updated category
     await category.save();
-    res.json(category); // Return updated category
+
+    res
+      .status(200)
+      .json({ message: "Subcategory deleted successfully", category });
   } catch (error) {
-    res.status(500).json({ message: "Error adding subcategory" });
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error deleting subcategory", error: error.message });
   }
 });
+// PUT endpoint to update a subcategory
+router.put("/api/categories/:categoryId/subcategories", async (req, res) => {
+  const { categoryId } = req.params;
+  const { oldSubcategory, newSubcategory } = req.body;
+
+  try {
+    // Find the category by ID
+    const category = await CategoryModel.findById(categoryId);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    // Check if the old subcategory exists
+    if (!category.subcategories.includes(oldSubcategory)) {
+      return res.status(404).json({ message: "Subcategory not found" });
+    }
+
+    // Update the subcategory name
+    category.subcategories = category.subcategories.map((sub) =>
+      sub === oldSubcategory ? newSubcategory : sub
+    );
+
+    // Save the updated category
+    await category.save();
+
+    return res
+      .status(200)
+      .json({ message: "Subcategory updated successfully", category });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "Error updating subcategory", error: error.message });
+  }
+});
+
 module.exports = router;
