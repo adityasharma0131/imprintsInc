@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { IoIosArrowForward } from "react-icons/io";
 
 const EditSubCategory = () => {
   const { categoryId, subcategory } = useParams(); // Correctly using both parameters
@@ -77,6 +78,7 @@ const EditSubCategory = () => {
             <Link className="dash-head1" to="/category-operation">
               Categories Listing Page
             </Link>
+            <IoIosArrowForward />
             <span className="dash-head2">Edit Subcategory</span>
           </h1>
         </div>

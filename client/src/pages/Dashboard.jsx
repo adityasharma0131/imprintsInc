@@ -5,6 +5,15 @@ import cylinderImg from "/assets/Book.png";
 import Table from "../components/TableComponent";
 
 const Dashboard = () => {
+  // Retrieve the logged-in user's name from localStorage
+  const [loggedInUser, setLoggedInUser] = useState("");
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("loggedInUser");
+    if (storedUser) {
+      setLoggedInUser(storedUser); // If it's a plain string, use it directly
+    }
+  }, []);
   // Sample static product data with image imports
   const sampleProducts = [
     {
@@ -101,7 +110,8 @@ const Dashboard = () => {
     <>
       <div className="admin-bx">
         <div className="dash-opr-head">
-          <h1 className="heading1">Welcome AdminName</h1>
+          {/* Display the logged-in user's name */}
+          <h1 className="heading1">Welcome {loggedInUser}</h1>
         </div>
       </div>
 

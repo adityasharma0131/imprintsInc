@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { IoIosArrowForward } from "react-icons/io";
 import { HashLink as Link } from "react-router-hash-link";
 import { toast } from "react-hot-toast"; // Import toast for notifications
 
@@ -81,6 +82,7 @@ const AddSubCategory = () => {
             <Link className="dash-head1" to="/category-operation">
               Categories Listing Page
             </Link>
+            <IoIosArrowForward />
             <span className="dash-head2">
               Add Sub Category for {categoryName}
             </span>
