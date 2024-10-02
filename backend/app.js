@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
 
-const DB = require("./Models/DB"); // Make sure your DB connection is set up correctly
+const DB = require("./Models/DB"); // Ensure your DB connection is set up correctly
 
 // Router imports
 const indexRouter = require("./routes/index");
@@ -35,10 +35,13 @@ app.use("/auth", apiLimiter);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+// Middleware setup
 // CORS configuration
-const allowedOrigins = process.env.FRONTEND_URL
-  ? process.env.FRONTEND_URL.split(",")
-  : "*"; // Use FRONTEND_URL from .env or fallback to "*"
+const allowedOrigins =
+  process.env.FRONTEND_URL && process.env.FRONTEND_URL.split(",")
+    ? process.env.FRONTEND_URL.split(",")
+    : ["http://localhost:3000", "*"]; // Default fallback for development
+
 app.use(
   cors({
     origin: allowedOrigins,
@@ -48,7 +51,7 @@ app.use(
   })
 );
 
-// Middleware setup
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(logger("dev")); // Logging
 app.use(express.json()); // Use built-in JSON parser
 app.use(express.urlencoded({ extended: false })); // Use built-in URL-encoded parser

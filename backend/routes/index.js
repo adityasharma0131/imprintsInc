@@ -5,7 +5,11 @@ const ContactModel = require("../Models/Contact");
 const CategoryModel = require("../Models/Category");
 const SocialModel = require("../Models/Social");
 const ContactDetailSchema = require("../Models/ContactDetail");
+const Logo = require("../Models/Logo");
 
+const fs = require("fs");
+const multer = require("multer");
+const path = require("path");
 // GET home page
 router.get("/", (req, res) => {
   res.render("index", { title: "Server Side" });
@@ -406,6 +410,83 @@ router.put("/api/categories/:categoryId/subcategories", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error updating subcategory", error: error.message });
+  }
+});
+
+// Multer setup for handling file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
+
+// Serve the uploaded files statically
+router.use("/uploads", express.static("uploads"));
+
+// API route for uploading the logo
+router.post("/api/upload-logo", upload.single("image"), async (req, res) => {
+  try {
+    // Use BACKEND_URL from environment variables
+    const imagePath = `${process.env.BACKEND_URL}/uploads/${req.file.filename}`;
+
+    // Create a new logo document and save it to the database
+    const newLogo = new Logo({
+      imageUrl: imagePath,
+    });
+
+    await newLogo.save();
+
+    res.status(201).json({ message: "Logo uploaded successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error uploading logo" });
+  }
+});
+// API to fetch all logos
+router.get("/api/logos", async (req, res) => {
+  try {
+    const logos = await Logo.find();
+    res.json(logos);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching logos" });
+  }
+});
+
+// API route to delete a logo
+router.delete("/api/logos/:id", async (req, res) => {
+  const logoId = req.params.id;
+
+  try {
+    // Find the logo by ID
+    const logo = await Logo.findById(logoId);
+    if (!logo) {
+      return res.status(404).json({ message: "Logo not found" });
+    }
+
+    // Delete the logo from the database
+    await Logo.findByIdAndDelete(logoId);
+
+    // Remove the image file from the uploads folder
+    const imagePath = path.join(
+      __dirname,
+      "../uploads",
+      path.basename(logo.imageUrl)
+    );
+    fs.unlink(imagePath, (err) => {
+      if (err) {
+        console.error("Error deleting image file:", err);
+        return res.status(500).json({ message: "Failed to delete image file" });
+      }
+      res.status(200).json({ message: "Logo deleted successfully!" });
+    });
+  } catch (error) {
+    console.error("Error deleting logo:", error);
+    res.status(500).json({ message: "Error deleting logo" });
   }
 });
 

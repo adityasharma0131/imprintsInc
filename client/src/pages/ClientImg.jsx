@@ -1,31 +1,62 @@
 import React, { useState, useEffect } from "react";
-import client1 from "/assets/client1.png";
-import heroImg from "/assets/Property 1=Frame 3.png";
 import { Table, ActionButtons } from "../components/TableActionB";
-
 import { HashLink as Link } from "react-router-hash-link";
-// Dummy product data
-const sampleProducts = [
-  { _id: "1", images: [client1] },
-  { _id: "2", images: [client1] },
-];
-
-const imgHero = [
-  { _id: "1", images: [heroImg] },
-  { _id: "2", images: [heroImg] },
-];
 
 const ClientImg = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // State for error handling
 
-  // Simulate data loading
+  // Fetch logo data from the backend API
   useEffect(() => {
-    setTimeout(() => {
-      setProducts(sampleProducts);
-      setLoading(false);
-    }, 1000); // Simulate a delay
+    const fetchLogos = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/logos`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch logos");
+        }
+        const data = await response.json();
+        setProducts(data); // Assuming the response is an array of logos
+      } catch (error) {
+        console.error("Error fetching logos:", error);
+        setError("Failed to load logos. Please try again later."); // Set error message
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or error
+      }
+    };
+
+    fetchLogos();
   }, []);
+
+  const handleDelete = async (id, imageUrl) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this logo?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/logos/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete logo");
+      }
+
+      // Remove the deleted logo from state
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product._id !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting logo:", error);
+      setError("Failed to delete logo. Please try again later.");
+    }
+  };
 
   const headers = ["Company logo", "Operation"];
 
@@ -33,14 +64,18 @@ const ClientImg = () => {
     <tr key={product._id}>
       <td>
         <img
-          src={product.images[0]}
+          src={product.imageUrl} // Ensure this URL is correct
           alt="Client Logo"
           className="product-image"
           style={{ maxWidth: "150px", maxHeight: "150px" }}
         />
       </td>
       <td>
-        <ActionButtons showEdit={false} showDelete={true} />
+        <ActionButtons
+          showEdit={false}
+          showDelete={true}
+          onDelete={() => handleDelete(product._id, product.imageUrl)} // Pass delete handler
+        />
       </td>
     </tr>
   );
@@ -60,6 +95,9 @@ const ClientImg = () => {
               <button className="add-category-btn">Add Logo +</button>
             </Link>
           </div>
+          {loading && <div>Loading logos...</div>} {/* Loading message */}
+          {error && <div className="error-message">{error}</div>}{" "}
+          {/* Error message */}
           <Table
             headers={headers}
             data={products}
