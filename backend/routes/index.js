@@ -5,7 +5,7 @@ const ContactModel = require("../Models/Contact");
 const CategoryModel = require("../Models/Category");
 const SocialModel = require("../Models/Social");
 const ContactDetailSchema = require("../Models/ContactDetail");
-const Logo = require("../Models/Logo");
+const LogoSchema = require("../Models/Logo");
 
 const fs = require("fs");
 const multer = require("multer");
@@ -413,81 +413,77 @@ router.put("/api/categories/:categoryId/subcategories", async (req, res) => {
   }
 });
 
-// Multer setup for handling file uploads
+// Set up multer for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    cb(null, "uploads/"); // Save to "uploads" folder
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 
 const upload = multer({ storage });
 
-// Serve the uploaded files statically
-router.use("/uploads", express.static("uploads"));
+// Serve static files from the "uploads" directory
+router.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// API route for uploading the logo
-router.post("/api/upload-logo", upload.single("image"), async (req, res) => {
+// API to handle file upload
+router.post("/api/upload", upload.single("image"), async (req, res) => {
   try {
-    // Use BACKEND_URL from environment variables
-    const imagePath = `${process.env.BACKEND_URL}/uploads/${req.file.filename}`;
+    const { filename, path: filePath, size, mimetype } = req.file;
 
-    // Create a new logo document and save it to the database
-    const newLogo = new Logo({
-      imageUrl: imagePath,
+    const newImage = new LogoSchema({
+      filename,
+      path: filePath,
+      size,
+      mimetype,
     });
 
-    await newLogo.save();
-
-    res.status(201).json({ message: "Logo uploaded successfully!" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error uploading logo" });
+    await newImage.save();
+    res
+      .status(201)
+      .json({ message: "Image uploaded successfully", image: newImage });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to upload image" });
   }
 });
-// API to fetch all logos
+// Fetch all logos
 router.get("/api/logos", async (req, res) => {
   try {
-    const logos = await Logo.find();
-    res.json(logos);
+    const logos = await LogoSchema.find(); // Fetch all logos from MongoDB
+    res.json(logos); // Return logos as JSON
   } catch (error) {
-    res.status(500).json({ message: "Error fetching logos" });
+    console.error(error);
+    res.status(500).json({ message: "Failed to fetch logos" });
   }
 });
 
-// API route to delete a logo
+// Delete a logo
 router.delete("/api/logos/:id", async (req, res) => {
-  const logoId = req.params.id;
-
   try {
-    // Find the logo by ID
-    const logo = await Logo.findById(logoId);
-    if (!logo) {
-      return res.status(404).json({ message: "Logo not found" });
-    }
+    // Find and delete the logo by ID
+    const logo = await LogoSchema.findByIdAndDelete(req.params.id);
 
-    // Delete the logo from the database
-    await Logo.findByIdAndDelete(logoId);
+    if (!logo) return res.status(404).json({ message: "Logo not found" });
 
-    // Remove the image file from the uploads folder
-    const imagePath = path.join(
-      __dirname,
-      "../uploads",
-      path.basename(logo.imageUrl)
-    );
-    fs.unlink(imagePath, (err) => {
+    // Get the file path
+    const filePath = path.join(__dirname, "../uploads", logo.filename);
+
+    // Remove the file from the uploads folder
+    fs.unlink(filePath, (err) => {
       if (err) {
-        console.error("Error deleting image file:", err);
-        return res.status(500).json({ message: "Failed to delete image file" });
+        console.error("Error deleting file:", err);
+        return res.status(500).json({ message: "Failed to delete logo file" });
       }
-      res.status(200).json({ message: "Logo deleted successfully!" });
+
+      // Send a success response only after file deletion
+      res.json({ message: "Logo deleted successfully" });
     });
   } catch (error) {
-    console.error("Error deleting logo:", error);
-    res.status(500).json({ message: "Error deleting logo" });
+    console.error(error);
+    res.status(500).json({ message: "Failed to delete logo" });
   }
 });
-
 module.exports = router;

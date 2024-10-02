@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Table, ActionButtons } from "../components/TableActionB";
 import { HashLink as Link } from "react-router-hash-link";
 
+import toast, { Toaster } from "react-hot-toast"; // For notifications
 const ClientImg = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); // State for error handling
+  const [error, setError] = useState(null);
 
   // Fetch logo data from the backend API
   useEffect(() => {
@@ -21,7 +22,7 @@ const ClientImg = () => {
         setProducts(data); // Assuming the response is an array of logos
       } catch (error) {
         console.error("Error fetching logos:", error);
-        setError("Failed to load logos. Please try again later."); // Set error message
+        setError("Failed to load logos. Please try again later.");
       } finally {
         setLoading(false); // Set loading to false regardless of success or error
       }
@@ -30,12 +31,7 @@ const ClientImg = () => {
     fetchLogos();
   }, []);
 
-  const handleDelete = async (id, imageUrl) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this logo?"
-    );
-    if (!confirmDelete) return;
-
+  const handleDelete = async (id) => {
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/logos/${id}`,
@@ -52,9 +48,14 @@ const ClientImg = () => {
       setProducts((prevProducts) =>
         prevProducts.filter((product) => product._id !== id)
       );
+
+      // Show success toast notification
+      toast.success("Logo deleted successfully!");
     } catch (error) {
       console.error("Error deleting logo:", error);
       setError("Failed to delete logo. Please try again later.");
+      // Show error toast notification
+      toast.error("Failed to delete logo. Please try again.");
     }
   };
 
@@ -64,7 +65,7 @@ const ClientImg = () => {
     <tr key={product._id}>
       <td>
         <img
-          src={product.imageUrl} // Ensure this URL is correct
+          src={`${import.meta.env.VITE_API_URL}/uploads/${product.filename}`} // Ensure the correct URL format
           alt="Client Logo"
           className="product-image"
           style={{ maxWidth: "150px", maxHeight: "150px" }}
@@ -74,7 +75,7 @@ const ClientImg = () => {
         <ActionButtons
           showEdit={false}
           showDelete={true}
-          onDelete={() => handleDelete(product._id, product.imageUrl)} // Pass delete handler
+          onDelete={() => handleDelete(product._id)} // Pass delete handler
         />
       </td>
     </tr>
@@ -82,6 +83,7 @@ const ClientImg = () => {
 
   return (
     <>
+      <Toaster />
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="heading1">Gallery Page</h1>
@@ -95,14 +97,13 @@ const ClientImg = () => {
               <button className="add-category-btn">Add Logo +</button>
             </Link>
           </div>
-          {loading && <div>Loading logos...</div>} {/* Loading message */}
+          {loading && <div>Loading logos...</div>} {/* Show loading message */}
           {error && <div className="error-message">{error}</div>}{" "}
-          {/* Error message */}
+          {/* Show error message */}
           <Table
             headers={headers}
             data={products}
             renderRow={renderRow}
-            loading={loading}
             noDataMessage="No logos available"
           />
         </div>

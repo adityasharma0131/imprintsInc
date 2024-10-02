@@ -5,6 +5,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
+const helmet = require("helmet");
 
 const DB = require("./Models/DB"); // Ensure your DB connection is set up correctly
 
@@ -16,31 +17,21 @@ const AuthRouter = require("./routes/AuthRouter");
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-// Security-related middlewares (Helmet for HTTP headers, Rate Limiter)
-const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
-
-// Use helmet to set secure HTTP headers
-app.use(helmet());
-
-// Set up rate limiter for API requests to prevent abuse
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per window
-  message: "Too many requests from this IP, please try again after 15 minutes",
-});
-app.use("/auth", apiLimiter);
-
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // Middleware setup
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+
 // CORS configuration
-const allowedOrigins =
-  process.env.FRONTEND_URL && process.env.FRONTEND_URL.split(",")
-    ? process.env.FRONTEND_URL.split(",")
-    : ["http://localhost:3000", "*"]; // Default fallback for development
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",")
+  : ["http://localhost:3000"]; // Default fallback for development
 
 app.use(
   cors({
@@ -51,10 +42,13 @@ app.use(
   })
 );
 
+// Serve static files from the uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(logger("dev")); // Logging
-app.use(express.json()); // Use built-in JSON parser
-app.use(express.urlencoded({ extended: false })); // Use built-in URL-encoded parser
+
+// Middleware for logging, parsing cookies, JSON and URL-encoded data
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 

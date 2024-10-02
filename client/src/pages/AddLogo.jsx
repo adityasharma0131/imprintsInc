@@ -4,14 +4,20 @@ import { HashLink as Link } from "react-router-hash-link";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast"; // For notifications
 
-// Use import.meta.env to access Vite environment variables
 const AddLogo = () => {
   const [imageFile, setImageFile] = useState(null);
-  const [uploadMessage, setUploadMessage] = useState("");
+  const [previewUrl, setPreviewUrl] = useState(null); // For previewing the selected image
   const navigate = useNavigate(); // useNavigate hook for navigation
 
   const handleChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setImageFile(file);
+
+    // Generate a preview URL for the selected image
+    if (file) {
+      const preview = URL.createObjectURL(file);
+      setPreviewUrl(preview);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -21,34 +27,27 @@ const AddLogo = () => {
       formData.append("image", imageFile);
 
       try {
-        // Use the environment variable for the API URL
-        const backendUrl = `${import.meta.env.VITE_API_URL}/api/upload-logo`;
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/upload`, // Update with your backend endpoint
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
-        // Fetch API instead of axios
-        const response = await fetch(backendUrl, {
-          method: "POST",
-          body: formData,
-        });
-
-        const data = await response.json();
         if (response.ok) {
           toast.success("Logo uploaded successfully!");
-
-          // Navigate to /client-operation after a successful upload
           setTimeout(() => {
             navigate("/client-operation");
-          }); // Delay the navigation by 2 seconds
+          });
         } else {
-          toast.error("Failed to upload the image");
+          toast.error("Failed to upload logo. Please try again.");
         }
       } catch (error) {
-        console.error("Error uploading the image:", error);
-
-        toast.error("Error uploading the image");
+        toast.error("An error occurred. Please try again.");
+        console.error(error);
       }
     } else {
-      console.log("No image file selected");
-
       toast.error("Please select an image to upload.");
     }
   };
@@ -102,7 +101,18 @@ const AddLogo = () => {
               </tbody>
             </table>
           </form>
-          {uploadMessage && <p>{uploadMessage}</p>}
+
+          {/* Preview the selected image */}
+          {previewUrl && (
+            <div className="image-preview">
+              <h3>Image Preview:</h3>
+              <img
+                src={previewUrl}
+                alt="Selected Logo"
+                style={{ maxWidth: "150px", maxHeight: "150px" }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>
