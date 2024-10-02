@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast"; // For notifications
 import corporategifting from "/assets/Corporategifting.png";
 import stationery from "/assets/Stationery.png";
@@ -30,6 +30,37 @@ import client17 from "/assets/client17.png";
 import client18 from "/assets/client18.png";
 
 const Home = () => {
+  const [clientImages, setClientImages] = useState([]);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    // Fetch logos from the backend
+    const fetchLogos = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/logos`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch logos");
+        }
+
+        const data = await response.json();
+        const imageUrls = data.map(
+          (logo) => `${import.meta.env.VITE_API_URL}/uploads/${logo.filename}`
+        ); // Adjust URL to your backend's file path
+        setClientImages(imageUrls);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching logos:", error);
+        setError("Failed to load logos.");
+        setLoading(false);
+        toast.error("Failed to load logos. Please try again later.");
+      }
+    };
+
+    fetchLogos();
+  }, []);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -84,26 +115,6 @@ const Home = () => {
     }
   };
 
-  const clientImages = [
-    client1,
-    client2,
-    client3,
-    client4,
-    client5,
-    client6,
-    client7,
-    client8,
-    client9,
-    client10,
-    client11,
-    client12,
-    client13,
-    client14,
-    client15,
-    client16,
-    client17,
-    client18,
-  ];
   const categories = [
     {
       title: "Corporate Gifting",
@@ -204,7 +215,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
       <div className="whyus">
         <h1 className="heading1">Why Choose Us</h1>
         <div className="pointers">
