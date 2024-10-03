@@ -126,7 +126,7 @@ const AppContent = () => {
             <AuthGuard>
               <AdminWrapper>
                 <CategoryOperation />
-              </AdminWrapper>
+              </AdminWrapper> 
             </AuthGuard>
           }
         />

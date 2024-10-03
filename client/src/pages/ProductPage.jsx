@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { HashLink as Link } from "react-router-hash-link";
 import Book from "/assets/Book.png";
 import data from "../data.json";
 
