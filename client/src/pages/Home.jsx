@@ -4,6 +4,8 @@ import corporategifting from "/assets/Corporategifting.png";
 import stationery from "/assets/Stationery.png";
 import electronics from "/assets/Electronics.png";
 import Book from "/assets/Book.png";
+import { HashLink as Link } from "react-router-hash-link";
+
 
 import { MdDesignServices } from "react-icons/md";
 import { IoRibbon } from "react-icons/io5";
@@ -49,11 +51,10 @@ const Home = () => {
           (logo) => `${import.meta.env.VITE_API_URL}/uploads/${logo.filename}`
         ); // Adjust URL to your backend's file path
         setClientImages(imageUrls);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching logos:", error);
         setError("Failed to load logos.");
-        setLoading(false);
+
         toast.error("Failed to load logos. Please try again later.");
       }
     };

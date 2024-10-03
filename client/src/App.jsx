@@ -126,7 +126,7 @@ const AppContent = () => {
             <AuthGuard>
               <AdminWrapper>
                 <CategoryOperation />
-              </AdminWrapper>{" "}
+              </AdminWrapper>
             </AuthGuard>
           }
         />
@@ -156,7 +156,7 @@ const AppContent = () => {
             <AuthGuard>
               <AdminWrapper>
                 <ContactOperation />
-              </AdminWrapper>{" "}
+              </AdminWrapper>
             </AuthGuard>
           }
         />
@@ -166,7 +166,7 @@ const AppContent = () => {
             <AuthGuard>
               <AdminWrapper>
                 <SocialsOperation />
-              </AdminWrapper>{" "}
+              </AdminWrapper>
             </AuthGuard>
           }
         />
@@ -242,7 +242,7 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/product-operation/edit-product/:productId"
+          path="/product-operation/edit-product/:id"
           element={
             <AuthGuard>
               <AdminWrapper>

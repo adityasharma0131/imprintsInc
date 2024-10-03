@@ -1095,6 +1095,13 @@ a {
   background-color: #e0e0e0; /* Placeholder background color */
   border-radius: 8px;
 }
+.image-placeholder {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  background-color: #e0e0e0; /* Placeholder background color */
+  border-radius: 8px;
+}
 
 .product-details {
   flex: 2 1 300px;
@@ -1476,6 +1483,10 @@ a {
   color: #500a0a;
 }
 
+/* Product Image Styling */
+.single-product-image {
+  border-radius: 5px;
+}
 /* Product Image Styling */
 .product-image {
   max-width: 150px;

@@ -6,6 +6,7 @@ const CategoryModel = require("../Models/Category");
 const SocialModel = require("../Models/Social");
 const ContactDetailSchema = require("../Models/ContactDetail");
 const LogoSchema = require("../Models/Logo");
+const ProductSchema = require("../Models/Product");
 
 const fs = require("fs");
 const multer = require("multer");
@@ -484,6 +485,127 @@ router.delete("/api/logos/:id", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to delete logo" });
+  }
+});
+
+// Route to add a product
+router.post("/api/products", upload.array("images", 10), async (req, res) => {
+  try {
+    const { name, category, subcategory, description, features } = req.body;
+    const images = req.files.map((file) => file.path); // Get the uploaded image paths
+
+    const product = new ProductSchema({
+      name,
+      category,
+      subcategory,
+      description,
+      features,
+      images,
+    });
+
+    await product.save();
+    res.status(201).json(product);
+  } catch (error) {
+    console.error("Error adding product:", error);
+    res.status(500).json({ message: "Error adding product" });
+  }
+});
+
+router.get("/api/products", async (req, res) => {
+  try {
+    const products = await ProductSchema.find();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching products" });
+  }
+});
+
+// DELETE endpoint to remove a product by ID and its associated images
+router.delete("/api/products/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await ProductSchema.findById(id);
+
+    // Check if the product exists
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Define the path to the uploads folder
+    const imageFolderPath = path.resolve(__dirname, "../uploads"); // Adjust this path to point to the correct uploads folder
+
+    // Delete each image associated with the product
+    if (Array.isArray(product.images) && product.images.length > 0) {
+      product.images.forEach((image) => {
+        // Construct the image path using the stored path
+        const imagePath = path.join(image); // Use the full path stored in the database
+        fs.unlink(imagePath, (err) => {
+          if (err) {
+            console.error(`Error deleting image ${image}:`, err);
+          } else {
+            console.log(`Successfully deleted image ${image}`);
+          }
+        });
+      });
+    }
+
+    // Delete the product from the database
+    await ProductSchema.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({ message: "Error deleting product" });
+  }
+});
+
+// Fetch product by ID
+router.get("/api/products/:id", async (req, res) => {
+  try {
+    const product = await ProductSchema.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json(product);
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    res.status(500).json({ message: "Error fetching product" });
+  }
+});
+router.put("/api/products/:id", upload.array("images"), async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await ProductSchema.findById(id);
+
+    // Check if the product exists
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Update product fields
+    product.name = req.body.name || product.name;
+    product.category = req.body.category || product.category;
+    product.subcategory = req.body.subcategory || product.subcategory; // Update subcategory
+    product.description = req.body.description || product.description;
+    product.features = req.body.features || product.features;
+
+    // Update images only if new ones are provided
+    if (req.files && req.files.length > 0) {
+      const images = req.files.map((file) => `uploads/${file.filename}`); // Store the relative path to the image
+      product.images = images; // Update the images array only if new images are provided
+    }
+
+    // Save the updated product
+    await product.save();
+
+    res.status(200).json({ message: "Product updated successfully", product });
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res
+      .status(500)
+      .json({ message: "Error updating product", error: error.message }); // Send error message back
   }
 });
 module.exports = router;

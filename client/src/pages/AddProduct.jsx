@@ -1,32 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 import { HashLink as Link } from "react-router-hash-link";
+import { toast } from "react-hot-toast"; // Importing react-hot-toast
+import { useNavigate } from "react-router-dom"; // Importing useNavigate
 
 const AddProduct = () => {
   const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
   const [images, setImages] = useState([]);
   const [description, setDescription] = useState("");
   const [features, setFeatures] = useState("");
 
-  const handleImageChange = (e, index) => {
-    const newImages = [...images];
-    newImages[index] = e.target.files[0];
-    setImages(newImages);
+  const navigate = useNavigate(); // Initialize useNavigate for redirecting
+
+  // Fetch categories and subcategories from the backend
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/categories`)
+      .then((response) => response.json())
+      .then((data) => setCategories(data))
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
+
+  // Update subcategories when a category is selected
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    setCategory(selectedCategory);
+
+    // Find the selected category and its subcategories
+    const categoryData = categories.find(
+      (cat) => cat.name === selectedCategory
+    );
+    setSubcategories(categoryData ? categoryData.subcategories : []);
   };
 
-  const handleSubmit = (e) => {
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages(files);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
-      name: productName,
-      category,
-      images,
-      description,
-      features,
-    };
-    console.log(formData);
+
+    const formData = new FormData();
+    formData.append("name", productName);
+    formData.append("category", category);
+    formData.append("subcategory", subcategory);
+    formData.append("description", description);
+    formData.append("features", features);
+
+    // Append images to FormData
+    images.forEach((image) => {
+      formData.append("images", image);
+    });
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/products`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Product added:", result);
+
+        // Show success toast
+        toast.success("Product added successfully!");
+
+        // Redirect to /product-operation
+        navigate("/product-operation");
+
+        // Optionally reset form fields
+      } else {
+        console.error("Error adding product:", response.statusText);
+        toast.error("Failed to add product. Please try again."); // Show error toast
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("An error occurred. Please try again."); // Show error toast
+    }
   };
 
   return (
@@ -69,45 +128,59 @@ const AddProduct = () => {
             <select
               name="category"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={handleCategoryChange}
               className="product-form-select"
               required
             >
               <option value="" disabled>
                 Select category
               </option>
-              <option value="Category 1">Category 1</option>
-              <option value="Category 2">Category 2</option>
-              <option value="Category 3">Category 3</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))}
             </select>
           </div>
+
+          {/* Subcategory Dropdown */}
+          {subcategories.length > 0 && (
+            <div className="form-group">
+              <label htmlFor="subcategory" className="form-label">
+                Sub Category
+              </label>
+              <select
+                name="subcategory"
+                value={subcategory}
+                onChange={(e) => setSubcategory(e.target.value)}
+                className="product-form-select"
+                required
+              >
+                <option value="" disabled>
+                  Select subcategory
+                </option>
+                {subcategories.map((subcat, index) => (
+                  <option key={index} value={subcat}>
+                    {subcat}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {/* Image Inputs */}
           <div className="form-group">
             <label htmlFor="images" className="form-label">
-              Upload Images
+              Upload Product Images
             </label>
             <input
               type="file"
-              name="image1"
+              name="images"
               accept="image/*"
-              onChange={(e) => handleImageChange(e, 0)}
+              multiple
+              onChange={handleImageChange}
               className="product-form-input-file"
               required
-            />
-            <input
-              type="file"
-              name="image2"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, 1)}
-              className="product-form-input-file"
-            />
-            <input
-              type="file"
-              name="image3"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, 2)}
-              className="product-form-input-file"
             />
           </div>
 

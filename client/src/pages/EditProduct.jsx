@@ -1,16 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import { HashLink as Link } from "react-router-hash-link";
 
 const EditProduct = () => {
+  const { id } = useParams(); // Get the product ID from the URL parameters
+  const navigate = useNavigate(); // For navigation after successful submission
+
   // State for product details
   const [productName, setProductName] = useState("");
   const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState(""); // State for subcategory
   const [images, setImages] = useState([null, null, null]);
+  const [categories, setCategories] = useState([]); // State for categories
+  const [subcategories, setSubcategories] = useState([]); // State for subcategories
   const [description, setDescription] = useState("");
   const [features, setFeatures] = useState("");
+
+  // Fetch categories from the backend
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/categories`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // Update subcategories when a category is selected
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    setCategory(selectedCategory);
+
+    // Find the selected category and its subcategories
+    const categoryData = categories.find(
+      (cat) => cat.name === selectedCategory
+    );
+    setSubcategories(categoryData ? categoryData.subcategories : []);
+    setSubcategory(""); // Reset subcategory when category changes
+  };
+
+  // Fetch product details for editing
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/products/${id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch product");
+        }
+        const product = await response.json();
+        setProductName(product.name);
+        setCategory(product.category);
+        setSubcategory(product.subcategory); // Set the subcategory from product data
+        setDescription(product.description);
+        setFeatures(product.features);
+        setImages(product.images); // Assuming images are initially displayed as URLs
+
+        // Set subcategories based on the fetched product category
+        const categoryData = categories.find(
+          (cat) => cat.name === product.category
+        );
+        if (categoryData) {
+          setSubcategories(categoryData.subcategories);
+        }
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      }
+    };
+
+    if (id) {
+      fetchProduct();
+    } else {
+      console.error("Product ID is undefined");
+    }
+  }, [id, categories]); // Add categories as a dependency
 
   // Handle image change
   const handleImageChange = (e, index) => {
@@ -20,30 +96,39 @@ const EditProduct = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append("name", productName);
     formData.append("category", category);
+    formData.append("subcategory", subcategory); // Include subcategory
     formData.append("description", description);
     formData.append("features", features);
 
-    // Append images if available
-    images.forEach((image, index) => {
+    // Append images only if they have been selected
+    images.forEach((image) => {
       if (image) {
-        formData.append(`image${index + 1}`, image);
+        formData.append("images", image); // Append each image with the same key
       }
     });
 
-    // Call API or handle form submission logic here
-    console.log("Submitting product:", {
-      name: productName,
-      category,
-      images,
-      description,
-      features,
-    });
+    // Call API to update the product
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/products/${id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to update product");
+      }
+      navigate("/product-operation"); // Redirect after successful update
+    } catch (error) {
+      console.error("Error updating product:", error);
+    }
   };
 
   return (
@@ -86,46 +171,70 @@ const EditProduct = () => {
             <select
               name="category"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={handleCategoryChange} // Call handleCategoryChange
               className="product-form-select"
               required
             >
               <option value="" disabled>
                 Select category
               </option>
-              <option value="Category 1">Category 1</option>
-              <option value="Category 2">Category 2</option>
-              <option value="Category 3">Category 3</option>
+              {categories.map((cat) => (
+                <option key={cat._id} value={cat.name}>
+                  {cat.name}
+                </option>
+              ))}
             </select>
           </div>
+
+          {/* Subcategory Dropdown */}
+          {subcategories.length > 0 && (
+            <div className="form-group">
+              <label htmlFor="subcategory" className="form-label">
+                Sub Category
+              </label>
+              <select
+                name="subcategory"
+                value={subcategory}
+                onChange={(e) => setSubcategory(e.target.value)}
+                className="product-form-select"
+                required
+              >
+                <option value="" disabled>
+                  Select subcategory
+                </option>
+                {subcategories.map((subcat, index) => (
+                  <option key={index} value={subcat}>
+                    {subcat}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {/* Image Inputs */}
           <div className="form-group">
             <label htmlFor="images" className="form-label">
               Upload Images
             </label>
-            <input
-              type="file"
-              name="image1"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, 0)}
-              className="product-form-input-file"
-              required
-            />
-            <input
-              type="file"
-              name="image2"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, 1)}
-              className="product-form-input-file"
-            />
-            <input
-              type="file"
-              name="image3"
-              accept="image/*"
-              onChange={(e) => handleImageChange(e, 2)}
-              className="product-form-input-file"
-            />
+            {images.map((image, index) => (
+              <div key={index} className="image-upload">
+                <input
+                  type="file"
+                  name={`image${index + 1}`}
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(e, index)}
+                  className="product-form-input-file"
+                />
+                {image &&
+                  typeof image === "string" && ( // Display current images if any
+                    <img
+                      src={`${import.meta.env.VITE_API_URL}/${image}`} // Corrected this line
+                      alt={`Current Image ${index + 1}`}
+                      style={{ maxWidth: "150px", marginTop: "10px" }}
+                    />
+                  )}
+              </div>
+            ))}
           </div>
 
           {/* Description */}

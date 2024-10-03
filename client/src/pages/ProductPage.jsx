@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom"; // Import Link for navigation
 import Book from "/assets/Book.png";
 import data from "../data.json";
 
@@ -20,7 +21,7 @@ const ProductPage = () => {
   return (
     <>
       <div className="product-page-container">
-        <div className="product-image">
+        <div className="single-product-image">
           <img src={Book} alt="Product" className="image-placeholder" />
         </div>
         <div className="product-details">
@@ -43,7 +44,11 @@ const ProductPage = () => {
             Ideal for corporate events, team outings, or everyday wear, these
             polos combine comfort and style, effortlessly boosting your brand.
           </p>
-          <button className="get-quote-btn">Get a Quote</button>
+          <Link to="/#contact">
+            {" "}
+            {/* Use Link to navigate to the contact section */}
+            <button className="get-quote-btn">Get a Quote</button>
+          </Link>
         </div>
       </div>
 
