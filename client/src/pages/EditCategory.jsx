@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import { toast, Toaster } from "react-hot-toast"; // Import toast and Toaster
+import { toast, Toaster } from "react-hot-toast";
 
 const EditCategory = () => {
-  const { id } = useParams(); // Use useParams to get the route parameters
+  const { id } = useParams();
   const [categoryName, setCategoryName] = useState("");
+  const [desktopBackdrop, setDesktopBackdrop] = useState(null);
+  const [mobileBackdrop, setMobileBackdrop] = useState(null);
+  const [currentDesktopBackdrop, setCurrentDesktopBackdrop] = useState("");
+  const [currentMobileBackdrop, setCurrentMobileBackdrop] = useState("");
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -20,6 +24,8 @@ const EditCategory = () => {
         }
         const data = await response.json();
         setCategoryName(data.name);
+        setCurrentDesktopBackdrop(data.desktopBackdrop);
+        setCurrentMobileBackdrop(data.mobileBackdrop);
       } catch (error) {
         setError(error.message);
       }
@@ -30,15 +36,23 @@ const EditCategory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", categoryName);
+
+    // Append the files only if they are updated
+    if (desktopBackdrop) {
+      formData.append("desktopBackdrop", desktopBackdrop);
+    }
+    if (mobileBackdrop) {
+      formData.append("mobileBackdrop", mobileBackdrop);
+    }
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/categories/${id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name: categoryName }), // Send updated name
+          body: formData, // Send FormData instead of JSON
         }
       );
 
@@ -46,21 +60,17 @@ const EditCategory = () => {
         throw new Error("Failed to update category");
       }
 
-      const updatedCategory = await response.json();
-      console.log("Category updated successfully:", updatedCategory);
-
-      toast.success("Category updated successfully!"); // Show success toast
-      // Optionally, navigate back to the categories listing
-      navigate("/category-operation"); // Redirect to the main product operation page or categories list
+      toast.success("Category updated successfully!");
+      navigate("/category-operation");
     } catch (error) {
-      setError(error.message); // Handle errors
-      toast.error("Error updating category: " + error.message); // Show error toast
+      setError(error.message);
+      toast.error("Error updating category: " + error.message);
     }
   };
 
   return (
     <>
-      <Toaster /> {/* Add Toaster here */}
+      <Toaster />
       <div className="admin-bx">
         <div className="dash-opr-head">
           <h1 className="dash-head">
@@ -77,9 +87,7 @@ const EditCategory = () => {
           <div className="operation-header">
             <h1 className="heading">Edit Category</h1>
           </div>
-          {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-          {/* Display error if any */}
-          {/* Form for editing category */}
+          {error && <p style={{ color: "red" }}>{error}</p>}
           <form onSubmit={handleSubmit}>
             <table className="modern-table">
               <thead>
@@ -96,7 +104,7 @@ const EditCategory = () => {
                       name="category-name"
                       className="dash-input"
                       value={categoryName}
-                      onChange={(e) => setCategoryName(e.target.value)} // Update state on change
+                      onChange={(e) => setCategoryName(e.target.value)}
                       placeholder="Enter category name"
                     />
                   </td>
@@ -104,6 +112,52 @@ const EditCategory = () => {
                     <button type="submit" className="add">
                       Edit +
                     </button>
+                  </td>
+                </tr>
+
+                {/* Display current desktop backdrop */}
+                <tr>
+                  <td>
+                    <label>Current Desktop Backdrop</label>
+                    {currentDesktopBackdrop && (
+                      <img
+                        src={`${
+                          import.meta.env.VITE_API_URL
+                        }/${currentDesktopBackdrop}`}
+                        alt="Current Desktop Backdrop"
+                        style={{ width: "200px" }}
+                      />
+                    )}
+                    <input
+                      type="file"
+                      name="desktopBackdrop"
+                      className="dash-input"
+                      onChange={(e) => setDesktopBackdrop(e.target.files[0])}
+                      accept="image/*"
+                    />
+                  </td>
+                </tr>
+
+                {/* Display current mobile backdrop */}
+                <tr>
+                  <td>
+                    <label>Current Mobile Backdrop</label>
+                    {currentMobileBackdrop && (
+                      <img
+                        src={`${
+                          import.meta.env.VITE_API_URL
+                        }/${currentMobileBackdrop}`}
+                        alt="Current Mobile Backdrop"
+                        style={{ width: "200px" }}
+                      />
+                    )}
+                    <input
+                      type="file"
+                      name="mobileBackdrop"
+                      className="dash-input"
+                      onChange={(e) => setMobileBackdrop(e.target.files[0])}
+                      accept="image/*"
+                    />
                   </td>
                 </tr>
               </tbody>

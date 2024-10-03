@@ -11,6 +11,19 @@ const ProductSchema = require("../Models/Product");
 const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
+
+// Set up multer for file storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Save to "uploads" folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
 // GET home page
 router.get("/", (req, res) => {
   res.render("index", { title: "Server Side" });
@@ -133,25 +146,42 @@ router.delete("/api/contact/:id", async (req, res) => {
   }
 });
 
-// POST route to add a new category
-router.post("/api/categories", async (req, res) => {
-  const { name } = req.body;
+// POST route to add a new category with image uploads
+router.post(
+  "/api/categories",
+  upload.fields([
+    { name: "desktopBackdrop", maxCount: 1 },
+    { name: "mobileBackdrop", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    const { name } = req.body;
 
-  if (!name) {
-    return res.status(400).json({ error: "Category name is required" });
-  }
+    if (!name) {
+      return res.status(400).json({ error: "Category name is required" });
+    }
 
-  try {
-    const newCategory = new CategoryModel({ name });
-    await newCategory.save();
-    res
-      .status(201)
-      .json({ message: "Category added successfully", category: newCategory });
-  } catch (error) {
-    console.error("Error adding category:", error);
-    res.status(500).json({ error: "Failed to add category" });
+    try {
+      const newCategory = new CategoryModel({
+        name,
+        desktopBackdrop: req.files.desktopBackdrop
+          ? req.files.desktopBackdrop[0].path
+          : "",
+        mobileBackdrop: req.files.mobileBackdrop
+          ? req.files.mobileBackdrop[0].path
+          : "",
+      });
+
+      await newCategory.save();
+      res.status(201).json({
+        message: "Category added successfully",
+        category: newCategory,
+      });
+    } catch (error) {
+      console.error("Error adding category:", error);
+      res.status(500).json({ error: "Failed to add category" });
+    }
   }
-});
+);
 
 // GET all categories
 router.get("/api/categories", async (req, res) => {
@@ -181,44 +211,94 @@ router.get("/api/categories/:id", async (req, res) => {
   }
 });
 
-// Update category by ID
-router.put("/api/categories/:id", async (req, res) => {
-  const { name } = req.body;
+// PUT route to update category
+router.put(
+  "/api/categories/:id",
+  upload.fields([
+    { name: "desktopBackdrop", maxCount: 1 },
+    { name: "mobileBackdrop", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    const { name } = req.body;
 
-  // Validate request body
-  if (!name) {
-    return res.status(400).json({ message: "Name is required" });
-  }
-
-  try {
-    const category = await CategoryModel.findById(req.params.id);
-    if (!category) {
-      return res.status(404).json({ message: "Category not found" });
+    if (!name) {
+      return res.status(400).json({ message: "Name is required" });
     }
 
-    // Update category name
-    category.name = name;
-    await category.save();
+    try {
+      const category = await CategoryModel.findById(req.params.id);
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
 
-    res
-      .status(200)
-      .json({ message: "Category updated successfully", category });
-  } catch (error) {
-    console.error("Error updating category:", error);
-    res
-      .status(500)
-      .json({ message: "Error updating category", error: error.message });
+      // Update category name
+      category.name = name;
+
+      // Update desktop backdrop if a new one is uploaded
+      if (req.files.desktopBackdrop) {
+        // Delete the old image
+        if (
+          category.desktopBackdrop &&
+          fs.existsSync(category.desktopBackdrop)
+        ) {
+          fs.unlinkSync(path.resolve(category.desktopBackdrop));
+        }
+        // Save the new image path
+        category.desktopBackdrop = `uploads/${req.files.desktopBackdrop[0].filename}`;
+      }
+
+      // Update mobile backdrop if a new one is uploaded
+      if (req.files.mobileBackdrop) {
+        // Delete the old image
+        if (category.mobileBackdrop && fs.existsSync(category.mobileBackdrop)) {
+          fs.unlinkSync(path.resolve(category.mobileBackdrop));
+        }
+        // Save the new image path
+        category.mobileBackdrop = `uploads/${req.files.mobileBackdrop[0].filename}`;
+      }
+
+      await category.save();
+      res
+        .status(200)
+        .json({ message: "Category updated successfully", category });
+    } catch (error) {
+      console.error("Error updating category:", error);
+      res
+        .status(500)
+        .json({ message: "Error updating category", error: error.message });
+    }
   }
-});
+);
 
 // Delete category by ID
 router.delete("/api/categories/:id", async (req, res) => {
   try {
-    const category = await CategoryModel.findByIdAndDelete(req.params.id);
+    const category = await CategoryModel.findById(req.params.id);
+
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
-    res.status(200).json({ message: "Category deleted successfully" });
+
+    // Paths for desktop and mobile backdrops
+    const desktopBackdropPath = category.desktopBackdrop;
+    const mobileBackdropPath = category.mobileBackdrop;
+
+    // Delete desktop backdrop if it exists
+    if (desktopBackdropPath && fs.existsSync(desktopBackdropPath)) {
+      fs.unlinkSync(path.resolve(desktopBackdropPath)); // Delete the file
+    }
+
+    // Delete mobile backdrop if it exists
+    if (mobileBackdropPath && fs.existsSync(mobileBackdropPath)) {
+      fs.unlinkSync(path.resolve(mobileBackdropPath)); // Delete the file
+    }
+
+    // Delete the category from the database
+    await CategoryModel.findByIdAndDelete(req.params.id);
+
+    res
+      .status(200)
+      .json({ message: "Category and associated images deleted successfully" });
   } catch (error) {
     console.error("Error deleting category:", error);
     res
@@ -413,18 +493,6 @@ router.put("/api/categories/:categoryId/subcategories", async (req, res) => {
       .json({ message: "Error updating subcategory", error: error.message });
   }
 });
-
-// Set up multer for file storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Save to "uploads" folder
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const upload = multer({ storage });
 
 // Serve static files from the "uploads" directory
 router.use("/uploads", express.static(path.join(__dirname, "uploads")));
