@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import pumpImg from "/assets/Book.png";
+import pumpImg from "/assets/Book.png"; // Placeholder, might not be necessary
 import valveImg from "/assets/Book.png";
 import cylinderImg from "/assets/Book.png";
 import Table from "../components/TableComponent";
@@ -11,36 +11,13 @@ const Dashboard = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem("loggedInUser");
     if (storedUser) {
-      setLoggedInUser(storedUser); // If it's a plain string, use it directly
+      setLoggedInUser(storedUser);
     }
   }, []);
-  // Sample static product data with image imports
-  const sampleProducts = [
-    {
-      _id: "1",
-      name: "Hydraulic Pump",
-      category: "Hydraulics",
-      images: [pumpImg],
-      smallDesc: "<p>This is a powerful hydraulic pump.</p>",
-    },
-    {
-      _id: "2",
-      name: "Control Valve",
-      category: "Hydraulics",
-      images: [valveImg],
-      smallDesc: "<p>Efficient control valve for hydraulic systems.</p>",
-    },
-    {
-      _id: "3",
-      name: "Hydraulic Cylinder",
-      category: "Cylinders",
-      images: [cylinderImg],
-      smallDesc: "<p>Durable hydraulic cylinder for heavy machinery.</p>",
-    },
-  ];
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [recentQueries, setRecentQueries] = useState([]);
   const [adminUsers, setAdminUsers] = useState([]);
@@ -91,12 +68,27 @@ const Dashboard = () => {
     fetchUsers();
   }, []);
 
-  // Simulate data loading
+  // Fetch products from the backend (replace static sampleProducts)
   useEffect(() => {
-    setTimeout(() => {
-      setProducts(sampleProducts);
-      setLoading(false);
-    }, 1000); // Simulate a delay
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/products`
+        );
+        if (!response.ok) {
+          throw new Error("Error fetching products");
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        setError("Failed to load products");
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   // Strip HTML tags from a string (for smallDesc)
@@ -159,15 +151,26 @@ const Dashboard = () => {
         <h1 className="heading">Recent Products</h1>
         {loading ? (
           <p>Loading products...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
         ) : (
           <Table
-            columns={["Product Name", "Category", "Image", "Small Description"]}
+            columns={[
+              "Product Name",
+              "Category",
+              "Sub Category",
+              "Image",
+              "Small Description",
+            ]}
             data={products.map((product) => ({
               "Product Name": product.name,
+              "Sub Category": product.subcategory,
               Category: product.category,
               Image: product.images[0] ? (
                 <img
-                  src={product.images[0]}
+                  src={`${
+                    import.meta.env.VITE_API_URL
+                  }/${product.images[0].replace(/\\/g, "/")}`}
                   alt={product.name}
                   className="product-image"
                   style={{ maxWidth: "150px", maxHeight: "150px" }}
@@ -175,7 +178,7 @@ const Dashboard = () => {
               ) : (
                 "No image available"
               ),
-              "Small Description": stripHtmlTags(product.smallDesc),
+              "Small Description": stripHtmlTags(product.description),
             }))}
             emptyMessage="No products available"
           />
