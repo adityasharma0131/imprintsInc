@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { HashLink as Link } from "react-router-hash-link";
 import {
   RiPlanetLine,
@@ -11,7 +11,10 @@ import logo from "/assets/imprintslogo.png";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Function to toggle the mobile menu
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
     if (isMenuOpen) {
@@ -19,18 +22,42 @@ const Header = () => {
     }
   };
 
+  // Function to toggle specific dropdowns
   const toggleDropdown = (index) => {
     setOpenDropdown((prev) => (prev === index ? null : index)); // Toggle dropdown on click
   };
 
+  // Function to close dropdowns
   const closeDropdown = () => {
     setOpenDropdown(null);
   };
 
+  // Function to close menu when a link is clicked
   const handleLinkClick = () => {
     setIsMenuOpen(false); // Close the menu when a link is clicked
     closeDropdown();
   };
+
+  // Fetch categories and subcategories from the backend
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/categories`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch categories");
+        }
+        const data = await response.json();
+        setCategories(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <header className="header">
@@ -56,301 +83,56 @@ const Header = () => {
 
         <div className={`nav__menu ${isMenuOpen ? "show-menu" : ""}`}>
           <ul className="nav__list">
-            {/* DROPDOWN 1 */}
-            <li className="dropdown__item">
-              <div className="nav__link">
-                <Link
-                  to="/categories/Stationery"
-                  className="nav__link--plain"
-                  onClick={handleLinkClick}
-                >
-                  Stationery
-                </Link>
-                <RiArrowDownSLine
-                  className="dropdown__arrow"
-                  onClick={(e) => toggleDropdown(1)}
-                />
-              </div>
-              <ul
-                className={`dropdown__menu ${openDropdown === 1 ? "show" : ""}`}
-              >
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Notebooks & Diaries
-                  </a>
+            {loading ? (
+              <p>Loading categories...</p>
+            ) : (
+              categories.map((category, index) => (
+                <li className="dropdown__item" key={category._id}>
+                  <div className="nav__link">
+                    <Link
+                      to={`/categories/${category.name}`}
+                      className="nav__link--plain"
+                      onClick={handleLinkClick}
+                    >
+                      {category.name}
+                    </Link>
+                    {category.subcategories.length > 0 && (
+                      <RiArrowDownSLine
+                        className="dropdown__arrow"
+                        onClick={() => toggleDropdown(index)}
+                      />
+                    )}
+                  </div>
+                  {category.subcategories.length > 0 && (
+                    <ul
+                      className={`dropdown__menu ${
+                        openDropdown === index ? "show" : ""
+                      }`}
+                    >
+                      {category.subcategories.map((subcategory, subIndex) => (
+                        <li key={subIndex}>
+                          <Link
+                            to={`/categories/${category.name}/${subcategory}`}
+                            className="dropdown__link"
+                            onClick={handleLinkClick}
+                          >
+                            {subcategory}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Premium Pens
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Desk Organizers
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Daily Office Material
-                  </a>
-                </li>
-              </ul>
-            </li>
+              ))
+            )}
 
-            {/* Repeat similar structure for other dropdowns */}
-            {/* DROPDOWN 2 */}
-            <li className="dropdown__item">
-              <div className="nav__link">
-                <Link
-                  to="/categories/Corporate-Gifts"
-                  className="nav__link--plain"
-                  onClick={handleLinkClick}
-                >
-                  Corporate Gifts
-                </Link>
-                <RiArrowDownSLine
-                  className="dropdown__arrow"
-                  onClick={(e) => toggleDropdown(2)}
-                />
-              </div>
-              <ul
-                className={`dropdown__menu ${openDropdown === 2 ? "show" : ""}`}
-              >
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Paper Clips
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    File Folders
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Sticky Notes
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Binders
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            {/* Repeat for DROPDOWN 3, 4, and 5, and other links */}
-            {/* DROPDOWN 3 */}
-            <li className="dropdown__item">
-              <div className="nav__link">
-                <Link
-                  to="/categories/Apparels"
-                  className="nav__link--plain"
-                  onClick={handleLinkClick}
-                >
-                  Apparels
-                </Link>
-                <RiArrowDownSLine
-                  className="dropdown__arrow"
-                  onClick={(e) => toggleDropdown(3)}
-                />
-              </div>
-              <ul
-                className={`dropdown__menu ${openDropdown === 3 ? "show" : ""}`}
-              >
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Paper Clips
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    File Folders
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Sticky Notes
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Binders
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            {/* DROPDOWN 4 */}
-            <li className="dropdown__item">
-              <div className="nav__link">
-                <Link
-                  to="/categories/Signages"
-                  className="nav__link--plain"
-                  onClick={handleLinkClick}
-                >
-                  Signages
-                </Link>
-                <RiArrowDownSLine
-                  className="dropdown__arrow"
-                  onClick={(e) => toggleDropdown(4)}
-                />
-              </div>
-              <ul
-                className={`dropdown__menu ${openDropdown === 4 ? "show" : ""}`}
-              >
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Paper Clips
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    File Folders
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Sticky Notes
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Binders
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            {/* DROPDOWN 5 */}
-            <li className="dropdown__item">
-              <div className="nav__link">
-                <Link
-                  to="/categories/Electronics"
-                  className="nav__link--plain"
-                  onClick={handleLinkClick}
-                >
-                  Electronics
-                </Link>
-                <RiArrowDownSLine
-                  className="dropdown__arrow"
-                  onClick={(e) => toggleDropdown(5)}
-                />
-              </div>
-              <ul
-                className={`dropdown__menu ${openDropdown === 5 ? "show" : ""}`}
-              >
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Paper Clips
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    File Folders
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Sticky Notes
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="dropdown__link"
-                    onClick={handleLinkClick}
-                  >
-                    Binders
-                  </a>
-                </li>
-              </ul>
-            </li>
-
+            {/* Contact Link */}
             <li>
               <Link
                 smooth
-                to="/#contact" // Corrected the `to` prop to directly reference the section ID
+                to="/#contact"
                 className="nav__link"
-                onClick={() => {
-                  handleLinkClick(); // Trigger the link click handler
-                }}
+                onClick={handleLinkClick}
               >
                 <span>Contact</span>
               </Link>
