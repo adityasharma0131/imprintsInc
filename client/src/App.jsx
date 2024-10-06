@@ -67,15 +67,16 @@ const AppContent = () => {
           }
         />
         <Route
-          path="/categories/:catName"
+          path="/categories/:catId"
           element={
             <ClientWrapper>
               <CategoryPage />
             </ClientWrapper>
           }
         />
+
         <Route
-          path="/category/:categoryName"
+          path="/category/:categoryName/:subCat"
           element={
             <ClientWrapper>
               <SingleCategoryPage />
@@ -126,7 +127,7 @@ const AppContent = () => {
             <AuthGuard>
               <AdminWrapper>
                 <CategoryOperation />
-              </AdminWrapper> 
+              </AdminWrapper>
             </AuthGuard>
           }
         />

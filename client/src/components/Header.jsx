@@ -112,7 +112,7 @@ const Header = () => {
                       {category.subcategories.map((subcategory, subIndex) => (
                         <li key={subIndex}>
                           <Link
-                            to={`/categories/${category.name}/${subcategory}`}
+                            to={`/category/${category.name}/${subcategory}`}
                             className="dropdown__link"
                             onClick={handleLinkClick}
                           >
