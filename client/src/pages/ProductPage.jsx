@@ -1,77 +1,110 @@
 import React, { useEffect, useState } from "react";
-import { HashLink as Link } from "react-router-hash-link";
-import Book from "/assets/Book.png";
-import data from "../data.json";
+import { HashLink as Link } from "react-router-hash-link"; // Keep this for navigation to contact section
+import Book from "/assets/Book.png"; // Placeholder image in case of failure to load
+import { useParams } from "react-router-dom"; // Import useParams to get productId from the URL
 
 const ProductPage = () => {
-  const [subCategory, setSubCategory] = useState(null);
+  const { productId } = useParams(); // Get productId from URL
+  const [product, setProduct] = useState(null); // State to store the fetched product data
+  const [loading, setLoading] = useState(true); // State to manage loading state
 
   useEffect(() => {
-    // Assuming you want the first subcategory for demonstration
-    const category = data.find((item) => item.categoryName === "Stationery");
-    if (category && category.subcategories.length > 0) {
-      setSubCategory(category.subcategories[0]); // Fetch the first subcategory as an example
-    }
-  }, []);
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/products/${productId}` // Fetch product by ID from backend
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch product data");
+        }
+        const data = await response.json();
+        setProduct(data); // Set the product state
+      } catch (error) {
+        console.error("Error fetching product:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
 
-  if (!subCategory) {
-    return <div>Loading...</div>; // Display loading state while data is being fetched
+    fetchProduct(); // Call the fetch function
+  }, [productId]); // Depend on productId
+
+  // Function to parse HTML list items into an array
+  const parseHtmlList = (html) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html; // Set the inner HTML
+    const listItems = tempDiv.querySelectorAll("li"); // Select all <li> elements
+    return Array.from(listItems).map((li) => {
+      // Return only the text content of each <li> without any HTML tags
+      return li.textContent || li.innerText;
+    });
+  };
+
+  // Function to strip HTML tags from a string
+  const stripHtmlTags = (html) => {
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html; // Set the inner HTML
+    return tempDiv.textContent || tempDiv.innerText; // Return only the text content
+  };
+
+  if (loading) {
+    return <div>Loading...</div>; // Display loading state
   }
+
+  if (!product) {
+    return <div>Product not found.</div>; // Handle case where product is not found
+  }
+
+  // Parse features from the stored HTML
+  const featuresArray = parseHtmlList(product.features);
+  // Strip HTML tags from the product description
+  const strippedDescription = stripHtmlTags(product.description);
 
   return (
     <>
       <div className="product-page-container">
         <div className="single-product-image">
-          <img src={Book} alt="Product" className="image-placeholder" />
+          <img
+            src={`${import.meta.env.VITE_API_URL}/${
+              Array.isArray(product.images) &&
+              product.images[0].replace(/\\/g, "/")
+            }`} // Display first image or placeholder
+            alt={product.name}
+            className="image-placeholder"
+          />
         </div>
         <div className="product-details">
-          <h1 className="product-title">Employee Joining Kit</h1>
-          <p className="product-description">
-            From Boardrooms to Brunches, Your Go-To for Every Occasion: Jack and
-            Jones Polo T-shirts
-          </p>
+          <h1 className="product-title">{product.name}</h1>
+          <p className="product-description">{strippedDescription}</p>{" "}
+          {/* Display stripped description */}
           <ul className="product-features">
-            <li>Material: 100% Cotton for all-day comfort.</li>
-            <li>
-              Customization: Print on the pocket (3x3 or 4x4 inches) and back
-              (up to A4 size) with high-quality digital prints.
-            </li>
-            <li>Fit: Half sleeves; available in sizes S, M, L, XL, XXL.</li>
-            <li>Colors: Classic Black and White.</li>
-            <li>MOQ: Order starting from 1 T-shirt.</li>
+            {featuresArray.map((feature, index) => (
+              <li key={index}>
+                {feature} {/* Only the text content will be shown */}
+              </li>
+            ))}
           </ul>
-          <p className="product-additional-info">
-            Ideal for corporate events, team outings, or everyday wear, these
-            polos combine comfort and style, effortlessly boosting your brand.
-          </p>
           <Link to="/#contact">
-            {" "}
-            {/* Use Link to navigate to the contact section */}
             <button className="get-quote-btn">Get a Quote</button>
           </Link>
         </div>
       </div>
 
-      <div className="bgbox">
+      {/* <div className="bgbox">
         <div className="categories-sec">
           <h1 className="categories-sec-heading">Similar Products</h1>
           <div className="topproducts">
-            {[
-              subCategory.subCategoryImg1,
-              subCategory.subCategoryImg2,
-              subCategory.subCategoryImg3,
-              subCategory.subCategoryImg4,
-            ].map((img, index) => (
+            {product.images.map((img, index) => (
               <img
                 key={index}
-                src={img}
-                alt={`${subCategory.subCategoryName} ${index + 1}`}
+                src={img} // Assuming similar products are within the same images array
+                alt={`${product.name} ${index + 1}`}
                 className="product-image"
               />
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

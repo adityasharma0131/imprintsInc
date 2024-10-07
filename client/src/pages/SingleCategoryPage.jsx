@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const SingleCategoryPage = () => {
   const { categoryName, subCat } = useParams(); // Get both category name and subcategory from URL
@@ -87,7 +87,11 @@ const SingleCategoryPage = () => {
         <h1 className="categories-sec-heading">{subCat}</h1>
         <div className="topproducts">
           {products.map((product, index) => (
-            <div key={index} className="product-item">
+            <Link
+              to={`/products/${product._id}`} // Link to the product page using product ID
+              key={index}
+              className="product-item"
+            >
               <img
                 src={`${
                   import.meta.env.VITE_API_URL
@@ -95,7 +99,7 @@ const SingleCategoryPage = () => {
                 alt={product.name}
                 className="product-image"
               />
-            </div>
+            </Link>
           ))}
         </div>
       </div>
