@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const CategoryPage = () => {
   const [category, setCategory] = useState(null);
@@ -87,7 +87,11 @@ const CategoryPage = () => {
               .filter((product) => product.subcategory === subCategory)
               .slice(0, 4) // Get only the top 4 products
               .map((product, prodIndex) => (
-                <div key={prodIndex} className="product-item">
+                <Link
+                  to={`/products/${product._id}`} // Link to the product page using product ID
+                  key={prodIndex}
+                  className="product-item"
+                >
                   <img
                     src={`${import.meta.env.VITE_API_URL}/${
                       Array.isArray(product.images) &&
@@ -96,7 +100,7 @@ const CategoryPage = () => {
                     alt={product.name}
                     className="product-image"
                   />
-                </div>
+                </Link>
               ))}
           </div>
           <button

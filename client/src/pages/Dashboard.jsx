@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import pumpImg from "/assets/Book.png"; // Placeholder, might not be necessary
-import valveImg from "/assets/Book.png";
-import cylinderImg from "/assets/Book.png";
+
 import Table from "../components/TableComponent";
 
 const Dashboard = () => {
@@ -79,7 +77,7 @@ const Dashboard = () => {
           throw new Error("Error fetching products");
         }
         const data = await response.json();
-        setProducts(data);
+        setProducts(data.slice(-4));
       } catch (error) {
         setError("Failed to load products");
         console.error("Error fetching products:", error);

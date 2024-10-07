@@ -694,7 +694,19 @@ router.get("/api/category/:name", async (req, res) => {
   }
 });
 
+// Route to fetch the latest products
+router.get("/api/latest/products", async (req, res) => {
+  try {
+    // Fetch the latest 6 products, sorted by creation date
+    const latestProducts = await ProductSchema.find({})
+      .sort({ createdAt: -1 }) // Sort by latest created products
+      .limit(6); // Limit to 6 products
 
-
+    res.json(latestProducts);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({ error: "Server error. Could not fetch products." });
+  }
+});
 
 module.exports = router;

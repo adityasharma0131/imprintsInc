@@ -6,34 +6,17 @@ import electronics from "/assets/Electronics.png";
 import Book from "/assets/Book.png";
 import { HashLink as Link } from "react-router-hash-link";
 
-
 import { MdDesignServices } from "react-icons/md";
 import { IoRibbon } from "react-icons/io5";
 import { FaTruckFast } from "react-icons/fa6";
 import { RiDiscountPercentFill } from "react-icons/ri";
 
-import client1 from "/assets/client1.png";
-import client2 from "/assets/client2.png";
-import client3 from "/assets/client3.png";
-import client4 from "/assets/client4.png";
-import client5 from "/assets/client5.png";
-import client6 from "/assets/client6.png";
-import client7 from "/assets/client7.png";
-import client8 from "/assets/client8.png";
-import client9 from "/assets/client9.png";
-import client10 from "/assets/client10.png";
-import client11 from "/assets/client11.png";
-import client12 from "/assets/client12.png";
-import client13 from "/assets/client13.png";
-import client14 from "/assets/client14.png";
-import client15 from "/assets/client15.png";
-import client16 from "/assets/client16.png";
-import client17 from "/assets/client17.png";
-import client18 from "/assets/client18.png";
-
 const Home = () => {
   const [clientImages, setClientImages] = useState([]);
   const [error, setError] = useState(null);
+
+  const [products, setProducts] = useState([]); // State to store products
+  const [loading, setLoading] = useState(true); // State for loading
   useEffect(() => {
     // Fetch logos from the backend
     const fetchLogos = async () => {
@@ -60,6 +43,27 @@ const Home = () => {
     };
 
     fetchLogos();
+  }, []);
+
+  useEffect(() => {
+    const fetchLatestProducts = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/latest/products`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        setProducts(data); // Store the fetched products
+      } catch (error) {
+        console.error("Error fetching latest products:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
+    fetchLatestProducts(); // Call the function to fetch latest products
   }, []);
 
   const [formData, setFormData] = useState({
@@ -131,15 +135,6 @@ const Home = () => {
     },
   ];
 
-  const products = [
-    { id: 1, title: "Product 1", image: Book },
-    { id: 2, title: "Product 2", image: Book },
-    { id: 3, title: "Product 3", image: Book },
-    { id: 4, title: "Product 4", image: Book },
-    { id: 5, title: "Product 5", image: Book },
-    { id: 6, title: "Product 6", image: Book },
-  ];
-
   return (
     <>
       {/* HOME SECTION  */}
@@ -164,19 +159,28 @@ const Home = () => {
           ))}
         </div>
       </div>
-
       <div className="best-selling-products">
         <h1 className="best-selling-products__title">Best Selling Products</h1>
         <div className="best-selling-products__grid">
           {products.map((product) => (
-            <div className="best-selling-products__card" key={product.id}>
+            <Link
+              to={`/products/${product._id}`} // Link to the product page using product ID
+              key={product._id}
+              className="best-selling-products__card"
+            >
               <img
-                src={product.image}
-                alt={product.title}
+                src={
+                  Array.isArray(product.images) && product.images.length > 0
+                    ? `${
+                        import.meta.env.VITE_API_URL
+                      }/${product.images[0].replace(/\\/g, "/")}`
+                    : Book // Use placeholder if no images are available
+                }
+                alt={product.name}
                 className="best-selling-products__image"
               />
-              <p className="best-selling-products__name">{product.title}</p>
-            </div>
+              <p className="best-selling-products__name">{product.name}</p>
+            </Link>
           ))}
         </div>
       </div>

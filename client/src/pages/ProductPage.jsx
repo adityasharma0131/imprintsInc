@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HashLink as Link } from "react-router-hash-link"; // Keep this for navigation to contact section
-import Book from "/assets/Book.png"; // Placeholder image in case of failure to load
+import { HashLink as Link } from "react-router-hash-link";
 import { useParams } from "react-router-dom"; // Import useParams to get productId from the URL
 
 const ProductPage = () => {
@@ -84,12 +83,13 @@ const ProductPage = () => {
               </li>
             ))}
           </ul>
-          <Link to="/#contact">
+          <Link smooth to="/#contact">
             <button className="get-quote-btn">Get a Quote</button>
           </Link>
         </div>
       </div>
 
+      {/* Uncomment if you want to show similar products section */}
       {/* <div className="bgbox">
         <div className="categories-sec">
           <h1 className="categories-sec-heading">Similar Products</h1>
