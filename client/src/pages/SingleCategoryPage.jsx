@@ -1,34 +1,101 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import categoriesData from "../data.json"; // Importing JSON data
 
 const SingleCategoryPage = () => {
-  const { categoryName } = useParams(); // Get the category name from URL
-  const category = categoriesData
-    .flatMap((cat) => cat.subcategories)
-    .find((subCategory) => subCategory.subCategoryName === categoryName);
+  const { categoryName, subCat } = useParams(); // Get both category name and subcategory from URL
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [category, setCategory] = useState(null); // State to hold category data
 
-  if (!category) {
-    return <div className="centerd">Category not found</div>;
+  useEffect(() => {
+    // Fetch category data to get backdrop images
+    const fetchCategory = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/category/${categoryName}` // Adjust the endpoint as needed
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch category");
+        }
+        const data = await response.json();
+        setCategory(data); // Set category data
+      } catch (error) {
+        console.error("Error fetching category:", error);
+      }
+    };
+
+    // Fetch all products for the given category
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/products?category=${categoryName}` // Fetch products by category
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+
+        // Filter products based on the subcategory
+        const filteredProducts = data.filter(
+          (product) => product.subcategory === subCat
+        );
+        setProducts(filteredProducts); // Set filtered products
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
+      }
+    };
+
+    fetchCategory();
+    fetchProducts();
+  }, [categoryName, subCat]); // Depend on categoryName and subCat
+
+  if (loading) {
+    return <div className="centerd">Loading products...</div>;
+  }
+
+  if (products.length === 0) {
+    return (
+      <div className="centerd">No products found for this subcategory.</div>
+    ); // Update message to reflect subcategory
   }
 
   return (
     <div className="bgbox">
+      {category && (
+        <picture>
+          {/* Responsive image for smaller screens */}
+          <source
+            srcSet={`${
+              import.meta.env.VITE_API_URL
+            }/${category.mobileBackdrop.replace(/\\/g, "/")}`}
+            media="(max-width: 768px)"
+          />
+          <img
+            src={`${
+              import.meta.env.VITE_API_URL
+            }/${category.desktopBackdrop.replace(/\\/g, "/")}`}
+            alt={`${category.name} Hero`}
+            className="hero-image"
+          />
+        </picture>
+      )}
       <div className="categories-sec">
-        <h1 className="categories-sec-heading">{category.subCategoryName}</h1>
+        <h1 className="categories-sec-heading">{subCat}</h1>
         <div className="topproducts">
-          {[
-            category.subCategoryImg1,
-            category.subCategoryImg2,
-            category.subCategoryImg3,
-            category.subCategoryImg4,
-          ].map((img, index) => (
-            <img
-              key={index}
-              src={img}
-              alt={`${category.subCategoryName} ${index + 1}`}
-              className="product-image"
-            />
+          {products.map((product, index) => (
+            <div key={index} className="product-item">
+              <img
+                src={`${
+                  import.meta.env.VITE_API_URL
+                }/${product.images[0].replace(/\\/g, "/")}`} // Adjust image URL if necessary
+                alt={product.name}
+                className="product-image"
+              />
+            </div>
           ))}
         </div>
       </div>
