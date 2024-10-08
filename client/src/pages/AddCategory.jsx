@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { HashLink as Link } from "react-router-hash-link";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const AddCategory = () => {
   const [categoryName, setCategoryName] = useState("");
   const [desktopBackdrop, setDesktopBackdrop] = useState(null);
   const [mobileBackdrop, setMobileBackdrop] = useState(null);
-
+  const navigate = useNavigate();
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +33,7 @@ const AddCategory = () => {
 
       const data = await response.json();
       toast.success("Category added successfully!");
+      navigate("/category-operation");
       setCategoryName("");
       setDesktopBackdrop(null);
       setMobileBackdrop(null);

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
 import { HashLink as Link } from "react-router-hash-link";
 import toast, { Toaster } from "react-hot-toast"; // Importing toast and Toaster
+import { useNavigate } from "react-router-dom"; // Importing useNavigate
 
 const AddUsers = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const AddUsers = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate(); // For navigation after successful submission
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,6 +34,7 @@ const AddUsers = () => {
       if (response.ok) {
         toast.success(result.message || "User added successfully!"); // Success notification
         setFormData({ name: "", email: "", password: "" }); // Reset form data
+        navigate("/user-operation");
       } else {
         toast.error(result.error || result.message || "Failed to add user."); // Error notification
       }

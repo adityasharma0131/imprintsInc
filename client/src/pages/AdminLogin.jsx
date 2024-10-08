@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Ensure you have this import
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const AdminLogin = () => {
   const [loginInfo, setLoginInfo] = useState({
@@ -18,9 +19,12 @@ const AdminLogin = () => {
   };
 
   const handleSuccess = (message) => {
+    toast.success(message); // Display success message
     console.log(message);
   };
+
   const handleError = (message) => {
+    toast.error(message); // Display error message
     console.log(message);
   };
 
@@ -35,13 +39,16 @@ const AdminLogin = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:3000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginInfo),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(loginInfo),
+        }
+      );
 
       const result = await response.json();
 
@@ -62,7 +69,7 @@ const AdminLogin = () => {
         localStorage.setItem("loggedInUser", user.name);
         setTimeout(() => {
           navigate("/dashboard");
-        }, 1000);
+        });
       } else {
         handleError(message || "Login failed");
       }
@@ -74,52 +81,55 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-bg-box">
-        <h1 className="heading1">Login</h1>
-        <div className="form-box">
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <label htmlFor="email" className="form-box-label">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Email Address"
-                className="form-box-input"
-                value={loginInfo.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password" className="form-box-label">
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="***************"
-                className="form-box-input"
-                value={loginInfo.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="form-box-button"
-              disabled={loading}
-            >
-              {loading ? "Logging in..." : "Login"}
-            </button>
-          </form>
+    <>
+      <Toaster /> {/* React Hot Toast Container */}
+      <div className="login-page">
+        <div className="login-bg-box">
+          <h1 className="heading1">Login</h1>
+          <div className="form-box">
+            <form onSubmit={handleLogin}>
+              <div className="form-group">
+                <label htmlFor="email" className="form-box-label">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email Address"
+                  className="form-box-input"
+                  value={loginInfo.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password" className="form-box-label">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="***************"
+                  className="form-box-input"
+                  value={loginInfo.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="form-box-button"
+                disabled={loading}
+              >
+                {"Login"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

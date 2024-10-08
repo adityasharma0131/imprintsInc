@@ -106,11 +106,12 @@ const AddProduct = () => {
         <form className="add-product-form" onSubmit={handleSubmit}>
           {/* Product Name */}
           <div className="form-group">
-            <label htmlFor="name" className="form-label">
+            <label htmlFor="productName" className="form-label">
               Product Name
             </label>
             <input
               type="text"
+              id="productName" // Add matching id for the label's "for" attribute
               name="name"
               value={productName}
               onChange={(e) => setProductName(e.target.value)}
@@ -122,10 +123,11 @@ const AddProduct = () => {
 
           {/* Category Dropdown */}
           <div className="form-group">
-            <label htmlFor="category" className="form-label">
+            <label htmlFor="productCategory" className="form-label">
               Category
             </label>
             <select
+              id="productCategory" // Add matching id for the label's "for" attribute
               name="category"
               value={category}
               onChange={handleCategoryChange}
@@ -146,10 +148,11 @@ const AddProduct = () => {
           {/* Subcategory Dropdown */}
           {subcategories.length > 0 && (
             <div className="form-group">
-              <label htmlFor="subcategory" className="form-label">
+              <label htmlFor="productSubcategory" className="form-label">
                 Sub Category
               </label>
               <select
+                id="productSubcategory" // Add matching id for the label's "for" attribute
                 name="subcategory"
                 value={subcategory}
                 onChange={(e) => setSubcategory(e.target.value)}
@@ -170,11 +173,12 @@ const AddProduct = () => {
 
           {/* Image Inputs */}
           <div className="form-group">
-            <label htmlFor="images" className="form-label">
+            <label htmlFor="productImages" className="form-label">
               Upload Product Images
             </label>
             <input
               type="file"
+              id="productImages" // Match label "for" attribute with input id
               name="images"
               accept="image/*"
               multiple
@@ -186,11 +190,18 @@ const AddProduct = () => {
 
           {/* Description */}
           <div className="form-group">
-            <label htmlFor="description" className="form-label">
+            <label htmlFor="descriptionField" className="form-label">
               Description
             </label>
+            <textarea
+              id="descriptionField"
+              value={description}
+              readOnly
+              style={{ display: "none" }} // Hidden textarea for accessibility
+            />
             <ReactQuill
               theme="snow"
+              id="descriptionField" // Match label "for" attribute with ReactQuill id
               value={description}
               onChange={setDescription}
               className="form-quill"
@@ -199,11 +210,18 @@ const AddProduct = () => {
 
           {/* Features */}
           <div className="form-group">
-            <label htmlFor="features" className="form-label">
+            <label htmlFor="featuresField" className="form-label">
               Features
             </label>
+            <textarea
+              id="featuresField"
+              value={features}
+              readOnly
+              style={{ display: "none" }} // Hidden textarea for accessibility
+            />
             <ReactQuill
               theme="snow"
+              id="featuresField" // Match label "for" attribute with ReactQuill id
               value={features}
               onChange={setFeatures}
               className="form-quill"

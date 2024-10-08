@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast"; // Importing toast and Toaster
 
 import logo from "/assets/imprintslogo.png";
 import { AiFillProduct } from "react-icons/ai";
@@ -40,10 +41,8 @@ const Sidebar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("loggedInUser");
-    console.log("Logged out successfully!");
-    setTimeout(() => {
-      navigate("/admin-login");
-    }, 1000);
+    toast.success("Logged out successfully!");
+    navigate("/admin-login");
   };
 
   // Sidebar links
@@ -86,65 +85,68 @@ const Sidebar = () => {
   ];
 
   return (
-    <div
-      className={`sidebar ${isExpanded ? "sidebar--expanded" : ""}`}
-      id="navbar"
-    >
-      <nav className="sidebar__nav">
-        <div>
-          <Link
-            to="/"
-            className="sidebar__logo"
-            aria-label="M.K Hydraulics Home"
-          >
-            <img src={logo} alt="Logo" className="sidebar__logo-icon" />
-            {isExpanded && (
-              <span className="sidebar__logo-text">Imprints INC</span>
-            )}
-          </Link>
+    <>
+      <Toaster />
+      <div
+        className={`sidebar ${isExpanded ? "sidebar--expanded" : ""}`}
+        id="navbar"
+      >
+        <nav className="sidebar__nav">
+          <div>
+            <Link
+              to="/"
+              className="sidebar__logo"
+              aria-label="M.K Hydraulics Home"
+            >
+              <img src={logo} alt="Logo" className="sidebar__logo-icon" />
+              {isExpanded && (
+                <span className="sidebar__logo-text">Imprints INC</span>
+              )}
+            </Link>
 
+            <button
+              className={`sidebar__toggle ${isExpanded ? "rotate" : ""}`}
+              id="nav-toggle"
+              onClick={toggleSidebar}
+              aria-expanded={isExpanded}
+              aria-controls="navbar"
+            >
+              <BiChevronRight />
+            </button>
+
+            <ul className="sidebar__list" role="menu">
+              {links.map((link) => (
+                <li key={link.name} role="menuitem">
+                  <Link
+                    to={link.link}
+                    className={`sidebar__link ${
+                      activeLink === link.name ? "sidebar__link--active" : ""
+                    }`}
+                    onClick={() => handleLinkClick(link.name)}
+                    aria-current={activeLink === link.name ? "page" : undefined}
+                  >
+                    {link.icon}
+                    {isExpanded && (
+                      <span className="sidebar__text">{link.name}</span>
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Logout Button */}
           <button
-            className={`sidebar__toggle ${isExpanded ? "rotate" : ""}`}
-            id="nav-toggle"
-            onClick={toggleSidebar}
-            aria-expanded={isExpanded}
-            aria-controls="navbar"
+            className="sidebar__link sidebar__link--logout"
+            aria-label="Logout"
+            onClick={handleLogout}
           >
-            <BiChevronRight />
+            <BiLogOutCircle className="sidebar__icon" />
+            {isExpanded && <span className="sidebar__text">Logout</span>}
           </button>
-
-          <ul className="sidebar__list" role="menu">
-            {links.map((link) => (
-              <li key={link.name} role="menuitem">
-                <Link
-                  to={link.link}
-                  className={`sidebar__link ${
-                    activeLink === link.name ? "sidebar__link--active" : ""
-                  }`}
-                  onClick={() => handleLinkClick(link.name)}
-                  aria-current={activeLink === link.name ? "page" : undefined}
-                >
-                  {link.icon}
-                  {isExpanded && (
-                    <span className="sidebar__text">{link.name}</span>
-                  )}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Logout Button */}
-        <button
-          className="sidebar__link sidebar__link--logout"
-          aria-label="Logout"
-          onClick={handleLogout}
-        >
-          <BiLogOutCircle className="sidebar__icon" />
-          {isExpanded && <span className="sidebar__text">Logout</span>}
-        </button>
-      </nav>
-    </div>
+        </nav>
+      </div>
+    </>
   );
 };
 
