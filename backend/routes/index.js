@@ -244,7 +244,7 @@ router.put(
           fs.unlinkSync(path.resolve(category.desktopBackdrop));
         }
         // Save the new image path
-        category.desktopBackdrop = `../uploads/${req.files.desktopBackdrop[0].filename}`;
+        category.desktopBackdrop = `uploads/${req.files.desktopBackdrop[0].filename}`;
       }
 
       // Update mobile backdrop if a new one is uploaded
@@ -254,7 +254,7 @@ router.put(
           fs.unlinkSync(path.resolve(category.mobileBackdrop));
         }
         // Save the new image path
-        category.mobileBackdrop = `../uploads/${req.files.mobileBackdrop[0].filename}`;
+        category.mobileBackdrop = `uploads/${req.files.mobileBackdrop[0].filename}`;
       }
 
       await category.save();
