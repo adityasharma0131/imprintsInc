@@ -494,6 +494,9 @@ router.put("/api/categories/:categoryId/subcategories", async (req, res) => {
   }
 });
 
+// Serve static files from the "uploads" directory
+router.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 // API to handle file upload
 router.post("/api/upload", upload.single("image"), async (req, res) => {
   try {
