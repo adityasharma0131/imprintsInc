@@ -22,16 +22,12 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // Middleware setup
-app.use(
-  helmet({
-    crossOriginResourcePolicy: false,
-  })
-);
+app.use(helmet());
 
 // CORS configuration
 const allowedOrigins = process.env.FRONTEND_URL
   ? process.env.FRONTEND_URL.split(",")
-  : [process.env.BACKEND_URL]; // Default fallback for development
+  : [process.env.BACKEND_URL]; // Default for development
 
 app.use(
   cors({
