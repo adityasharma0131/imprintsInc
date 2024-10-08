@@ -31,7 +31,7 @@ app.use(
 // CORS configuration
 const allowedOrigins = process.env.FRONTEND_URL
   ? process.env.FRONTEND_URL.split(",")
-  : ["http://localhost:3000"]; // Default fallback for development
+  : [process.env.BACKEND_URL]; // Default fallback for development
 
 app.use(
   cors({
