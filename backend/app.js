@@ -22,7 +22,11 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // Middleware setup
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
 
 // CORS configuration
 const allowedOrigins = process.env.FRONTEND_URL
