@@ -1012,19 +1012,20 @@ a {
 }
 
 .product-image {
-  width: 100%;
-  max-width: 300px; /* Adjusts max-width for product images */
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  object-fit: cover;
-  transition: transform 0.3s ease-in-out; /* Smooth transition for the zoom effect */
+  max-width: 150px;
+  max-height: 150px;
+  width: 100%; /* Ensures responsiveness */
+  height: auto; /* Keeps the aspect ratio */
+  border-radius: 10px; /* Increased radius for smoother corners */
+  object-fit: cover; /* Ensures the image fits within the box while maintaining the aspect ratio */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adds smooth transitions */
 }
 
 .product-image:hover {
-  transform: scale(1.1); /* Zooms in by 10% when hovered */
+  transform: scale(1.05); /* Slight zoom on hover for a nice effect */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Enhances shadow on hover */
 }
-
 /* View All button */
 .view-all-btn {
   padding: 0.75rem 1.5rem;

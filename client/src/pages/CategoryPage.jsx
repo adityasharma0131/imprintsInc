@@ -90,7 +90,7 @@ const CategoryPage = () => {
                 <Link
                   to={`/products/${product._id}`} // Link to the product page using product ID
                   key={prodIndex}
-                  className="product-item"
+                  className="best-selling-products__card"
                 >
                   <img
                     src={`${import.meta.env.VITE_API_URL}/${
@@ -98,8 +98,9 @@ const CategoryPage = () => {
                       product.images[0].replace(/\\/g, "/")
                     }`}
                     alt={product.name}
-                    className="product-image"
+                    className="best-selling-products__image"
                   />
+                  <p className="best-selling-products__name">{product.name}</p>
                 </Link>
               ))}
           </div>

@@ -3,7 +3,6 @@ import toast, { Toaster } from "react-hot-toast"; // For notifications
 import corporategifting from "/assets/Corporategifting.png";
 import stationery from "/assets/Stationery.png";
 import electronics from "/assets/Electronics.png";
-import Book from "/assets/Book.png";
 import { HashLink as Link } from "react-router-hash-link";
 
 import { MdDesignServices } from "react-icons/md";
