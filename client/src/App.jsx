@@ -88,7 +88,7 @@ const AppContent = () => {
           element={
             <ClientWrapper>
               <ProductPage />
-            </ClientWrapper>
+            </ClientWrapper> 
           }
         />
         <Route
