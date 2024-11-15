@@ -123,14 +123,17 @@ const Home = () => {
     {
       title: "Corporate Gifting",
       image: corporategifting,
+      link: "/categories/Corporate Gift",
     },
     {
       title: "Stationery",
       image: stationery,
+      link: "/categories/Stationery",
     },
     {
       title: "Electronics",
       image: electronics,
+      link: "/categories/Electronics",
     },
   ];
 
@@ -144,16 +147,18 @@ const Home = () => {
         <div className="popular-categories__grid">
           {categories.map((category, index) => (
             <div className="popular-categories__item" key={index}>
-              <img
-                src={category.image}
-                alt={category.title}
-                className="popular-categories__image"
-              />
-              <div className="popular-categories__overlay">
-                <span className="popular-categories__text">
-                  {category.title}
-                </span>
-              </div>
+              <a href={category.link} className="popular-categories__link">
+                <img
+                  src={category.image}
+                  alt={category.title}
+                  className="popular-categories__image"
+                />
+                <div className="popular-categories__overlay">
+                  <span className="popular-categories__text">
+                    {category.title}
+                  </span>
+                </div>
+              </a>
             </div>
           ))}
         </div>
