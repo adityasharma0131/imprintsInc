@@ -38,7 +38,7 @@ const ClientWrapper = ({ children }) => (
   <>
     <Header />
     {children}
-    <WhatsaapButton phoneNumber="9324389141" />
+    <WhatsaapButton phoneNumber="8655706240" />
     <Footer />
   </>
 );
@@ -88,7 +88,7 @@ const AppContent = () => {
           element={
             <ClientWrapper>
               <ProductPage />
-            </ClientWrapper> 
+            </ClientWrapper>
           }
         />
         <Route
