@@ -11,6 +11,10 @@ const CategorySchema = new Schema({
     type: [String],
     default: [],
   },
+  homepageImage: {
+    type: String, // Path to the desktop backdrop image
+    default: "",
+  },
   desktopBackdrop: {
     type: String, // Path to the desktop backdrop image
     default: "",

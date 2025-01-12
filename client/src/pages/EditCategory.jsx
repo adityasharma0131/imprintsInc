@@ -7,9 +7,11 @@ const EditCategory = () => {
   const { id } = useParams();
   const [categoryName, setCategoryName] = useState("");
   const [desktopBackdrop, setDesktopBackdrop] = useState(null);
+  const [homepageImage, sethomepageImage] = useState(null);
   const [mobileBackdrop, setMobileBackdrop] = useState(null);
   const [currentDesktopBackdrop, setCurrentDesktopBackdrop] = useState("");
   const [currentMobileBackdrop, setCurrentMobileBackdrop] = useState("");
+  const [currenthomepageImage, setCurrenthomepageImage] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -24,6 +26,7 @@ const EditCategory = () => {
         }
         const data = await response.json();
         setCategoryName(data.name);
+        setCurrenthomepageImage(data.homepageImage);
         setCurrentDesktopBackdrop(data.desktopBackdrop);
         setCurrentMobileBackdrop(data.mobileBackdrop);
       } catch (error) {
@@ -40,6 +43,9 @@ const EditCategory = () => {
     formData.append("name", categoryName);
 
     // Append the files only if they are updated
+    if (homepageImage) {
+      formData.append("homepageImage", homepageImage);
+    }
     if (desktopBackdrop) {
       formData.append("desktopBackdrop", desktopBackdrop);
     }
@@ -115,6 +121,28 @@ const EditCategory = () => {
                   </td>
                 </tr>
 
+                {/* Display current Hompepage image */}
+                <tr>
+                  <td>
+                    <label>Current Home Page Image</label>
+                    {currenthomepageImage && (
+                      <img
+                        src={`${
+                          import.meta.env.VITE_API_URL
+                        }/${currenthomepageImage}`}
+                        alt="Current Home Page Image"
+                        style={{ width: "200px" }}
+                      />
+                    )}
+                    <input
+                      type="file"
+                      name="homepageImag"
+                      className="dash-input"
+                      onChange={(e) => sethomepageImage(e.target.files[0])}
+                      accept="image/*"
+                    />
+                  </td>
+                </tr>
                 {/* Display current desktop backdrop */}
                 <tr>
                   <td>

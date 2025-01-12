@@ -150,6 +150,7 @@ router.delete("/api/contact/:id", async (req, res) => {
 router.post(
   "/api/categories",
   upload.fields([
+    { name: "homepageImage", maxCount: 1 },
     { name: "desktopBackdrop", maxCount: 1 },
     { name: "mobileBackdrop", maxCount: 1 },
   ]),
@@ -163,6 +164,9 @@ router.post(
     try {
       const newCategory = new CategoryModel({
         name,
+        homepageImage: req.files.homepageImage
+          ? req.files.homepageImage[0].path
+          : "",
         desktopBackdrop: req.files.desktopBackdrop
           ? req.files.desktopBackdrop[0].path
           : "",
@@ -215,6 +219,7 @@ router.get("/api/categories/:id", async (req, res) => {
 router.put(
   "/api/categories/:id",
   upload.fields([
+    { name: "homepageImage", maxCount: 1 },
     { name: "desktopBackdrop", maxCount: 1 },
     { name: "mobileBackdrop", maxCount: 1 },
   ]),
@@ -234,6 +239,15 @@ router.put(
       // Update category name
       category.name = name;
 
+      // Update Hoem Page Image if a new one is uploaded
+      if (req.files.homepageImage) {
+        // Delete the old image
+        if (category.homepageImage && fs.existsSync(category.homepageImage)) {
+          fs.unlinkSync(path.resolve(category.homepageImage));
+        }
+        // Save the new image path
+        category.homepageImage = `uploads/${req.files.homepageImage[0].filename}`;
+      }
       // Update desktop backdrop if a new one is uploaded
       if (req.files.desktopBackdrop) {
         // Delete the old image
@@ -280,9 +294,14 @@ router.delete("/api/categories/:id", async (req, res) => {
     }
 
     // Paths for desktop and mobile backdrops
+    const homepageImagePath = category.homepageImage;
     const desktopBackdropPath = category.desktopBackdrop;
     const mobileBackdropPath = category.mobileBackdrop;
 
+    // Delete desktop backdrop if it exists
+    if (homepageImagePath && fs.existsSync(homepageImagePath)) {
+      fs.unlinkSync(path.resolve(homepageImagePath)); // Delete the file
+    }
     // Delete desktop backdrop if it exists
     if (desktopBackdropPath && fs.existsSync(desktopBackdropPath)) {
       fs.unlinkSync(path.resolve(desktopBackdropPath)); // Delete the file

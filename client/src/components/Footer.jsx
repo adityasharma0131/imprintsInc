@@ -4,7 +4,10 @@ import {
   FaFacebook,
   FaWhatsapp,
   FaLinkedin,
-} from "react-icons/fa"; // Imported only used icons
+  FaPhoneAlt,
+  FaEnvelope,
+} from "react-icons/fa";
+import { IoLocationSharp } from "react-icons/io5";
 
 const Footer = () => {
   const [contactDetails, setContactDetails] = useState(null); // State to store contact details
@@ -55,46 +58,57 @@ const Footer = () => {
 
   return (
     <>
-      <div className="footer">
+      <footer className="footer">
         <div className="footer-container">
           <div className="footer-section">
-            <h3 className="footer-title">Our Company</h3>
-            <p className="footer-description">
-              Welcome To Imprints INC
-              <br />
-              HAVING 10 YEARS EXPERIENCE
-            </p>
-            <p className="footer-text">
-              Imprints INC is engaged in the business of corporate gifting,
-              known for supplying unbeatable business promotional products that
-              have made an indelible impact across industry verticals. Our
-              commitment to excellence and passion for quality products have
-              shown us the way to growth and prosperity. Our huge range of
-              products includes stationery items, corporate gifts, clothing,
-              signages, electronics, etc.
-            </p>
+            <h3 className="footer-title">Quick Links</h3>
+            <ul className="footer-links">
+              <li>
+                <a href="/">HOME</a>
+              </li>
+              <li>
+                <a href="/about">ABOUT US</a>
+              </li>
+              <li>
+                <a href="/categories">CATEGORIES</a>
+              </li>
+              <li>
+                <a href="/contact">CONTACT</a>
+              </li>
+            </ul>
           </div>
           <div className="footer-section">
             <h3 className="footer-title">Contact Details</h3>
-            {contactDetails && ( // Render contact details if available
-              <>
-                <p className="footer-contact">{contactDetails.phone}</p>
-                <p className="footer-contact">{contactDetails.email}</p>
-                <p className="footer-contact">{contactDetails.address}</p>
-              </>
-            )}
+            <p className="footer-contact">
+              <span role="img" aria-label="phone">
+                <FaPhoneAlt />
+              </span>{" "}
+              {contactDetails?.phone || "Loading phone number..."}
+            </p>
+            <p className="footer-contact">
+              <span role="img" aria-label="email">
+                <FaEnvelope />
+              </span>{" "}
+              {contactDetails?.email || "Loading email..."}
+            </p>
+            <p className="footer-contact">
+              <span role="img" aria-label="address">
+                <IoLocationSharp />
+              </span>{" "}
+              {contactDetails?.address || "Loading address..."}
+            </p>
           </div>
+
           <div className="footer-section">
             <h3 className="footer-title">Follow Us</h3>
             <ul className="social-links">
               {socialLinks.map((social, index) => (
                 <li key={social.id || index}>
-                  {" "}
-                  {/* Use social.id if available, else index */}
                   <a
-                    href={social.url} // Use the URL from fetched data
+                    href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={social.name}
                   >
                     {social.name === "Instagram" && <FaInstagram />}
                     {social.name === "Facebook" && <FaFacebook />}
@@ -116,7 +130,7 @@ const Footer = () => {
             ></iframe>
           </div>
         </div>
-      </div>
+      </footer>
       <div className="footer-bottom">
         <p>Imprints INC © 2024 | All Rights Reserved</p>
       </div>

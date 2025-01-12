@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast"; // For notifications
-import corporategifting from "/assets/Corporategifting.png";
-import stationery from "/assets/Stationery.png";
-import electronics from "/assets/Electronics.png";
+
 import { HashLink as Link } from "react-router-hash-link";
+
+import aboutus from "/assets/aboutus.png";
 
 import { MdDesignServices } from "react-icons/md";
 import { IoRibbon } from "react-icons/io5";
@@ -11,60 +11,12 @@ import { FaTruckFast } from "react-icons/fa6";
 import { RiDiscountPercentFill } from "react-icons/ri";
 
 const Home = () => {
-  const [clientImages, setClientImages] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [clientImages, setClientImages] = useState([]);
 
-  const [products, setProducts] = useState([]); // State to store products
-  const [loading, setLoading] = useState(true); // State for loading
-  useEffect(() => {
-    // Fetch logos from the backend
-    const fetchLogos = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/logos`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch logos");
-        }
-
-        const data = await response.json();
-        const imageUrls = data.map(
-          (logo) => `${import.meta.env.VITE_API_URL}/uploads/${logo.filename}`
-        ); // Adjust URL to your backend's file path
-        setClientImages(imageUrls);
-      } catch (error) {
-        console.error("Error fetching logos:", error);
-        setError("Failed to load logos.");
-
-        toast.error("Failed to load logos. Please try again later.");
-      }
-    };
-
-    fetchLogos();
-  }, []);
-
-  useEffect(() => {
-    const fetchLatestProducts = async () => {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/latest/products`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data = await response.json();
-        setProducts(data); // Store the fetched products
-      } catch (error) {
-        console.error("Error fetching latest products:", error);
-      } finally {
-        setLoading(false); // Set loading to false after fetching
-      }
-    };
-
-    fetchLatestProducts(); // Call the function to fetch latest products
-  }, []);
-
+  // State for form data
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -75,6 +27,50 @@ const Home = () => {
     message: "",
   });
 
+  // Fetch categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/categories`
+        );
+        if (!response.ok) throw new Error("Failed to fetch categories");
+        const data = await response.json();
+        setCategories(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Fetch client logos from API
+  useEffect(() => {
+    const fetchLogos = async () => {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/api/logos`
+        );
+        if (!response.ok) throw new Error("Failed to fetch logos");
+        const data = await response.json();
+        const imageUrls = data.map(
+          (logo) => `${import.meta.env.VITE_API_URL}/uploads/${logo.filename}`
+        );
+        setClientImages(imageUrls);
+      } catch (err) {
+        console.error("Error fetching logos:", err);
+        setError("Failed to load logos.");
+        toast.error("Failed to load logos. Please try again later.");
+      }
+    };
+
+    fetchLogos();
+  }, []);
+
+  // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -83,6 +79,7 @@ const Home = () => {
     }));
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -101,7 +98,7 @@ const Home = () => {
         throw new Error(`Error: ${response.status} - ${response.statusText}`);
       }
 
-      // Reset form after successful submission
+      // Reset form on success
       setFormData({
         name: "",
         phone: "",
@@ -113,101 +110,80 @@ const Home = () => {
       });
 
       toast.success("Form submitted successfully!");
-    } catch (error) {
-      console.error("Error submitting form:", error);
+    } catch (err) {
+      console.error("Error submitting form:", err);
       toast.error("Failed to submit the form.");
     }
   };
 
-  const categories = [
-    {
-      title: "Corporate Gifting",
-      image: corporategifting,
-      link: "/categories/Corporate Gift",
-    },
-    {
-      title: "Stationery",
-      image: stationery,
-      link: "/categories/Stationery",
-    },
-    {
-      title: "Electronics",
-      image: electronics,
-      link: "/categories/Electronics",
-    },
-  ];
+  if (loading) return <div>Loading categories...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
       {/* HOME SECTION  */}
       <div className="homepage" id="home"></div>
 
-      <div className="popular-categories">
-        <h1 className="popular-categories__title">Popular Categories</h1>
-        <div className="popular-categories__grid">
-          {categories.map((category, index) => (
-            <div className="popular-categories__item" key={index}>
-              <a href={category.link} className="popular-categories__link">
-                <img
-                  src={category.image}
-                  alt={category.title}
-                  className="popular-categories__image"
-                />
-                <div className="popular-categories__overlay">
-                  <span className="popular-categories__text">
-                    {category.title}
-                  </span>
-                </div>
-              </a>
+      {/* WHY CHOOSE US SECTION */}
+      <div className="whyus">
+        <h1 className="heading1">Why Choose Us</h1>
+        <div className="pointers">
+          {[
+            {
+              icon: <MdDesignServices className="hero-icon" />,
+              title: "Unmatched Customization",
+            },
+            {
+              icon: <IoRibbon className="hero-icon" />,
+              title: "High-Quality Products",
+            },
+            {
+              icon: <FaTruckFast className="hero-icon" />,
+              title: "Timely & PAN India Delivery",
+            },
+            {
+              icon: <RiDiscountPercentFill className="hero-icon" />,
+              title: "Discount on Bulk Orders",
+            },
+          ].map((item, index) => (
+            <div className="sec" key={index}>
+              {item.icon}
+              <h2>{item.title}</h2>
             </div>
           ))}
         </div>
       </div>
-      <div className="best-selling-products">
-        <h1 className="best-selling-products__title">Best Selling Products</h1>
-        <div className="best-selling-products__grid">
-          {products.map((product) => (
+
+      {/* CATEGORIES SECTION */}
+      <div className="categories-container" id="categories">
+        <h1 className="heading1">Our Categories</h1>
+        <div className="categories-flex">
+          {categories.map((category) => (
             <Link
-              to={`/products/${product._id}`} // Link to the product page using product ID
-              key={product._id}
-              className="best-selling-products__card"
+              to={`/categories/${category.name}`} // Dynamic URL
+              key={category._id}
+              className="category-item"
             >
-              <img
-                src={
-                  Array.isArray(product.images) && product.images.length > 0
-                    ? `${
-                        import.meta.env.VITE_API_URL
-                      }/${product.images[0].replace(/\\/g, "/")}`
-                    : Book // Use placeholder if no images are available
-                }
-                alt={product.name}
-                className="best-selling-products__image"
-              />
-              <p className="best-selling-products__name">{product.name}</p>
+              <div className="category-border">
+                <img
+                  src={`${import.meta.env.VITE_API_URL}/${
+                    category.homepageImage
+                  }`}
+                  alt={category.name}
+                  onError={(e) => {
+                    e.target.onerror = null; // Prevent infinite loop
+                    e.target.src = "/path-to-placeholder-image.jpg"; // Fallback image
+                  }}
+                />
+                <p>{category.name}</p>
+              </div>
             </Link>
           ))}
         </div>
       </div>
 
-      <div className="about-section">
-        <div className="about-us">
-          <div className="about-content">
-            <h1 className="about-title">Welcome to Imprints INC</h1>
-            <h2 className="about-subtitle">Having 10 Years of Experience</h2>
-            <p className="about-description">
-              Imprints INC is engaged in the business of corporate gifting,
-              known for supplying unbeatable business promotional products that
-              have made an indelible impact across industry verticals. Our
-              commitment to excellence & passion for quality products has shown
-              us the way to growth & prosperity. Our huge range of products
-              includes stationery items, corporate gifts, clothing, signages,
-              electronics, etc.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div className="clients">
+      {/* CLIENTS SECTION */}
+      <div className="clients" id="clients">
         <h1 className="heading1">Clients That Trust Us</h1>
         <div className="slider">
           <div className="logos">
@@ -224,24 +200,29 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="whyus">
-        <h1 className="heading1">Why Choose Us</h1>
-        <div className="pointers">
-          <div className="sec">
-            <MdDesignServices className="icon" />
-            <h2>Unmatched Customization</h2>
+
+      {/* ABOUT US SECTION */}
+      <div className="about-section" id="about">
+        <h2 className="heading1">About Us</h2>
+        <div className="about-container">
+          <div className="about-content">
+            <h1 className="about-title">We have 15+ Years of Experience</h1>
+            <p className="about-description">
+              Imprints INC is engaged in the business of corporate gifting,
+              known for supplying unbeatable business promotional products that
+              have made an indelible impact across industry verticals. Our
+              commitment to excellence & passion for quality products have shown
+              us the way to growth & prosperity. Our huge range of products
+              includes stationery items, corporate gifts, clothing, signages,
+              electronics, etc.
+            </p>
           </div>
-          <div className="sec">
-            <IoRibbon className="icon" />
-            <h2>High-Quality Products</h2>
-          </div>
-          <div className="sec">
-            <FaTruckFast className="icon" />
-            <h2>Timely & PAN India Delivery</h2>
-          </div>
-          <div className="sec">
-            <RiDiscountPercentFill className="icon" />
-            <h2>Discount on Bulk Orders</h2>
+          <div className="about-image">
+            <img
+              src={aboutus}
+              alt="A gift box with Imprints INC branding"
+              className="about-img"
+            />
           </div>
         </div>
       </div>

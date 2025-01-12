@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const AddCategory = () => {
   const [categoryName, setCategoryName] = useState("");
+  const [homepageImage, sethomepageImage] = useState(null);
   const [desktopBackdrop, setDesktopBackdrop] = useState(null);
   const [mobileBackdrop, setMobileBackdrop] = useState(null);
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const AddCategory = () => {
 
     const formData = new FormData();
     formData.append("name", categoryName);
+    formData.append("homepageImage", homepageImage);
     formData.append("desktopBackdrop", desktopBackdrop);
     formData.append("mobileBackdrop", mobileBackdrop);
 
@@ -35,6 +37,7 @@ const AddCategory = () => {
       toast.success("Category added successfully!");
       navigate("/category-operation");
       setCategoryName("");
+      sethomepageImage(null);
       setDesktopBackdrop(null);
       setMobileBackdrop(null);
     } catch (error) {
@@ -70,6 +73,7 @@ const AddCategory = () => {
               <thead>
                 <tr>
                   <th>Name</th>
+                  <th>Home Page Image</th>
                   <th>Desktop Backdrop</th>
                   <th>Mobile Backdrop</th>
                   <th>Operation</th>
@@ -85,6 +89,16 @@ const AddCategory = () => {
                       placeholder="Enter category name"
                       value={categoryName}
                       onChange={(e) => setCategoryName(e.target.value)}
+                      required
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="file"
+                      name="homepage-image"
+                      className="dash-input"
+                      accept="image/*"
+                      onChange={(e) => sethomepageImage(e.target.files[0])}
                       required
                     />
                   </td>
