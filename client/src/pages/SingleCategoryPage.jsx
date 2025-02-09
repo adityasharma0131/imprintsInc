@@ -85,7 +85,7 @@ const SingleCategoryPage = () => {
       )}
       <div className="categories-sec">
         <h1 className="categories-sec-heading">{subCat}</h1>
-        <div className="topproducts">
+        <div className="top-products">
           {products.map((product, index) => (
             <Link
               to={`/products/${product._id}`} // Link to the product page using product ID

@@ -93,7 +93,7 @@ const ProductPage = () => {
       {/* <div className="bgbox">
         <div className="categories-sec">
           <h1 className="categories-sec-heading">Similar Products</h1>
-          <div className="topproducts">
+          <div className="top-products">
             {product.images.map((img, index) => (
               <img
                 key={index}

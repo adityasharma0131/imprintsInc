@@ -81,7 +81,7 @@ const CategoryPage = () => {
       {category.subcategories.map((subCategory, subIndex) => (
         <div key={subIndex} className="categories-sec">
           <h1 className="categories-sec-heading">{subCategory}</h1>
-          <div className="topproducts">
+          <div className="top-products">
             {/* Filter products by subcategory and limit to top 4 */}
             {products
               .filter((product) => product.subcategory === subCategory)
